@@ -553,3 +553,4 @@ if (SystemConfig::getBooleanValue("bEnableSelfRegistration")) {
 </script>
 
 <?php require 'Include/Footer.php' ?>
+

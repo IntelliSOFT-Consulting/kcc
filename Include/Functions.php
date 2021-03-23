@@ -186,7 +186,8 @@ function RunQuery($sSQL, $bStopOnError = true)
         return $result;
     } elseif ($bStopOnError) {
         LoggerUtils::getAppLogger()->error(gettext('Cannot execute query.')." " . $sSQL . " -|- " . mysqli_error($cnInfoCentral));
-        if (SystemConfig::getValue('sLogLevel') == "100") { // debug level
+
+        if (SystemConfig::getValue('sLogLevel') == "200") { // debug level
             throw new Exception(gettext('Cannot execute query.')."<p>$sSQL<p>".mysqli_error($cnInfoCentral));
         } else {
             throw new Exception('Database error or invalid data, change sLogLevel to debug to see more.');

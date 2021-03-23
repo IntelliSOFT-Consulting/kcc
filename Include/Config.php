@@ -11,7 +11,7 @@
 $sSERVERNAME = 'localhost';
 $dbPort = '3306';
 $sUSER = 'root';
-$sPASSWORD = 'secret';
+$sPASSWORD = '';
 $sDATABASE = 'churchcrm';
 #$TwoFASecretKey = 'ChangeThisToASecureRandomStringBeforeUse';
 
@@ -25,7 +25,7 @@ $sDATABASE = 'churchcrm';
 // - the path SHOULD Start with slash, if not ''.
 // - the path SHOULD NOT end with slash.
 // - the is case sensitive.
-$sRootPath = '/churchcrm-4.2';
+$sRootPath = '/kcc';
 
 // Set $bLockURL=TRUE to enforce https access by specifying exactly
 // which URL's your users may use to log into ChurchCRM.
