@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 18, 2021 at 08:37 AM
+-- Generation Time: Jul 02, 2021 at 06:14 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -31,35 +31,88 @@ DROP TABLE IF EXISTS `assets`;
 CREATE TABLE IF NOT EXISTS `assets` (
   `assetID` int(11) NOT NULL AUTO_INCREMENT,
   `assetName` varchar(50) NOT NULL,
-  `serialNumber` varchar(30) NOT NULL,
+  `make` varchar(50) NOT NULL,
   `assetCondition` varchar(20) NOT NULL,
   `assetDescription` longtext NOT NULL,
-  `assetCategory` varchar(10) NOT NULL,
-  `assetImage` blob NOT NULL,
-  `purchaseDate` date NOT NULL,
+  `assetCategory` varchar(20) NOT NULL,
+  `assetFile` blob NOT NULL,
+  `purchaseDate` varchar(30) NOT NULL,
+  `assetDeleted` enum('False','True') NOT NULL,
   PRIMARY KEY (`assetID`)
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `assets`
 --
 
-INSERT INTO `assets` (`assetID`, `assetName`, `serialNumber`, `assetCondition`, `assetDescription`, `assetCategory`, `assetImage`, `purchaseDate`) VALUES
-(1, 'Dell', '7440', 'New', 'new laptop', '', 0x6375726c322e6a7067, '2021-03-11'),
-(2, 'Dell', '7440', 'New', 'new laptop', '', 0x6375726c322e6a7067, '2021-03-11'),
-(3, 'Dell', '7440', 'New', 'new laptop', '', 0x6375726c322e6a7067, '2021-03-11'),
-(13, 'Dell', '454', 'New', 'new laptop', '', 0x6375726c312e6a7067, '2021-03-12'),
-(14, 'Hp Folio', '6543', 'New', 'Used laptop', '', 0x6375726c322e6a7067, '2021-03-12'),
-(19, 'office desk', 'kcc0021', '0', 'Used office table', 'Furniture', '', '2021-03-16'),
-(20, 'office desk', 'kcc0021', '0', 'Used office table', 'Furniture', '', '2021-03-16'),
-(21, 'office chair', 'kcc0022', '0', 'Used office chair', 'Furniture', '', '2021-03-16'),
-(22, 'office chair', 'kcc0022', '0', 'Used office chair', 'Furniture', 0x53637265656e73686f74202838292e706e67, '2021-03-16'),
-(23, 'office chair', 'kcc0022', '0', 'Used office chair', 'Furniture', 0x53637265656e73686f74202838292e706e67, '2021-03-16'),
-(24, 'office chair', 'kcc0022', '0', 'Used office chair', 'Furniture', '', '2021-03-16'),
-(25, 'office chair', 'kcc0022', '0', 'Used office chair', 'Furniture', '', '2021-03-08'),
-(26, 'office chair', 'kcc0022', '0', 'Used office chair', 'Furniture', '', '2021-03-08'),
-(27, 'Macbook Air', 'kcc0022', '0', 'Used office laptop', 'Assets', 0x53637265656e73686f74202832292e706e67, '2021-03-10'),
-(28, 'Macbook Air', 'kcc0022', '0', 'Used office laptop', 'Assets', 0x53637265656e73686f74202832292e706e67, '2021-03-10');
+INSERT INTO `assets` (`assetID`, `assetName`, `make`, `assetCondition`, `assetDescription`, `assetCategory`, `assetFile`, `purchaseDate`, `assetDeleted`) VALUES
+(174, 'Bass Amplifier', 'CRATE BX160', 'New', 'New Amplifier', 'Bass Amplifier', '', '2021-05-09', 'False');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `asset_category`
+--
+
+DROP TABLE IF EXISTS `asset_category`;
+CREATE TABLE IF NOT EXISTS `asset_category` (
+  `categoryID` int(50) NOT NULL AUTO_INCREMENT,
+  `categoryName` varchar(50) NOT NULL,
+  `categoryDeleted` enum('False','True') NOT NULL,
+  PRIMARY KEY (`categoryID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `asset_category`
+--
+
+INSERT INTO `asset_category` (`categoryID`, `categoryName`, `categoryDeleted`) VALUES
+(1, 'Powerful guitar', 'False'),
+(2, 'Bass guitar', 'False'),
+(5, 'Bass Amplifier', 'False');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `asset_inventory`
+--
+
+DROP TABLE IF EXISTS `asset_inventory`;
+CREATE TABLE IF NOT EXISTS `asset_inventory` (
+  `assetID` int(50) NOT NULL,
+  `serialNumber` varchar(50) NOT NULL,
+  `quantity` int(50) NOT NULL,
+  `unitCost` varchar(50) NOT NULL,
+  `totalCost` varchar(50) NOT NULL,
+  `locationCode` varchar(70) NOT NULL,
+  `movementType` enum('Incoming','Outgoing') NOT NULL,
+  `movementComment` mediumtext NOT NULL,
+  `inventoryDeleted` enum('False','True') NOT NULL,
+  KEY `assetID` (`assetID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `asset_location`
+--
+
+DROP TABLE IF EXISTS `asset_location`;
+CREATE TABLE IF NOT EXISTS `asset_location` (
+  `locationID` int(50) NOT NULL AUTO_INCREMENT,
+  `location` varchar(70) NOT NULL,
+  `locationCode` varchar(50) NOT NULL,
+  `locationDeleted` enum('False','True') NOT NULL,
+  PRIMARY KEY (`locationID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `asset_location`
+--
+
+INSERT INTO `asset_location` (`locationID`, `location`, `locationCode`, `locationDeleted`) VALUES
+(5, 'Senior Pastor Office', 'KCC/SNP', 'False'),
+(7, 'Youth Office', 'KCC/YTH', 'False');
 
 -- --------------------------------------------------------
 
@@ -205,7 +258,7 @@ INSERT INTO `config_cfg` (`cfg_id`, `cfg_name`, `cfg_value`) VALUES
 (1035, 'bEnableGravatarPhotos', ''),
 (1036, 'bEnableExternalBackupTarget', ''),
 (1037, 'sExternalBackupType', 'WebDAV'),
-(1046, 'sLastIntegrityCheckTimeStamp', '20210317-170305'),
+(1046, 'sLastIntegrityCheckTimeStamp', '20210625-153652'),
 (1047, 'sChurchCountry', 'Kenya'),
 (2010, 'bAllowEmptyLastName', ''),
 (2013, 'sChurchWebSite', 'https://www.karencommunitychurch.org/'),
@@ -220,7 +273,7 @@ INSERT INTO `config_cfg` (`cfg_id`, `cfg_name`, `cfg_value`) VALUES
 (2060, 'IncludeDataInNewPersonNotifications', ''),
 (2061, 'bSearchIncludeFamilyCustomProperties', ''),
 (2062, 'bBackupExtraneousImages', ''),
-(2064, 'sLastSoftwareUpdateCheckTimeStamp', '20210317-124850'),
+(2064, 'sLastSoftwareUpdateCheckTimeStamp', '20210630-213606'),
 (2065, 'bAllowPrereleaseUpgrade', ''),
 (2069, 'bRequire2FA', ''),
 (2071, 'bSendUserDeletedEmail', ''),
@@ -367,7 +420,7 @@ CREATE TABLE IF NOT EXISTS `eventcountnames_evctnm` (
   `evctnm_notes` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   UNIQUE KEY `evctnm_countid` (`evctnm_countid`),
   UNIQUE KEY `evctnm_eventtypeid` (`evctnm_eventtypeid`,`evctnm_countname`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `eventcountnames_evctnm`
@@ -381,7 +434,8 @@ INSERT INTO `eventcountnames_evctnm` (`evctnm_countid`, `evctnm_eventtypeid`, `e
 (5, 2, 'Members', ''),
 (6, 2, 'Visitors', ''),
 (7, 3, '1', ''),
-(8, 3, 'Total', '');
+(8, 3, 'Total', ''),
+(9, 4, 'Total', '');
 
 -- --------------------------------------------------------
 
@@ -488,7 +542,7 @@ CREATE TABLE IF NOT EXISTS `event_types` (
   `type_active` int(1) NOT NULL DEFAULT '1',
   `type_grpid` mediumint(9) DEFAULT NULL,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `event_types`
@@ -497,7 +551,8 @@ CREATE TABLE IF NOT EXISTS `event_types` (
 INSERT INTO `event_types` (`type_id`, `type_name`, `type_defstarttime`, `type_defrecurtype`, `type_defrecurDOW`, `type_defrecurDOM`, `type_defrecurDOY`, `type_active`, `type_grpid`) VALUES
 (1, 'Church Service', '10:30:00', 'weekly', 'Sunday', '', '2016-01-01', 1, NULL),
 (2, 'Sunday School', '09:30:00', 'weekly', 'Sunday', '', '2016-01-01', 1, NULL),
-(3, 'Annual Events', '07:00:00', 'yearly', 'Sunday', '0', '0000-00-00', 1, NULL);
+(3, 'Annual Events', '07:00:00', 'yearly', 'Sunday', '0', '0000-00-00', 1, NULL),
+(4, 'Youth service', '09:00:00', 'monthly', 'Sunday', '7', '2000-01-01', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -518,7 +573,12 @@ CREATE TABLE IF NOT EXISTS `family_custom` (
 INSERT INTO `family_custom` (`fam_ID`) VALUES
 (2),
 (5),
-(6);
+(6),
+(18),
+(19),
+(20),
+(21),
+(22);
 
 -- --------------------------------------------------------
 
@@ -571,7 +631,7 @@ CREATE TABLE IF NOT EXISTS `family_fam` (
   `fam_Longitude` double DEFAULT NULL,
   `fam_Envelope` mediumint(9) NOT NULL DEFAULT '0',
   PRIMARY KEY (`fam_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `family_fam`
@@ -584,7 +644,22 @@ INSERT INTO `family_fam` (`fam_ID`, `fam_Name`, `fam_Address1`, `fam_Address2`, 
 (4, 'Doe', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-03-04 12:38:34', NULL, 6, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
 (5, 'Opiyo', '456', '', 'Kisumu', '', '', 'Kenya', '', '', '', '', '2021-03-18', '2021-03-18 08:13:44', NULL, 1, 0, NULL, NULL, 'TRUE', NULL, 'TRUE', 0, 0, 0, 0),
 (6, 'Jomo\'s', '', '', '', '', '', 'Kenya', '', '', '', '', '2021-03-18', '2021-03-18 08:50:57', NULL, 1, 0, NULL, NULL, 'TRUE', NULL, 'TRUE', 0, 0, 0, 0),
-(7, 'Gathirimu', '', '', '', '', '', 'Kenya', '', '0712398767', '0712398767', '', NULL, '2021-03-18 10:17:44', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0);
+(7, 'Gathirimu', '', '', '', '', '', 'Kenya', '', '0712398767', '0712398767', '', NULL, '2021-03-18 10:17:44', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(8, 'Mwanaidi', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-30 14:45:10', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(9, 'Wandera', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-30 14:53:42', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(10, 'Wandera', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-30 14:53:44', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(11, 'Mwaura', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-30 14:55:31', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(12, 'Musembi', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-30 15:08:36', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(13, 'Atieno', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-30 15:27:22', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(14, 'Albert', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-31 16:44:10', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(15, 'Albert', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-31 16:57:59', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(16, 'Albert', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-05-31 17:00:43', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(17, 'Omondi', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-06-17 16:07:31', NULL, 1, 0, NULL, NULL, 'FALSE', NULL, 'FALSE', 0, NULL, NULL, 0),
+(18, 'Otieno', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-06-17 16:08:33', NULL, 1, 0, NULL, NULL, 'TRUE', NULL, 'TRUE', 0, 0, 0, 0),
+(19, 'Mwaura\'s', '2782 Karen', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-06-17 16:10:25', NULL, 1, 0, NULL, NULL, 'TRUE', NULL, 'TRUE', 0, 0, 0, 0),
+(20, 'Wanja', '230-00200', '', 'Karen', '', '', 'Kenya', '', '', '', '', NULL, '2021-06-18 14:10:58', NULL, 1, 0, NULL, NULL, 'TRUE', NULL, 'TRUE', 0, 0, 0, 0),
+(21, 'Wamugunda', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-06-28 11:40:07', NULL, 1, 0, NULL, NULL, 'TRUE', NULL, 'TRUE', 0, 0, 0, 0),
+(22, 'test1', '', '', '', '', '', 'Kenya', '', '', '', '', NULL, '2021-06-28 12:11:55', NULL, 1, 0, NULL, NULL, 'TRUE', NULL, 'TRUE', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -647,7 +722,7 @@ CREATE TABLE IF NOT EXISTS `group_grp` (
   `grp_active` tinyint(1) NOT NULL DEFAULT '1',
   `grp_include_email_export` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`grp_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `group_grp`
@@ -655,7 +730,7 @@ CREATE TABLE IF NOT EXISTS `group_grp` (
 
 INSERT INTO `group_grp` (`grp_ID`, `grp_Type`, `grp_RoleListID`, `grp_DefaultRole`, `grp_Name`, `grp_Description`, `grp_hasSpecialProps`, `grp_active`, `grp_include_email_export`) VALUES
 (1, 1, 13, 1, 'Test', 'test group', 0, 1, 1),
-(2, 4, 14, 3, 'Pillars of Christ', '', 0, 1, 1);
+(6, 4, 27, 2, 'Highness Kids', NULL, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -816,7 +891,30 @@ INSERT INTO `list_lst` (`lst_ID`, `lst_OptionID`, `lst_OptionSequence`, `lst_Opt
 (23, 3, 2, 'Fellowship'),
 (23, 4, 3, 'Discipleship'),
 (23, 5, 4, 'Missions'),
-(23, 6, 5, 'Church Administration');
+(23, 6, 5, 'Church Administration'),
+(24, 1, 1, 'Teacher'),
+(24, 2, 2, 'Student'),
+(25, 1, 1, 'Teacher'),
+(25, 2, 2, 'Student'),
+(25, 3, 3, 'Teaching Assistant'),
+(26, 1, 1, 'Teacher'),
+(26, 2, 2, 'Student'),
+(27, 1, 1, 'Teacher'),
+(27, 2, 2, 'Student'),
+(28, 1, 1, 'Teacher'),
+(28, 2, 2, 'Student'),
+(29, 1, 1, 'Teacher'),
+(29, 2, 2, 'Student'),
+(30, 1, 1, 'Teacher'),
+(30, 2, 2, 'Student'),
+(31, 1, 1, 'Teacher'),
+(31, 2, 2, 'Student'),
+(32, 1, 1, 'Teacher'),
+(32, 2, 2, 'Student'),
+(33, 1, 1, 'Teacher'),
+(33, 2, 2, 'Student'),
+(34, 1, 1, 'Teacher'),
+(34, 2, 2, 'Student');
 
 -- --------------------------------------------------------
 
@@ -839,6 +937,20 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `location_timzezone` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `media`
+--
+
+DROP TABLE IF EXISTS `media`;
+CREATE TABLE IF NOT EXISTS `media` (
+  `mediaID` int(11) NOT NULL AUTO_INCREMENT,
+  `mediaFiles` blob NOT NULL,
+  `mediaLinks` longtext NOT NULL,
+  PRIMARY KEY (`mediaID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -897,7 +1009,7 @@ CREATE TABLE IF NOT EXISTS `note_nte` (
   `nte_EditedBy` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
   `nte_Type` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`nte_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `note_nte`
@@ -929,7 +1041,79 @@ INSERT INTO `note_nte` (`nte_ID`, `nte_per_ID`, `nte_fam_ID`, `nte_Private`, `nt
 (23, 1, 0, 0, 'system user updated', '2021-03-16 17:22:34', NULL, 1, 0, 'user'),
 (24, 0, 5, 0, 'Created', '2021-03-18 08:13:44', NULL, 1, 0, 'create'),
 (25, 0, 6, 0, 'Created', '2021-03-18 08:50:57', NULL, 1, 0, 'create'),
-(26, 10, 0, 0, 'Created', '2021-03-18 10:17:45', NULL, 1, 0, 'create');
+(26, 10, 0, 0, 'Created', '2021-03-18 10:17:45', NULL, 1, 0, 'create'),
+(27, 10, 0, 0, 'Profile Image uploaded', '2021-03-30 11:21:49', NULL, 1, 0, 'photo'),
+(28, 10, 0, 0, 'Updated', '2021-04-20 10:48:20', NULL, 1, 0, 'edit'),
+(29, 5, 0, 0, 'Added to group: Deca-haddassar', '2021-05-30 14:40:53', NULL, 1, 0, 'group'),
+(30, 11, 0, 0, 'Created', '2021-05-30 14:45:11', NULL, 1, 0, 'create'),
+(31, 12, 0, 0, 'Created', '2021-05-30 14:53:42', NULL, 1, 0, 'create'),
+(32, 13, 0, 0, 'Created', '2021-05-30 14:53:44', NULL, 1, 0, 'create'),
+(33, 14, 0, 0, 'Created', '2021-05-30 14:55:32', NULL, 1, 0, 'create'),
+(34, 15, 0, 0, 'Created', '2021-05-30 15:08:37', NULL, 1, 0, 'create'),
+(35, 16, 0, 0, 'Created', '2021-05-30 15:27:23', NULL, 1, 0, 'create'),
+(36, 17, 0, 0, 'Created', '2021-05-31 16:44:11', NULL, 1, 0, 'create'),
+(37, 18, 0, 0, 'Created', '2021-05-31 16:57:59', NULL, 1, 0, 'create'),
+(38, 19, 0, 0, 'Created', '2021-05-31 17:00:44', NULL, 1, 0, 'create'),
+(39, 11, 0, 0, 'Added to group: Deca-haddassar', '2021-06-14 07:57:33', NULL, 1, 0, 'group'),
+(40, 9, 0, 0, 'Added to group: Highness Kids', '2021-06-14 08:00:51', NULL, 1, 0, 'group'),
+(41, 11, 0, 0, 'Added to group: Highness Kids', '2021-06-14 08:01:29', NULL, 1, 0, 'group'),
+(42, 9, 0, 0, 'Added to group: Highness Kids', '2021-06-14 08:01:36', NULL, 1, 0, 'group'),
+(43, 11, 0, 0, 'Added to group: Blessed Kids', '2021-06-15 11:06:08', NULL, 1, 0, 'group'),
+(44, 5, 0, 0, 'Added to group: Blessed Kids', '2021-06-15 11:06:32', NULL, 1, 0, 'group'),
+(45, 14, 0, 0, 'Added to group: Generation Z', '2021-06-15 11:07:27', NULL, 1, 0, 'group'),
+(46, 10, 0, 0, 'Added to group: Generation Z', '2021-06-15 11:07:38', NULL, 1, 0, 'group'),
+(47, 5, 0, 0, 'Added to group: Deca-haddassar 2', '2021-06-15 11:59:42', NULL, 1, 0, 'group'),
+(48, 15, 0, 0, 'Added to group: Blessed generation', '2021-06-15 12:05:31', NULL, 1, 0, 'group'),
+(49, 12, 0, 0, 'Added to group: Generation Z', '2021-06-17 12:32:11', NULL, 1, 0, 'group'),
+(50, 13, 0, 0, 'Added to group: Generation Z', '2021-06-17 12:32:26', NULL, 1, 0, 'group'),
+(51, 20, 0, 0, 'Created', '2021-06-17 16:07:31', NULL, 1, 0, 'create'),
+(52, 21, 0, 0, 'Created via Family', '2021-06-17 16:08:34', NULL, 1, 0, 'create'),
+(53, 0, 18, 0, 'Created', '2021-06-17 16:08:33', NULL, 1, 0, 'create'),
+(54, 21, 0, 0, 'Updated', '2021-06-17 16:09:07', NULL, 1, 0, 'edit'),
+(55, 22, 0, 0, 'Created via Family', '2021-06-17 16:10:26', NULL, 1, 0, 'create'),
+(56, 0, 19, 0, 'Created', '2021-06-17 16:10:25', NULL, 1, 0, 'create'),
+(57, 23, 0, 0, 'Created via Family', '2021-06-18 14:10:59', NULL, 1, 0, 'create'),
+(58, 24, 0, 0, 'Created via Family', '2021-06-18 14:10:59', NULL, 1, 0, 'create'),
+(59, 0, 20, 0, 'Created', '2021-06-18 14:10:58', NULL, 1, 0, 'create'),
+(60, 24, 0, 0, 'Added to group: Blessed girls', '2021-06-18 16:46:02', NULL, 1, 0, 'group'),
+(61, 21, 0, 0, 'Added to group: Deca-haddassar', '2021-06-18 16:47:40', NULL, 1, 0, 'group'),
+(62, 25, 0, 0, 'Created', '2021-06-25 15:38:39', NULL, 1, 0, 'create'),
+(63, 26, 0, 0, 'Created', '2021-06-25 15:39:11', NULL, 1, 0, 'create'),
+(64, 27, 0, 0, 'Created', '2021-06-25 15:40:27', NULL, 1, 0, 'create'),
+(65, 28, 0, 0, 'Created', '2021-06-25 15:44:55', NULL, 1, 0, 'create'),
+(66, 29, 0, 0, 'Created', '2021-06-25 16:14:33', NULL, 1, 0, 'create'),
+(67, 30, 0, 0, 'Created', '2021-06-25 16:15:36', NULL, 1, 0, 'create'),
+(68, 31, 0, 0, 'Created', '2021-06-25 16:18:03', NULL, 1, 0, 'create'),
+(69, 32, 0, 0, 'Created', '2021-06-25 16:32:16', NULL, 1, 0, 'create'),
+(70, 33, 0, 0, 'Created', '2021-06-25 16:33:59', NULL, 1, 0, 'create'),
+(71, 34, 0, 0, 'Created', '2021-06-25 16:37:11', NULL, 1, 0, 'create'),
+(72, 35, 0, 0, 'Created', '2021-06-25 16:41:13', NULL, 1, 0, 'create'),
+(73, 36, 0, 0, 'Created', '2021-06-25 16:42:38', NULL, 1, 0, 'create'),
+(74, 37, 0, 0, 'Created', '2021-06-25 16:43:58', NULL, 1, 0, 'create'),
+(75, 38, 0, 0, 'Created', '2021-06-25 16:45:22', NULL, 1, 0, 'create'),
+(76, 39, 0, 0, 'Created', '2021-06-28 10:33:00', NULL, 1, 0, 'create'),
+(77, 40, 0, 0, 'Created', '2021-06-28 10:33:32', NULL, 1, 0, 'create'),
+(78, 41, 0, 0, 'Created', '2021-06-28 10:33:58', NULL, 1, 0, 'create'),
+(79, 42, 0, 0, 'Created', '2021-06-28 10:53:30', NULL, 1, 0, 'create'),
+(80, 43, 0, 0, 'Created', '2021-06-28 10:54:43', NULL, 1, 0, 'create'),
+(81, 44, 0, 0, 'Created', '2021-06-28 10:55:52', NULL, 1, 0, 'create'),
+(82, 45, 0, 0, 'Created', '2021-06-28 10:56:29', NULL, 1, 0, 'create'),
+(83, 46, 0, 0, 'Created', '2021-06-28 11:03:55', NULL, 1, 0, 'create'),
+(84, 47, 0, 0, 'Created', '2021-06-28 11:03:58', NULL, 1, 0, 'create'),
+(85, 48, 0, 0, 'Created', '2021-06-28 11:04:31', NULL, 1, 0, 'create'),
+(86, 49, 0, 0, 'Created', '2021-06-28 11:05:41', NULL, 1, 0, 'create'),
+(87, 50, 0, 0, 'Created', '2021-06-28 11:08:54', NULL, 1, 0, 'create'),
+(88, 51, 0, 0, 'Created', '2021-06-28 11:09:33', NULL, 1, 0, 'create'),
+(89, 52, 0, 0, 'Created', '2021-06-28 11:11:08', NULL, 1, 0, 'create'),
+(90, 53, 0, 0, 'Created', '2021-06-28 11:12:55', NULL, 1, 0, 'create'),
+(91, 54, 0, 0, 'Created', '2021-06-28 11:18:52', NULL, 1, 0, 'create'),
+(92, 55, 0, 0, 'Created', '2021-06-28 11:34:50', NULL, 1, 0, 'create'),
+(93, 56, 0, 0, 'Created', '2021-06-28 11:35:53', NULL, 1, 0, 'create'),
+(94, 0, 21, 0, 'Created', '2021-06-28 11:40:07', NULL, 1, 0, 'create'),
+(95, 57, 0, 0, 'Created', '2021-06-28 11:53:57', NULL, 1, 0, 'create'),
+(96, 0, 22, 0, 'Created', '2021-06-28 12:11:55', NULL, 1, 0, 'create'),
+(97, 58, 0, 0, 'Created', '2021-06-29 12:07:11', NULL, 1, 0, 'create'),
+(98, 59, 0, 0, 'Created', '2021-06-29 12:08:09', NULL, 1, 0, 'create');
 
 -- --------------------------------------------------------
 
@@ -1004,7 +1188,21 @@ CREATE TABLE IF NOT EXISTS `person2group2role_p2g2r` (
 --
 
 INSERT INTO `person2group2role_p2g2r` (`p2g2r_per_ID`, `p2g2r_grp_ID`, `p2g2r_rle_ID`) VALUES
-(5, 1, 1);
+(5, 1, 1),
+(5, 4, 2),
+(5, 7, 2),
+(5, 8, 1),
+(9, 6, 1),
+(10, 3, 2),
+(11, 5, 1),
+(11, 6, 2),
+(11, 7, 1),
+(12, 3, 2),
+(13, 3, 2),
+(14, 3, 2),
+(15, 9, 1),
+(21, 10, 2),
+(24, 11, 2);
 
 -- --------------------------------------------------------
 
@@ -1083,7 +1281,56 @@ INSERT INTO `person_custom` (`per_ID`, `c3`, `c4`, `c5`, `c6`, `c7`, `c8`, `c9`,
 (7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(15, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(18, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(19, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(20, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(22, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(23, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(24, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(25, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(26, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(27, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(29, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(30, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(32, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(34, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(37, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(39, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(41, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(42, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(43, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(44, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(46, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(47, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(49, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(50, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(52, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(55, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(56, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(57, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(58, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(59, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1190,7 +1437,7 @@ CREATE TABLE IF NOT EXISTS `person_per` (
   `per_Twitter` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `per_LinkedIn` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`per_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `person_per`
@@ -1206,7 +1453,56 @@ INSERT INTO `person_per` (`per_ID`, `per_Title`, `per_FirstName`, `per_MiddleNam
 (7, 'Mrs', 'Doreen', 'Kerubo', 'Ongayo', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 9, 13, 1997, NULL, 2, 0, 9, 0, 0, NULL, '2021-03-04 10:48:45', 1, 0, '2021-03-04', 0, 0, '', ''),
 (8, '', 'Mwangi', '', 'Kinuthia', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 1, 0, 4, 0, 0, NULL, '2021-03-04 10:49:23', 1, 0, '2021-03-04', 0, 0, '', ''),
 (9, 'Mr', 'John', '', 'Doe', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 9, 4, 1987, '2021-02-09', 1, 2, 1, 4, 0, NULL, '2021-03-04 12:38:34', 6, 0, '2021-03-04', 0, 0, '', ''),
-(10, '', 'Nduta', 'Kinyanjui', 'Gathirimu', '', '', '', '', '', '', 'Kenya', '', '0712398767', '0712398767', '', '', 3, 18, 1990, NULL, 1, 3, 2, 7, 0, NULL, '2021-03-18 10:17:44', 1, 0, '2021-03-18', 0, 0, '', '');
+(10, '', 'Nduta', 'Kinyanjui', 'Mathu', '', '', '', '', '', '', 'Kenya', '', '(071) 239-8767 x_____', '(071) 239-8767', '', '', 3, 18, 1990, NULL, 1, 3, 2, 7, 0, '2021-04-20 10:48:19', '2021-03-18 10:17:44', 1, 1, '2021-03-18', 0, 0, '', ''),
+(11, '', 'Aisha', '', 'Mwanaidi', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 9, 14, 2010, NULL, 1, 3, 1, 8, 0, NULL, '2021-05-30 14:45:10', 1, 0, '2021-05-30', 0, 0, '', ''),
+(12, '', 'Ann', '', 'Wandera', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 6, 17, 2014, NULL, 2, 3, 0, 9, 0, NULL, '2021-05-30 14:53:42', 1, 0, '2021-05-30', 0, 0, '', ''),
+(13, '', 'Ann', '', 'Wandera', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 6, 17, 2014, NULL, 2, 3, 0, 10, 0, NULL, '2021-05-30 14:53:44', 1, 0, '2021-05-30', 0, 0, '', ''),
+(14, '', 'Victor', 'Aiden', 'Mwaura', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 5, 31, 2015, NULL, 1, 3, 0, 11, 0, NULL, '2021-05-30 14:55:31', 1, 0, '2021-05-30', 0, 0, '', ''),
+(15, '', 'Mary', '', 'Musembi', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 5, 31, 2009, NULL, 2, 3, 0, 12, 0, NULL, '2021-05-30 15:08:36', 1, 0, '2021-05-30', 0, 0, '', ''),
+(16, '', 'Getty', '', 'Atieno', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 5, 31, 2009, NULL, 2, 3, 0, 13, 0, NULL, '2021-05-30 15:27:22', 1, 0, '2021-05-30', 0, 0, '', ''),
+(17, '', 'Einstein', '', 'Albert', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 10, 10, 1950, NULL, 1, 1, 0, 14, 0, NULL, '2021-05-31 16:44:10', 1, 0, '2021-05-31', 0, 0, '', ''),
+(18, '', 'Einstein', '', 'Albert', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 10, 10, 1950, NULL, 1, 1, 0, 15, 0, NULL, '2021-05-31 16:57:59', 1, 0, '2021-05-31', 0, 0, '', ''),
+(19, '', 'Einstein', '', 'Albert', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 10, 10, 1950, NULL, 1, 1, 0, 16, 0, NULL, '2021-05-31 17:00:43', 1, 0, '2021-05-31', 0, 0, '', ''),
+(20, '', 'Rosie', '', 'Omondi', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 3, 4, 2015, NULL, 2, 0, 0, 17, 0, NULL, '2021-06-17 16:07:31', 1, 0, '2021-06-17', 0, 0, '', ''),
+(21, '', 'Aiden', '', 'Otieno', '', '', '', '', '', '', '', '', '', '', '', '', 7, 8, 2020, NULL, 0, 0, 0, 18, NULL, '2021-06-17 16:09:06', '2021-06-17 16:08:33', 1, 1, NULL, 0, 0, '', ''),
+(22, NULL, 'Jane', '', 'Mwaura', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 18, 2018, NULL, 2, 3, 0, 19, NULL, NULL, '2021-06-17 16:10:25', 1, 0, NULL, 0, NULL, NULL, NULL),
+(23, NULL, 'Asia', 'Mwanadi', 'Wambui', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6, 10, 2013, NULL, 2, 3, 0, 20, NULL, NULL, '2021-06-18 14:10:58', 1, 0, NULL, 0, NULL, NULL, NULL),
+(24, NULL, 'Travis', 'Mbugua', 'Wambui', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 13, 2017, NULL, 1, 3, 0, 20, NULL, NULL, '2021-06-18 14:10:58', 1, 0, NULL, 0, NULL, NULL, NULL),
+(25, '', 'Ashley', '', 'Mwongela', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 15:38:39', 1, 0, '2021-06-25', 0, 0, '', ''),
+(26, '', 'Omwenga', '', 'Warutere', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 15:39:11', 1, 0, '2021-06-25', 0, 0, '', ''),
+(27, '', 'Brian', '', 'Wekesa', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 15:40:27', 1, 0, '2021-06-25', 0, 0, '', ''),
+(28, '', 'Lucy', '', 'Kimani', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 15:44:55', 1, 0, '2021-06-25', 0, 0, '', ''),
+(29, '', 'Mary', '', 'Njoga', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:14:32', 1, 0, '2021-06-25', 0, 0, '', ''),
+(30, '', 'Grace', '', 'Kinuthia', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:15:35', 1, 0, '2021-06-25', 0, 0, '', ''),
+(31, '', 'Mary', '', 'Nyumba', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:18:03', 1, 0, '2021-06-25', 0, 0, '', ''),
+(32, '', 'Booker', '', 'Chemutai', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:32:15', 1, 0, '2021-06-25', 0, 0, '', ''),
+(33, '', 'Dickens', '', 'Juma', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:33:59', 1, 0, '2021-06-25', 0, 0, '', ''),
+(34, '', 'Wayne', '', 'Mbuvi', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:37:11', 1, 0, '2021-06-25', 0, 0, '', ''),
+(35, '', 'Jane', '', 'Okumu', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:41:12', 1, 0, '2021-06-25', 0, 0, '', ''),
+(36, '', 'Edwine', '', 'Okoth', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:42:38', 1, 0, '2021-06-25', 0, 0, '', ''),
+(37, '', 'Dennis', '', 'Kiprop', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:43:57', 1, 0, '2021-06-25', 0, 0, '', ''),
+(38, '', 'Jeff', '', 'Koinange', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-25 16:45:21', 1, 0, '2021-06-25', 0, 0, '', ''),
+(39, '', 'Brian', '', 'Oketch', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 10:32:59', 1, 0, '2021-06-28', 0, 0, '', ''),
+(40, '', 'Brian', '', 'Oketch', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 10:33:31', 1, 0, '2021-06-28', 0, 0, '', ''),
+(41, '', 'Brian', '', 'Oketch', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 10:33:58', 1, 0, '2021-06-28', 0, 0, '', ''),
+(42, '', 'Abel', '', 'Musembi', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 10:53:30', 1, 0, '2021-06-28', 0, 0, '', ''),
+(43, '', 'Emily', '', 'Muthii', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 10:54:42', 1, 0, '2021-06-28', 0, 0, '', ''),
+(44, '', 'Emily', '', 'Muthii', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 10:55:52', 1, 0, '2021-06-28', 0, 0, '', ''),
+(45, '', 'Test', '', 'test2', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 10:56:29', 1, 0, '2021-06-28', 0, 0, '', ''),
+(46, '', 'Test', '', 'test3', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:03:54', 1, 0, '2021-06-28', 0, 0, '', ''),
+(47, '', 'Test', '', 'test3', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:03:57', 1, 0, '2021-06-28', 0, 0, '', ''),
+(48, '', 'test', '', 'test4', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:04:30', 1, 0, '2021-06-28', 0, 0, '', ''),
+(49, '', 'test', '', 'test5', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:05:41', 1, 0, '2021-06-28', 0, 0, '', ''),
+(50, '', 'test', '', 'test6', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:08:54', 1, 0, '2021-06-28', 0, 0, '', ''),
+(51, '', 'test', '', 'test7', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:09:33', 1, 0, '2021-06-28', 0, 0, '', ''),
+(52, '', 'test', '', 'test8', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:11:08', 1, 0, '2021-06-28', 0, 0, '', ''),
+(53, '', 'test', '', 'test9', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:12:54', 1, 0, '2021-06-28', 0, 0, '', ''),
+(54, '', 'test', '', 'test9', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:18:51', 1, 0, '2021-06-28', 0, 0, '', ''),
+(55, '', 'test', '', 'test11', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:34:49', 1, 0, '2021-06-28', 0, 0, '', ''),
+(56, '', 'test', '', 'test12', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:35:53', 1, 0, '2021-06-28', 0, 0, '', ''),
+(57, '', 'test', '', 'test13', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-28 11:53:56', 1, 0, '2021-06-28', 0, 0, '', ''),
+(58, '', 'Test', '', 'test20', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-29 12:07:10', 1, 0, '2021-06-29', 0, 0, '', ''),
+(59, '', 'test', '', 'test21', '', '', '', '', '', '', 'Kenya', '', '', '', '', '', 0, 0, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2021-06-29 12:08:09', 1, 0, '2021-06-29', 0, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -1265,6 +1561,19 @@ CREATE TABLE IF NOT EXISTS `pledge_plg` (
   `plg_GroupKey` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`plg_plgID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `preacher`
+--
+
+DROP TABLE IF EXISTS `preacher`;
+CREATE TABLE IF NOT EXISTS `preacher` (
+  `preacherID` int(11) NOT NULL AUTO_INCREMENT,
+  `preacherName` varchar(50) NOT NULL,
+  PRIMARY KEY (`preacherID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1543,49 +1852,74 @@ INSERT INTO `roles` (`role_id`, `role_name`, `role_desc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `staff`
+-- Table structure for table `sermon`
 --
 
-DROP TABLE IF EXISTS `staff`;
-CREATE TABLE IF NOT EXISTS `staff` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) NOT NULL,
-  `profilePicture` longblob,
-  `emergencyContact` int(20) NOT NULL,
-  `department` varchar(100) NOT NULL,
-  `hireDate` date NOT NULL,
-  `position` varchar(100) NOT NULL,
-  `nationalID` int(30) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS `sermon`;
+CREATE TABLE IF NOT EXISTS `sermon` (
+  `serviceTypes` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sermon`
+--
+
+INSERT INTO `sermon` (`serviceTypes`) VALUES
+('Church Service'),
+('Sunday School'),
+('Annual Events'),
+('Youth service');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sermoncategory`
+--
+
+DROP TABLE IF EXISTS `sermoncategory`;
+CREATE TABLE IF NOT EXISTS `sermoncategory` (
+  `categoryID` int(11) NOT NULL AUTO_INCREMENT,
+  `categoryType` varchar(50) NOT NULL,
+  PRIMARY KEY (`categoryID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `testassets`
+-- Table structure for table `sermons`
 --
 
-DROP TABLE IF EXISTS `testassets`;
-CREATE TABLE IF NOT EXISTS `testassets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lastName` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `sermons`;
+CREATE TABLE IF NOT EXISTS `sermons` (
+  `sermonID` int(11) NOT NULL AUTO_INCREMENT,
+  `sermonTitle` longtext NOT NULL,
+  `preacherName` varchar(50) NOT NULL,
+  `serviceType` varchar(50) NOT NULL,
+  `bibleVerses` mediumtext NOT NULL,
+  `sermonContent` longtext NOT NULL,
+  `youtubeLink` longtext NOT NULL,
+  `sermonImage` blob NOT NULL,
+  `categoryType` varchar(50) NOT NULL,
+  `uploadedBy` varchar(50) NOT NULL,
+  `serviceDate` varchar(30) NOT NULL,
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`sermonID`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `testassets`
+-- Dumping data for table `sermons`
 --
 
-INSERT INTO `testassets` (`id`, `lastName`, `email`) VALUES
-(1, '', ''),
-(2, '', ''),
-(3, '', ''),
-(4, '', ''),
-(5, '', ''),
-(6, '', ''),
-(7, '', '');
+INSERT INTO `sermons` (`sermonID`, `sermonTitle`, `preacherName`, `serviceType`, `bibleVerses`, `sermonContent`, `youtubeLink`, `sermonImage`, `categoryType`, `uploadedBy`, `serviceDate`, `createDate`) VALUES
+(1, 'Fasting and prayer', 'Pastor Joe', '', '1 Peter 4:10', 'It breeds self-righteousness and intolerance. It uses guilt and shame to control people. It\'s what is wrong with the world. And Jesus hates it. For the message of religion—\"I obey, therefore I\'m accepted\"—is the opposite of the gospel: \"I\'m accepted in Jesus, therefore I obey.\"', 'https://www.youtube.com/embed/8iEsCHC4JXI', '', 'Prayer', 'Admin', '2021-04-04', '2021-04-07 12:37:40'),
+(6, 'Christian Life', 'Pastor Rose', '', '1st Corinthians 15:20, John 5:10,', 'Create a named anchorAnchor names must be unique within a document.Anchor names are case-sensitive.The following symbols can be included in an anchor name.hyphen(-), underscore(_), colon(:), period(.)name=&quot;anchor_name&quot;Anchor names must start in the alphabet.name=&quot;a001&quot;', 'https://youtu.be/C0l25rkIndA', '', 'modern Life', 'Admin', '2021-04-11', '2021-04-15 14:10:06'),
+(4, 'Living truth', 'Pastor Lucy', '', '1 Peter 4:10', 'In the second&nbsp;&lt;textarea &gt;&nbsp;define CKEditor with default configuration. For example purpose, I have added&nbsp;width&nbsp;and&nbsp;height&nbsp;options which you can remove if you don&rsquo;t want.', 'https://www.youtube.com/embed/8iEsCHC4JXI', '', 'Prayer', 'Admin', '2021-04-11', '2021-04-12 11:29:02'),
+(12, 'Christian Life', 'Pastor Rose', '3', '1st Corinthians 15:20', '<ul><li>lesdxfjwrs</li><li>sdjfwrkwjfsd</li></ul><h2 style=\"font-style:italic\">qPOW3RRO;</h2>', 'https://www.youtube.com/embed/8aEznmj40sc', '', 'Modern Life', 'Admin', '2021-04-18', '2021-04-20 14:12:58'),
+(13, 'Love and Marriage', 'Pastor Rose', '1', 'Leviticus 19:18, Deuteronomy 6:5, John 13:34-35, John 14:21, 1 Corinthians 13:1-13, 1 Corinthians 16:14, 1 John 4:7-21, Mark 12:29-31, Colossians 3:14, 1 Peter 4:8, Romans 12:9', '<h3>45. Love</h3><p><a href=\"https://www.biblegateway.com/passage/?search=Leviticus+19%3A18&amp;version=NIV\">Leviticus 19:18</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Deuteronomy+6%3A5&amp;version=NIV\">Deuteronomy 6:5</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=John+13%3A34-35&amp;version=NIV\">John 13:34-35</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=John+14%3A21&amp;version=NIV\">John 14:21</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Corinthians+13%3A1-13&amp;version=NIV\">1 Corinthians 13:1-13</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Corinthians+16%3A14&amp;version=NIV\">1 Corinthians 16:14</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+John+4%3A7-21&amp;version=NIV\">1 John 4:7-21</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Mark+12%3A29-31&amp;version=NIV\">Mark 12:29-31</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Colossians+3%3A14&amp;version=NIV\">Colossians 3:14</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Peter+4%3A8&amp;version=NIV\">1 Peter 4:8</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Romans+12%3A9&amp;version=NIV\">Romans 12:9</a></p><h3>46. Marriage</h3><p><a href=\"https://www.biblegateway.com/passage/?search=Genesis+1%3A27-28&amp;version=NIV\">Genesis 1:27-28</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Genesis+2%3A20-24&amp;version=NIV\">Genesis 2:20-24</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Matthew+19%3A6&amp;version=NIV\">Matthew 19:6</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Ephesians+5%3A21-33&amp;version=NIV\">Ephesians 5:21-33</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Colossians+3%3A18-19&amp;version=NIV\">Colossians 3:18-19</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Hebrews+13%3A4&amp;version=NIV\">Hebrews 13:4</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Peter+3%3A1-7&amp;version=NIV\">1 Peter 3:1-7</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Corinthians+7%3A1-40&amp;version=NIV\">1 Corinthians 7:1-40</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Proverbs+18%3A22&amp;version=NIV\">Proverbs 18:22</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Proverbs+21%3A9&amp;version=NIV\">Proverbs 21:9</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=2+Corinthians+6%3A14&amp;version=NIV\">2 Corinthians 6:14</a></p>', 'https://www.youtube.com/embed/pIbYvFtKQ44', '', 'Modern Life', 'Admin', '2021-05-02', '2021-05-07 07:00:56'),
+(8, 'Christian Life', 'Pastor Rose', '2', '1st Corinthians 15:20', '<ul><li>wsaurrheu</li><li>kasjDuwqhs</li></ul><p><a href=\"https://www.youtube.com/watch?v=C0l25rkIndA\">Click here</a></p>', 'https://youtu.be/C0l25rkIndA', '', 'Modern Life', 'Admin', '2021-04-16', '2021-04-15 18:28:33'),
+(9, 'Assault Against The Faithful', 'Pastor Joe Muthengi', '1', '1 Peter 4:10, 1 John 1', '<h2>Called to Serve Him</h2><ul><li><span style=\"font-family:Arial,Helvetica,sans-serif\">Summary</span>:&nbsp;Paul&#39;s assessment of himself was that he was unworthy of God&#39;s grace. However, Christ is merciful; He will receive anyone who comes to Him in faith, even those who are full of themselves.</li></ul><p>&ldquo;Look out for the dogs, look out for the evildoers, look out for those who mutilate the flesh. For we are the circumcision, who worship by the Spirit of God and glory in Christ Jesus and put no confidence in the flesh&mdash;though I myself have reason for confidence in the flesh also. If anyone else thinks he has reason for confidence in the flesh, I have more: circumcised on the eighth day, of the people of Israel, of the tribe of Benjamin, a Hebrew of Hebrews; as to the law, a Pharisee; as to zeal, a persecutor of the church; as to righteousness under the law, blameless.&rdquo; [1]</p><p>&nbsp;</p>', 'https://youtu.be/C0l25rkIndA', '', 'Christian Life', 'Admin', '2021-03-28', '2021-04-15 18:40:11'),
+(14, 'Name of God', 'Pastor Rose', '1', 'Genesis 16:13-14, Genesis 17:1, Exodus 3:13-15, Deuteronomy 32:4, Daniel 7:22-25, Revelation 1:8, Isaiah 44:6, Exodus 15:6, Jeremiah 23:6, Judges 6:24', '<h3>52. Names Of God</h3><p><a href=\"https://www.biblegateway.com/passage/?search=Genesis+16%3A13-14&amp;version=NIV\">Genesis 16:13-14</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Genesis+17%3A1&amp;version=NIV\">Genesis 17:1</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Exodus+3%3A13-15&amp;version=NIV\">Exodus 3:13-15</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Deuteronomy+32%3A4&amp;version=NIV\">Deuteronomy 32:4</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Daniel+7%3A22-25&amp;version=NIV\">Daniel 7:22-25</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Revelation+1%3A8&amp;version=NIV\">Revelation 1:8</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Isaiah+44%3A6&amp;version=NIV\">Isaiah 44:6</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Exodus+15%3A6&amp;version=NIV\">Exodus 15:6</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Jeremiah+23%3A6&amp;version=NIV\">Jeremiah 23:6</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Judges+6%3A24&amp;version=NIV\">Judges 6:24</a></p><h3>53. Names Of Jesus</h3><p><a href=\"https://www.biblegateway.com/passage/?search=Isaiah+9%3A6&amp;version=NIV\">Isaiah 9:6</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Matthew+1%3A23&amp;version=NIV\">Matthew 1:23</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=John+1%3A1&amp;version=NIV\">John 1:1</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=John+8%3A58&amp;version=NIV\">John 8:58</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=John+10%3A11&amp;version=NIV\">John 10:11</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=John+8%3A12&amp;version=NIV\">John 8:12</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=John+1%3A29&amp;version=NIV\">John 1:29</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Revelation+19%3A16&amp;version=NIV\">Revelation 19:16</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=John+11%3A25&amp;version=NIV\">John 11:25</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Revelation+19%3A13&amp;version=NIV\">Revelation 19:13</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Revelation+22%3A16&amp;version=NIV\">Revelation 22:16</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Revelation+5%3A5&amp;version=NIV\">Revelation 5:5</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Colossians+1%3A15&amp;version=NIV\">Colossians 1:15</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Corinthians+15%3A45&amp;version=NIV\">1 Corinthians 15:45</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Luke+1%3A32&amp;version=NIV\">Luke 1:32</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Matthew+1%3A21&amp;version=NIV\">Matthew 1:21</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Isaiah+7%3A14&amp;version=NIV\">Isaiah 7:14</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Peter+5%3A4&amp;version=NIV\">1 Peter 5:4</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Timothy+2%3A5&amp;version=NIV\">1 Timothy 2:5</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=1+Corinthians+5%3A7&amp;version=NIV\">1 Corinthians 5:7</a></p>', 'https://www.youtube.com/embed/BcZtFgQo0ac', '', 'Christian Life', 'Admin', '2021-05-02', '2021-05-07 07:12:37'),
+(15, 'Fasting and prayer', 'Pastor Joe', '4', '1 Peter 4:10', '<p>It breeds self-righteousness and intolerance. It uses guilt and shame to control people. It&#39;s what is wrong with the world. And Jesus hates it. For the message of religion&mdash;&quot;I obey, therefore I&#39;m accepted&quot;&mdash;is the opposite of the gospel: &quot;I&#39;m accepted in Jesus, therefore I obey.&quot;</p><p>&nbsp;</p><h3>58. Patience</h3><p><a href=\"https://www.biblegateway.com/passage/?search=Numbers+14%3A18&amp;version=NIV\">Numbers 14:18</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Galatians+5%3A22&amp;version=NIV\">Galatians 5:22</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=James+1%3A19&amp;version=NIV\">James 1:19</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=James+5%3A7&amp;version=NIV\">James 5:7</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Romans+8%3A25&amp;version=NIV\">Romans 8:25</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Romans+12%3A12&amp;version=NIV\">Romans 12:12</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Galatians+6%3A9&amp;version=NIV\">Galatians 6:9</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Psalm+37%3A7-9&amp;version=NIV\">Psalm 37:7-9</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Philippians+4%3A6&amp;version=NIV\">Philippians 4:6</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=Ephesians+4%3A3&amp;version=NIV\">Ephesians 4:3</a>,&nbsp;<a href=\"https://www.biblegateway.com/passage/?search=+Isaiah+40%3A31&amp;version=NIV\">Isaiah 40:31</a></p>', '', '', 'Fasting and Prayer', 'Admin', '2021-03-28', '2021-05-07 07:14:18');
 
 -- --------------------------------------------------------
 
@@ -1721,7 +2055,7 @@ CREATE TABLE IF NOT EXISTS `user_usr` (
 --
 
 INSERT INTO `user_usr` (`usr_per_ID`, `usr_Password`, `usr_NeedPasswordChange`, `usr_LastLogin`, `usr_LoginCount`, `usr_FailedLogins`, `usr_AddRecords`, `usr_EditRecords`, `usr_DeleteRecords`, `usr_MenuOptions`, `usr_ManageGroups`, `usr_Finance`, `usr_Notes`, `usr_Admin`, `usr_SearchLimit`, `usr_Style`, `usr_showPledges`, `usr_showPayments`, `usr_showSince`, `usr_defaultFY`, `usr_currentDeposit`, `usr_UserName`, `usr_apiKey`, `usr_EditSelf`, `usr_CalStart`, `usr_CalEnd`, `usr_CalNoSchool1`, `usr_CalNoSchool2`, `usr_CalNoSchool3`, `usr_CalNoSchool4`, `usr_CalNoSchool5`, `usr_CalNoSchool6`, `usr_CalNoSchool7`, `usr_CalNoSchool8`, `usr_SearchFamily`, `usr_Canvasser`, `usr_TwoFactorAuthSecret`, `usr_TwoFactorAuthLastKeyTimestamp`, `usr_TwoFactorAuthRecoveryCodes`) VALUES
-(1, '4bdf3fba58c956fc3991a1fde84929223f968e2853de596e49ae80a91499609b', 0, '2021-03-18 11:26:25', 70, 0, 0, 0, 0, 0, 0, 0, 0, 1, 10, 'skin-yellow', 0, 0, '2016-01-01', 10, 1, 'Admin', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL),
+(1, '4bdf3fba58c956fc3991a1fde84929223f968e2853de596e49ae80a91499609b', 0, '2021-07-01 15:22:07', 260, 0, 0, 0, 0, 0, 0, 0, 0, 1, 10, 'skin-yellow', 0, 0, '2016-01-01', 10, 1, 'Admin', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL),
 (5, '838ac1e7b2438383c09600045b209fe0d99aa879f5d0b891d5a6ec3a9a729cfa', 1, '2021-03-04 10:29:48', 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 10, 'skin-blue', 0, 0, '2016-01-01', 25, 0, 'josh', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL),
 (6, '27aa5a1aa12a5beaf389fd864fd7cedc422f22a56c6f4c7391ee411cd44bf30f', 0, '2021-03-04 12:40:44', 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 10, 'skin-blue', 0, 0, '2016-01-01', 25, 0, 'Esther', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL),
 (7, '2cdbd80cff5563960b75c3af5083b507f985469e0e4524d1b8fcfaeda51bcda0', 1, '2021-03-04 17:02:05', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 'skin-blue', 0, 0, '2016-01-01', 25, 0, 'Doreen', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL),
@@ -1782,6 +2116,16 @@ CREATE TABLE IF NOT EXISTS `whycame_why` (
   `why_hearOfUs` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`why_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `asset_inventory`
+--
+ALTER TABLE `asset_inventory`
+  ADD CONSTRAINT `assetID` FOREIGN KEY (`assetID`) REFERENCES `assets` (`assetID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
