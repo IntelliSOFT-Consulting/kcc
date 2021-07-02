@@ -245,12 +245,5 @@ class Menu
         }
         return $menu;
     }
-<<<<<<< HEAD
-    
- 
-
-}   
-=======
 
 }
->>>>>>> 3a6e972054abec56e9e64e6218f7532e32aff006
