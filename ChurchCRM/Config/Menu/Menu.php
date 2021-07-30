@@ -41,7 +41,7 @@ class Menu
             "Events" => self::getEventsMenu(),
             "Deposits" => self::getDepositsMenu(),
             "Fundraiser" => self::getFundraisersMenu(),
-            // "AssetsManagement" => self::getAssetsManagamentMenu(),
+            "AssetsManagement" => self::getAssetsManagamentMenu(),
             // "Reports" => self::getReportsMenu(),
             "Admin" => self::getAdminMenu(),
             "Custom" => self::getCustomMenu(),
@@ -50,9 +50,15 @@ class Menu
 
     private static function getAssetsManagamentMenu(){
 
-        $assetsManagementMenu = new MenuItem(gettext("Asset Management"), "", SystemConfig::getBooleanValue("bEnabledSundaySchool"), 'fa-barcode');
-        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Dashboard"), "assetmanagement/AssetManagementDashboard.php"));
-     
+        $assetsManagementMenu = new MenuItem(gettext("Assets Management"), "", true, "fa-bank");
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Category"), "AssetCategory.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Location"), "AssetLocation.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Inventory"), "AssetInventoryEditor.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Add new assets"), "AssetEditor.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset List"), "AssetList.php"));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Issuance"), "AssetIssuance.php"));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Issuance List"), "AssetAssignment.php"));
+
 
         return $assetsManagementMenu;
 
