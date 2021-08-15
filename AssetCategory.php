@@ -74,6 +74,63 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
     <div class="box-header">
         <h3 class="box-title"><?= gettext('Add New Category') ?></h3>
     </div>
+    <div class="container mt-3 mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mx-auto" style="width: 100%; height: 100%;">
+                    <div class=" card-body">
+                        <a href="#" data-toggle="modal" data-target="#form_categories" class="btn btn-primary">Add </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Add Asset category modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="form_categories" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="AssetCategory.php" id="form_category" onsubmit="return false">
+                        <input type="hidden" name="categoryID" value="<?= ($categoryID) ?>">
+                        <div class="form-group">
+                            <label>Category Name</label>
+                            <input type="text" name="categoryName" id="categoryName"
+                                value="<?= htmlentities(stripslashes($scategoryName), ENT_NOQUOTES, 'UTF-8') ?>"
+                                class="form-control" placeholder="Category Name">
+                            <small id="cat_error" class="form-text text-muted"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>Parent category</label>
+                            <select class="form-control" name="parent_cat" id="parent_cat">
+                                <option value="0">Root</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="addCategory" value="<?= gettext('Save') ?>"
+                            name="AddCategory">Add</button>
+                        <button type="submit" class="btn btn-primary" value=<?= gettext("Update") ?>
+                            name="Update">Update</button>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end of add asset category modal -->
 
     <form method="post" action="AssetCategory.php">
         <input type="hidden" name="categoryID" value="<?= ($categoryID) ?>">
@@ -81,8 +138,11 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
         <div class="row">
             <div class="col-md-4 ml-3">
                 <label><?= gettext('Add a Category') ?>:</label>
-                <input type="text" name="categoryName" id="categoryName" value="<?= htmlentities(stripslashes($scategoryName), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
-                <input type="submit" class="btn btn-primary mt-3" id="addCategory" value="<?= gettext('Save') ?>" name="AddCategory">
+                <input type="text" name="categoryName" id="categoryName"
+                    value="<?= htmlentities(stripslashes($scategoryName), ENT_NOQUOTES, 'UTF-8') ?>"
+                    class="form-control">
+                <input type="submit" class="btn btn-primary mt-3" id="addCategory" value="<?= gettext('Save') ?>"
+                    name="AddCategory">
                 <input type="submit" class="btn btn-primary mt-3" value=<?= gettext("Update") ?> name="Update">
             </div>
         </div>
@@ -112,20 +172,24 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
                 <?php
                 while ($row = mysqli_fetch_assoc($result)) {
                 ?>
-                    <tr>
-                        <td><?php echo $row['categoryID'] ?></td>
-                        <td><?php echo $row['categoryName'] ?></td>
-                        <td>
-                            <a href="AssetCategory.php?edit=<?php echo $row['categoryID']; ?>" class="btn btn-primary" name="edit">Edit</a>
+                <tr>
+                    <td><?php echo $row['categoryID'] ?></td>
+                    <td><?php echo $row['categoryName'] ?></td>
+                    <td>
+                        <a href="AssetCategory.php?edit=<?php echo $row['categoryID']; ?>" class="btn btn-primary"
+                            name="edit">Edit</a>
 
-                            <form style="display:inline-block" name="DeleteCategory" action="AssetCategory.php" method="POST">
-                                <input type="hidden" name="categoryID" value="<?= $row['categoryID']; ?>">
-                                <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip value="Delete" class="btn btn-danger" onClick="return confirm('Are you sure you want to DELETE Category ID: <?= $row['categoryID']; ?>')">
-                                    <i class='fa fa-trash'></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
+                        <form style="display:inline-block" name="DeleteCategory" action="AssetCategory.php"
+                            method="POST">
+                            <input type="hidden" name="categoryID" value="<?= $row['categoryID']; ?>">
+                            <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip
+                                value="Delete" class="btn btn-danger"
+                                onClick="return confirm('Are you sure you want to DELETE Category ID: <?= $row['categoryID']; ?>')">
+                                <i class='fa fa-trash'></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
                 <?php } ?>
 
             </tbody>
