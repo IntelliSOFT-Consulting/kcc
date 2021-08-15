@@ -82,7 +82,7 @@ if (isset($_POST['SaveAsset'])) {
 
 ?>
 
-<form method="post" action="AssetEditor.php" name="AssetEditor" enctype="multipart/form-data">
+<form method="post" action="AssetsEditor.php" name="AssetEditor" enctype="multipart/form-data">
     <input type="hidden" name="assetID" value="<?= ($assetID) ?>">
     <div class="box box-info clearfix">
         <div class="box-header">
@@ -94,7 +94,9 @@ if (isset($_POST['SaveAsset'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Name"><?= gettext('Asset Name') ?>:</label>
-                        <input type="text" name="assetName" id="assetName" value="<?= ($sassetName) ?>" placeholder="<?= htmlentities(stripslashes($sassetName), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="assetName" id="assetName" value="<?= ($sassetName) ?>"
+                            placeholder="<?= htmlentities(stripslashes($sassetName), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -102,7 +104,9 @@ if (isset($_POST['SaveAsset'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Make"><?= gettext('Make') ?>:</label>
-                        <input type="text" name="make" id="make" value="<?= ($smake) ?>" placeholder="<?= htmlentities(stripslashes($smake), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="make" id="make" value="<?= ($smake) ?>"
+                            placeholder="<?= htmlentities(stripslashes($smake), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -110,7 +114,9 @@ if (isset($_POST['SaveAsset'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Condition"><?= gettext('Asset Condition') ?>:</label>
-                        <input type="text" name="assetCondition" id="assetCondition" value="<?= ($sassetCondition) ?>" placeholder="<?= htmlentities(stripslashes($sassetCondition), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="assetCondition" id="assetCondition" value="<?= ($sassetCondition) ?>"
+                            placeholder="<?= htmlentities(stripslashes($sassetCondition), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -118,7 +124,10 @@ if (isset($_POST['SaveAsset'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Description"><?= gettext('Asset Description') ?>:</label>
-                        <input type="text" name="assetDescription" id="assetDescription" value="<?= ($sassetDescription) ?>" placeholder="<?= htmlentities(stripslashes($sassetDescription), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="assetDescription" id="assetDescription"
+                            value="<?= ($sassetDescription) ?>"
+                            placeholder="<?= htmlentities(stripslashes($sassetDescription), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -126,7 +135,8 @@ if (isset($_POST['SaveAsset'])) {
                 <div class="row pb-3 ">
                     <div class="col-md-6">
                         <label for="Asset Category"><?= gettext('Asset Category') ?>:</label>
-                        <select name='assetCategory' id="assetCategory" value="<?php echo $row['assetCategory'] ?>" class='form-control'>
+                        <select name='assetCategory' id="assetCategory" value="<?php echo $row['assetCategory'] ?>"
+                            class='form-control'>
                             <option><?= gettext('Select Category'); ?></option>
                             <?php
 
@@ -145,7 +155,9 @@ if (isset($_POST['SaveAsset'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Files"><?= gettext('Asset Files') ?>:</label>
-                        <input type="file" name="assetfile" id="assetFiles" value="<?= ($bassetFile) ?>" placeholder="<?= htmlentities(stripslashes($bassetFile), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="file" name="assetfile" id="assetFiles" value="<?= ($bassetFile) ?>"
+                            placeholder="<?= htmlentities(stripslashes($bassetFile), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -153,7 +165,9 @@ if (isset($_POST['SaveAsset'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Purchase Date"><?= gettext('Purchase Date') ?>:</label>
-                        <input type="date" name="purchaseDate" id="purchaseDate" value="<?= ($spurchaseDate) ?>" placeholder="<?= htmlentities(stripslashes($spurchaseDate), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="date" name="purchaseDate" id="purchaseDate" value="<?= ($spurchaseDate) ?>"
+                            placeholder="<?= htmlentities(stripslashes($spurchaseDate), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -164,7 +178,8 @@ if (isset($_POST['SaveAsset'])) {
             <?php if (AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
                 echo '<input type="submit" class="btn btn-primary" value="' . gettext('Update') . '" name="Update">';
             } ?>
-            <a href="AssetList.php" class="btn btn-primary" value="<?= gettext('Go to Asset List') ?>">Go to Asset List</a>
+            <a href="AssetList.php" class="btn btn-primary" value="<?= gettext('Go to Asset List') ?>">Go to Asset
+                List</a>
         </div>
 
 </form>
