@@ -29,45 +29,48 @@ if (isset($_POST['Action']) && isset($_POST['assetID']) && AuthenticationManager
 
 <!-- HTML TABLE -->
 <div class="box box-warning">
-  <div class="box-body">
-    <table id="assetlist" class='table data-table table-striped table-bordered table-responsive'>
-      <thead>
-        <tr>
-          <th><?= gettext('Name') ?></th>
-          <th><?= gettext('Make') ?></th>
-          <th><?= gettext('Quantity') ?></th>
-          <th><?= gettext('Category') ?></th>
-          <th><?= gettext('Action') ?></th>
-        </tr>
-      </thead>
+    <div class="box-body">
+        <table id="assetlist" class='table data-table table-striped table-bordered table-responsive'>
+            <thead>
+                <tr>
+                    <th><?= gettext('Name') ?></th>
+                    <th><?= gettext('Make') ?></th>
+                    <th><?= gettext('Quantity') ?></th>
+                    <th><?= gettext('Category') ?></th>
+                    <th><?= gettext('Action') ?></th>
+                </tr>
+            </thead>
 
-      <tbody>
+            <tbody>
 
-        <!--Populate the table with asset details -->
-        <?php
+                <!--Populate the table with asset details -->
+                <?php
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
-          <tr>
-            <td><?php echo $row['assetName'] ?></td>
-            <td><?php echo $row['make'] ?></td>
-            <td><?php echo $row['quantity'] ?></td>
-            <td><?php echo $row['assetCategory'] ?></td>
-            <td>
-            <a href="AssetView.php?view=<?php echo $row['assetID']; ?>" class="btn btn-info" name="view"><span class="fa fa-eye"></span></a>
+                <tr>
+                    <td><?php echo $row['assetName'] ?></td>
+                    <td><?php echo $row['make'] ?></td>
+                    <td><?php echo $row['quantity'] ?></td>
+                    <td><?php echo $row['assetCategory'] ?></td>
+                    <td>
+                        <a href="AssetView.php?view=<?php echo $row['assetID']; ?>" class="btn btn-info"
+                            name="view"><span class="fa fa-eye"></span></a>
 
-              <form style="display:inline-block" name="DeleteAsset" action="AssetList.php" method="POST">
-                <input type="hidden" name="assetID" value="<?= $row['assetID']; ?>">
-                <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip value="Delete" class="btn btn-danger" onClick="return confirm('Deleting an asset will also delete all assignments for that asset.  Are you sure you want to DELETE asset ID: <?= $row['assetID']; ?>')">
-                  <i class='fa fa-trash'></i>
-                </button>
-              </form>
+                        <form style="display:inline-block" name="DeleteAsset" action="AssetList.php" method="POST">
+                            <input type="hidden" name="assetID" value="<?= $row['assetID']; ?>">
+                            <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip
+                                value="Delete" class="btn btn-danger"
+                                onClick="return confirm('Deleting an asset will also delete all assignments for that asset.  Are you sure you want to DELETE asset ID: <?= $row['assetID']; ?>')">
+                                <i class='fa fa-trash'></i>
+                            </button>
+                        </form>
 
-            </td>
-          </tr>
-        <?php } ?>
-      </tbody>
-    </table>
-  </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
