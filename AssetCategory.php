@@ -110,12 +110,7 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
                                 class="form-control" placeholder="Category Name">
                             <small id="cat_error" class="form-text text-muted"></small>
                         </div>
-                        <div class="form-group">
-                            <label>Parent category</label>
-                            <select class="form-control" name="parent_cat" id="parent_cat">
-                                <option value="0">Root</option>
-                            </select>
-                        </div>
+
                         <button type="submit" class="btn btn-primary" id="addCategory" value="<?= gettext('Save') ?>"
                             name="AddCategory">Add</button>
                         <button type="submit" class="btn btn-primary" value=<?= gettext("Update") ?>
