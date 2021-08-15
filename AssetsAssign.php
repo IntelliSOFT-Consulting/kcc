@@ -32,26 +32,17 @@ require 'Include/Header.php';
 
         <div class="box-body">
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label><?= gettext('Asset Name') ?>:</label>
-                        <input type="text" Name="Name" id="AssetName" placeholder="Asset name" value="<?= htmlentities(stripslashes($sAssetName), ENT_NOQUOTES, 'UTF-8') ?>" maxlength="48" class="form-control">
-                        <?php if ($sAssetNameError) {
-                        ?><font color="red"><?= $sAssetNameError ?></font><?php
-                                                                        }                       ?>
-                    </div>
-                </div>
-                <br>
 
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label> Assets Description</label>
-                        <textarea name="description" class="form-control" placeholder="Description" required value=""></textarea>
+                        <textarea name="description" class="form-control" placeholder="Description" required
+                            value=""></textarea>
                     </div>
                 </div>
                 <br>
 
-               
+
 
                 <div class="row">
                     <div class="col-md-6 form-group">
@@ -64,7 +55,8 @@ require 'Include/Header.php';
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label>Assigned to: </label>
-                        <input type="text" value="" class="form-control" placeholder="assigned to" name="asset_img" id="up_img">
+                        <input type="text" value="" class="form-control" placeholder="assigned to" name="asset_img"
+                            id="up_img">
                     </div>
                 </div>
                 <br>
