@@ -70,8 +70,8 @@ if (isset($_GET['view'])) {
 
     </div>
     <div>
-        <a href="AssetEditor.php?edit=<?php echo $row['assetID']; ?>" class="btn btn-primary" name="edit">Edit</a>
-        <a href="AssetsIssuance.php?assign=<?php echo $row['assetID']; ?>" class="btn btn-primary"
+        <a href="AssetsEditor.php?edit=<?php echo $row['assetID']; ?>" class="btn btn-primary" name="edit">Edit</a>
+        <a href="AssignAssets.php?assign=<?php echo $row['assetID']; ?>" class="btn btn-primary"
             name="assign">Assign</a>
         <a href="AssetHistory.php?history=<?php echo $row['assetID']; ?>" class="btn btn-primary"
             name="history">History</a>
