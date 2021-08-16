@@ -50,7 +50,7 @@ RunQuery($sSQL);
         while($row = mysqli_fetch_assoc($result)){
        ?>
                 <tr>
-                    <td><?php echo $row['assetName'] ?></td>
+                    <td><?php echo $row['asset_name'] ?></td>
                     <td><?php echo $row['assigned_to'] ?></td>
                     <td><?php echo $row['assigned_by'] ?></td>
                     <td><?php echo $row['assign_date'] ?></td>

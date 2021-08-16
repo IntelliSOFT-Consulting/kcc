@@ -19,16 +19,16 @@ if (!AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
 require 'Include/Header.php';
 
 //Get asset ID from the query string
-if (array_key_exists('assetID', $_GET)) {
-    $assetID = InputUtils::LegacyFilterInput($_GET['assetID'], 'int');
+if (array_key_exists('asset_id', $_GET)) {
+    $asset_id = InputUtils::LegacyFilterInput($_GET['asset_id'], 'int');
 } else {
-    $assetID = 0;
+    $asset_id = 0;
 }
 
 
 //Add fields
 if (isset($_POST['Assign'])) {
-    $sassetName = InputUtils::LegacyFilterInput($_POST['assetName']);
+    $sasset_name = InputUtils::LegacyFilterInput($_POST['asset_name']);
     $sassigned_to = InputUtils::LegacyFilterInput($_POST['assigned_to']);
     $sassigned_by = InputUtils::LegacyFilterInput($_POST['assigned_by']);
     $sasset_description = InputUtils::LegacyFilterInput($_POST['sasset_description']);
@@ -43,8 +43,8 @@ if (isset($_POST['Assign'])) {
 
     //New asset assign
     if ($assignment_id  == 0) {
-        $sSQL = "INSERT INTO asset_assignment(assetName, assigned_to, assigned_by, sasset_description, assign_date, return_date)
-                VALUES('" . $sassetName . "', '" . $sassigned_to . "', '" . $sassigned_by . "', '" . $sasset_description . "', '" . $sassign_date . "', '" . $sreturn_date . "')";
+        $sSQL = "INSERT INTO asset_assignment(asset_name, assigned_to, assigned_by, sasset_description, assign_date, return_date)
+                VALUES('" . $sasset_name . "', '" . $sassigned_to . "', '" . $sassigned_by . "', '" . $sasset_description . "', '" . $sassign_date . "', '" . $sreturn_date . "')";
     }
 
     //Execute the SQL
@@ -61,7 +61,7 @@ if (isset($_POST['Assign'])) {
     $row = mysqli_fetch_array($result);
     extract($row);
 
-    $sassetName = $assetName;
+    $sasset_name = $asset_name;
     $sassigned_to = $assigned_to;
     $sassigned_by = $assigned_by;
     $sasset_description = $sasset_description;
@@ -70,14 +70,14 @@ if (isset($_POST['Assign'])) {
 
 } elseif (isset($_POST['SaveReassign'])) {
     $assignment_id  = InputUtils::LegacyFilterInput($_POST['assignment_id '], 'int');
-    $sassetName = $_POST['assetName'];
+    $sasset_name = $_POST['asset_name'];
     $sassigned_to = $_POST['assigned_to'];
     $sassigned_by = $_POST['assigned_by'];
     $sasset_description = $_POST['sasset_description'];
     $sassign_date = $_POST['assign_date'];
     $sreturn_date = $_POST['return_date'];
 
-    $sSQL = "UPDATE asset_assignment SET assetName = '" . $sassetName . "', assigned_to = '" . $sassigned_to . "',  assigned_by = '" . $sassigned_by . "',  asset_description = '" . $sasset_description . "',  assign_date = '" . $sassign_date . "', return_date = '" . $sreturn_date . "', reassign = 'TRUE'
+    $sSQL = "UPDATE asset_assignment SET asset_name = '" . $sasset_name . "', assigned_to = '" . $sassigned_to . "',  assigned_by = '" . $sassigned_by . "',  asset_description = '" . $sasset_description . "',  assign_date = '" . $sassign_date . "', return_date = '" . $sreturn_date . "', reassign = 'TRUE'
     WHERE assignment_id  = '$assignment_id ' LIMIT 1
     ";
 
@@ -97,16 +97,16 @@ if (isset($_POST['Assign'])) {
                     <div class="row">
                         <div class="col-md-6">
                             <label for="Asset_name"><?= gettext('Asset Name') ?>:</label>
-                            <select name='assetName' id="assetName" value="<?php echo $row['assetName'] ?>"
+                            <select name='asset_name' id="asset_name" value="<?php echo $row['asset_name'] ?>"
                                 class='form-control'>
                                 <option><?= gettext('Select asset'); ?></option>
 
                                 <?php
-                        $sSQL = 'SELECT assetName FROM assets WHERE assetID = "$assetID"';
+                        $sSQL = 'SELECT asset_name FROM assets WHERE asset_id = "$asset_id"';
                         $rsasset = RunQuery($sSQL);
                         while ($aRow = mysqli_fetch_array($rsasset)) {
                             extract($aRow);
-                            echo "<option value='" . $assetID . "' >" . $assetName . '</option>';
+                            echo "<option value='" . $asset_id . "' >" . $asset_name . '</option>';
                         } ?>
 
                             </select>

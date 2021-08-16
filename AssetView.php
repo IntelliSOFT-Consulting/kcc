@@ -19,22 +19,22 @@ require 'Include/Header.php';
 
 
 if (isset($_GET['view'])) {
-    $assetID = $_GET['view'];
+    $asset_id = $_GET['view'];
 
-    $sSQL = "SELECT * FROM assets where assetID='$assetID'";
+    $sSQL = "SELECT * FROM assets where asset_id='$asset_id'";
     $result = RunQuery($sSQL);
     // $resultCheck = mysqli_num_rows($result);
 
     $row = mysqli_fetch_array($result);
     extract($row);
 
-    $sassetName = $assetName;
+    $sasset_name = $asset_name;
     $smake = $make;
     $squantity = $quantity;
-    $sassetCondition = $assetCondition;
-    $sassetCategory =  $assetCategory;
-    $sassetDescription = $assetDescription;
-    $spurchaseDate = $purchaseDate;
+    $sasset_condition = $asset_condition;
+    $sasset_category =  $asset_category;
+    $sasset_description = $asset_description;
+    $spurchase_date = $purchase_date;
 }
 
 ?>
@@ -43,7 +43,7 @@ if (isset($_GET['view'])) {
 
     <div class="child">
         <h4 class="text-left">
-            Asset Name: <?= ($sassetName) ?>
+            Asset Name: <?= ($sasset_name) ?>
         </h4>
 
         <!-- <img src="uploads/<?= ($bassetImage) ?>" style="width:200px; height:200px;" class="img-fluid img-thumbnail" /> -->
@@ -57,23 +57,23 @@ if (isset($_GET['view'])) {
         </p>
 
         <p class=" text-left p-2">
-            Asset Description: <?= ($sassetDescription) ?>
+            Asset Description: <?= ($sasset_description) ?>
         </p>
 
         <p class=" text-left p-2">
-            Asset Category: <?= ($sassetCategory) ?>
+            Asset Category: <?= ($sasset_category) ?>
         </p>
 
         <p class=" text-left p-2">
-            Asset Purchase Date: <?= ($spurchaseDate) ?>
+            Asset Purchase Date: <?= ($spurchase_date) ?>
         </p>
 
     </div>
     <div>
-        <a href="AssetsEditor.php?edit=<?php echo $row['assetID']; ?>" class="btn btn-primary" name="edit">Edit</a>
-        <a href="AssignAssets.php?assign=<?php echo $row['assetID']; ?>" class="btn btn-primary"
+        <a href="AssetsEditor.php?edit=<?php echo $row['asset_id']; ?>" class="btn btn-primary" name="edit">Edit</a>
+        <a href="AssignAssets.php?assign=<?php echo $row['asset_id']; ?>" class="btn btn-primary"
             name="assign">Assign</a>
-        <a href="AssetHistory.php?history=<?php echo $row['assetID']; ?>" class="btn btn-primary"
+        <a href="AssetHistory.php?history=<?php echo $row['asset_id']; ?>" class="btn btn-primary"
             name="history">History</a>
         <a href="AssetList.php" class="btn btn-primary" value="<?= gettext('Go to Asset List') ?>">Go to Asset List</a>
 

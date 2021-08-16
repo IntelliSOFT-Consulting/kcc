@@ -29,23 +29,23 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `assets`;
 CREATE TABLE IF NOT EXISTS `assets` (
-  `assetID` int(11) NOT NULL AUTO_INCREMENT,
-  `assetName` varchar(50) NOT NULL,
+  `asset_id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_name` varchar(50) NOT NULL,
   `make` varchar(50) NOT NULL,
-  `assetCondition` varchar(20) NOT NULL,
-  `assetDescription` longtext NOT NULL,
-  `assetCategory` varchar(20) NOT NULL,
-  `assetFile` blob NOT NULL,
-  `purchaseDate` varchar(30) NOT NULL,
+  `asset_condition` varchar(20) NOT NULL,
+  `asset_description` longtext NOT NULL,
+  `asset_category` varchar(20) NOT NULL,
+  `asset_file` blob NOT NULL,
+  `purchase_date` varchar(30) NOT NULL,
   `assetDeleted` enum('False','True') NOT NULL,
-  PRIMARY KEY (`assetID`)
+  PRIMARY KEY (`asset_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `assets`
 --
 
-INSERT INTO `assets` (`assetID`, `assetName`, `make`, `assetCondition`, `assetDescription`, `assetCategory`, `assetFile`, `purchaseDate`, `assetDeleted`) VALUES
+INSERT INTO `assets` (`asset_id`, `asset_name`, `make`, `asset_condition`, `asset_description`, `asset_category`, `asset_file`, `purchase_date`, `assetDeleted`) VALUES
 (174, 'Bass Amplifier', 'CRATE BX160', 'New', 'New Amplifier', 'Bass Amplifier', '', '2021-05-09', 'False');
 
 -- --------------------------------------------------------
@@ -79,7 +79,7 @@ INSERT INTO `asset_category` (`categoryID`, `categoryName`, `categoryDeleted`) V
 
 DROP TABLE IF EXISTS `asset_inventory`;
 CREATE TABLE IF NOT EXISTS `asset_inventory` (
-  `assetID` int(50) NOT NULL,
+  `asset_id` int(50) NOT NULL,
   `serialNumber` varchar(50) NOT NULL,
   `quantity` int(50) NOT NULL,
   `unitCost` varchar(50) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `asset_inventory` (
   `movementType` enum('Incoming','Outgoing') NOT NULL,
   `movementComment` mediumtext NOT NULL,
   `inventoryDeleted` enum('False','True') NOT NULL,
-  KEY `assetID` (`assetID`)
+  KEY `asset_id` (`asset_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -2125,7 +2125,7 @@ CREATE TABLE IF NOT EXISTS `whycame_why` (
 -- Constraints for table `asset_inventory`
 --
 ALTER TABLE `asset_inventory`
-  ADD CONSTRAINT `assetID` FOREIGN KEY (`assetID`) REFERENCES `assets` (`assetID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `asset_id` FOREIGN KEY (`asset_id`) REFERENCES `assets` (`asset_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
