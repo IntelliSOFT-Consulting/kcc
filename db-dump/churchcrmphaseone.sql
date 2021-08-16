@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `assets` (
   `asset_category` varchar(20) NOT NULL,
   `asset_file` blob NOT NULL,
   `purchase_date` varchar(30) NOT NULL,
-  `assetDeleted` enum('False','True') NOT NULL,
+  `asset_deleted` enum('False','True') NOT NULL,
   PRIMARY KEY (`asset_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4;
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `assets` (
 -- Dumping data for table `assets`
 --
 
-INSERT INTO `assets` (`asset_id`, `asset_name`, `make`, `asset_condition`, `asset_description`, `asset_category`, `asset_file`, `purchase_date`, `assetDeleted`) VALUES
+INSERT INTO `assets` (`asset_id`, `asset_name`, `make`, `asset_condition`, `asset_description`, `asset_category`, `asset_file`, `purchase_date`, `asset_deleted`) VALUES
 (174, 'Bass Amplifier', 'CRATE BX160', 'New', 'New Amplifier', 'Bass Amplifier', '', '2021-05-09', 'False');
 
 -- --------------------------------------------------------

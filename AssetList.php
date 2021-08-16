@@ -9,7 +9,7 @@ use ChurchCRM\Authentication\AuthenticationManager;
 require 'Include/Header.php';
 
 // display all assets
-$sSQL = "SELECT * from assets WHERE assetDeleted='False'";
+$sSQL = "SELECT * from assets WHERE asset_deleted='False'";
 $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
@@ -19,7 +19,7 @@ if (isset($_POST['Action']) && isset($_POST['asset_id']) && AuthenticationManage
   $action = InputUtils::LegacyFilterInput($_POST['Action']);
 
   if ($action == 'Delete' && $asset_id) {
-    $sSQL = "UPDATE assets SET assetDeleted = 'True' WHERE asset_id='$asset_id'  LIMIT 1";
+    $sSQL = "UPDATE assets SET asset_deleted = 'True' WHERE asset_id='$asset_id'  LIMIT 1";
     RunQuery($sSQL);
     
   } 
@@ -49,8 +49,8 @@ if (isset($_POST['Action']) && isset($_POST['asset_id']) && AuthenticationManage
         ?>
                 <tr>
                     <td><?php echo $row['asset_name'] ?></td>
-                    <td><?php echo $row['make'] ?></td>
-                    <td><?php echo $row['quantity'] ?></td>
+                    <td><?php echo $row['asset_make'] ?></td>
+                    <td><?php echo $row['asset_quantity'] ?></td>
                     <td><?php echo $row['asset_category'] ?></td>
                     <td>
                         <a href="AssetView.php?view=<?php echo $row['asset_id']; ?>" class="btn btn-info"
