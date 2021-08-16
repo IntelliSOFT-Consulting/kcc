@@ -28,23 +28,23 @@ if (array_key_exists('assetID', $_GET)) {
 
 //Add fields
 if (isset($_POST['Assign'])) {
-    $sassignedTo = InputUtils::LegacyFilterInput($_POST['assignedTo']);
-    $sassignedBy = InputUtils::LegacyFilterInput($_POST['assignedBy']);
-    $sassetDescription = InputUtils::LegacyFilterInput($_POST['assetDescription']);
-    $sassetCondition = InputUtils::LegacyFilterInput($_POST['assetCondition']);
-    $sassignDate = InputUtils::LegacyFilterInput($_POST['assignDate']);
-    $sassignDate = str_replace('/', '-', $sassignDate);
-    $sassignDate = date('Y-m-d', strtotime($sassignDate));
+    $sassetName = InputUtils::LegacyFilterInput($_POST['assetName']);
+    $sassigned_to = InputUtils::LegacyFilterInput($_POST['assigned_to']);
+    $sassigned_by = InputUtils::LegacyFilterInput($_POST['assigned_by']);
+    $sasset_description = InputUtils::LegacyFilterInput($_POST['sasset_description']);
+    $sassign_date = InputUtils::LegacyFilterInput($_POST['assign_date']);
+    $sassign_date = str_replace('/', '-', $sassign_date);
+    $sassign_date = date('Y-m-d', strtotime($sassign_date));
 
-    $sreturnDate = InputUtils::LegacyFilterInput($_POST['returnDate']);
-    $sreturnDate = str_replace('/', '-', $sreturnDate);
-    $sreturnDate = date('Y-m-d', strtotime($sreturnDate));
+    $sreturn_date = InputUtils::LegacyFilterInput($_POST['return_date']);
+    $sreturn_date = str_replace('/', '-', $sreturn_date);
+    $sreturn_date = date('Y-m-d', strtotime($sreturn_date));
 
 
     //New asset assign
-    if ($assignID == 0) {
-        $sSQL = "INSERT INTO assign_assets(assetName, assignedTo, assignedBy, assetDescription, assetCategory, assignDate, returnDate)
-                VALUES('" . $sassetName . "', '" . $sassignedTo . "', '" . $sassignedBy . "', '" . $sassetDescription . "', '" . $sassetCategory . "', '" . $sassignDate . "', '" . $sreturnDate . "')";
+    if ($assignment_id  == 0) {
+        $sSQL = "INSERT INTO asset_assignment(assetName, assigned_to, assigned_by, sasset_description, assign_date, return_date)
+                VALUES('" . $sassetName . "', '" . $sassigned_to . "', '" . $sassigned_by . "', '" . $sasset_description . "', '" . $sassign_date . "', '" . $sreturn_date . "')";
     }
 
     //Execute the SQL
@@ -52,9 +52,9 @@ if (isset($_POST['Assign'])) {
 
 
 } elseif (isset($_GET['reassign'])) {  // Reasign an asset
-    $assignID = $_GET['reassign'];
+    $assignment_id  = $_GET['reassign'];
 
-    $sSQL = "SELECT * FROM assign_assets where assignID='$assignID'";
+    $sSQL = "SELECT * FROM asset_assignment where assignment_id ='$assignment_id '";
     $result = RunQuery($sSQL);
     // $resultCheck = mysqli_num_rows($result);
 
@@ -62,43 +62,61 @@ if (isset($_POST['Assign'])) {
     extract($row);
 
     $sassetName = $assetName;
-    $sassignedTo = $assignedTo;
-    $sassignedBy = $assignedBy;
-    $sassetDescription = $assetDescription;
-    $sassetCategory =  $assetCategory;
-    $sassignDate = $assignDate;
-    $sreturnDate = $returnDate;
+    $sassigned_to = $assigned_to;
+    $sassigned_by = $assigned_by;
+    $sasset_description = $sasset_description;
+    $sassign_date = $assign_date;
+    $sreturn_date = $return_date;
 
 } elseif (isset($_POST['SaveReassign'])) {
-    $assignID = InputUtils::LegacyFilterInput($_POST['assignID'], 'int');
+    $assignment_id  = InputUtils::LegacyFilterInput($_POST['assignment_id '], 'int');
     $sassetName = $_POST['assetName'];
-    $sassignedTo = $_POST['assignedTo'];
-    $sassignedBy = $_POST['assignedBy'];
-    $sassetDescription = $_POST['assetDescription'];
-    $sassignDate = $_POST['assignDate'];
-    $sreturnDate = $_POST['returnDate'];
+    $sassigned_to = $_POST['assigned_to'];
+    $sassigned_by = $_POST['assigned_by'];
+    $sasset_description = $_POST['sasset_description'];
+    $sassign_date = $_POST['assign_date'];
+    $sreturn_date = $_POST['return_date'];
 
-    $sSQL = "UPDATE assign_assets SET assetName = '" . $sassetName . "', assignedTo = '" . $sassignedTo . "',  assignedBy = '" . $sassignedBy . "',  assetDescription = '" . $sassetDescription . "',  assignDate = '" . $sassignDate . "', returnDate = '" . $sreturnDate . "', reassign = 'TRUE'
-    WHERE assignID = '$assignID' LIMIT 1
+    $sSQL = "UPDATE asset_assignment SET assetName = '" . $sassetName . "', assigned_to = '" . $sassigned_to . "',  assigned_by = '" . $sassigned_by . "',  asset_description = '" . $sasset_description . "',  assign_date = '" . $sassign_date . "', return_date = '" . $sreturn_date . "', reassign = 'TRUE'
+    WHERE assignment_id  = '$assignment_id ' LIMIT 1
     ";
 
     RunQuery($sSQL);
 }
 
 ?>
-<div id="assign_modal">
+<div id="assignasset">
 
-    <form method="post" action="AssetsIssuance.php">
-        <input type="hidden" name="assignID" value="<?= ($assignID) ?>">
+    <form method="post" action="AssetsAssign.php">
+        <input type="hidden" name="assignment_id " value="<?= ($assignment_id ) ?>">
         <div class="box box-info clearfix">
 
             <div class="box-body">
                 <div class="form-group">
 
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="Asset_name"><?= gettext('Asset Name') ?>:</label>
+                            <select name='assetName' id="assetName" value="<?php echo $row['assetName'] ?>"
+                                class='form-control'>
+                                <option><?= gettext('Select asset'); ?></option>
+
+                                <?php
+                        $sSQL = 'SELECT assetName FROM assets WHERE assetID = "$assetID"';
+                        $rsasset = RunQuery($sSQL);
+                        while ($aRow = mysqli_fetch_array($rsasset)) {
+                            extract($aRow);
+                            echo "<option value='" . $assetID . "' >" . $assetName . '</option>';
+                        } ?>
+
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="row pt-3 pb-3 ">
                         <div class="col-md-6">
                             <label for="Assigned To"><?= gettext('Assigned To') ?>:</label>
-                            <select name='' id="assignedTo" value="<?php echo $row['assignedTo'] ?>"
+                            <select name='' id="assigned_to" value="<?php echo $row['assigned_to'] ?>"
                                 class='form-control'>
                                 <option><?= gettext('Select staff member'); ?></option>
                                 <?php
@@ -117,7 +135,7 @@ if (isset($_POST['Assign'])) {
                     <div class="row pt-3 pb-3 ">
                         <div class="col-md-6">
                             <label for="Assigned By"><?= gettext('Assigned By') ?>:</label>
-                            <select name='assignedBy' id="assignedBy" value="<?php echo $row['assignedBy'] ?>"
+                            <select name='assigned_by' id="assigned_by" value="<?php echo $row['assigned_by'] ?>"
                                 class='form-control'>
                                 <option><?= gettext('Select admin'); ?></option>
 
@@ -138,8 +156,8 @@ if (isset($_POST['Assign'])) {
                     <div class="row pb-3">
                         <div class="col-md-6">
                             <label for="Asset Description"><?= gettext('Asset Description') ?>:</label>
-                            <textarea name="assetDescription" id="assetDescription" placeholder="Asset Description"
-                                value="<?= htmlentities(stripslashes($sassetDescription), ENT_NOQUOTES, 'UTF-8') ?>"
+                            <textarea name="asset_description" id="asset_description" placeholder="Asset Description"
+                                value="<?= htmlentities(stripslashes($sasset_description), ENT_NOQUOTES, 'UTF-8') ?>"
                                 class="form-control"></textarea>
                         </div>
                     </div>
@@ -148,8 +166,8 @@ if (isset($_POST['Assign'])) {
                     <div class="row pb-3">
                         <div class="col-md-6">
                             <label for="Assign Date"><?= gettext('Assign Date') ?>:</label>
-                            <input type="date" name="assignDate" id="assignDate"
-                                value="<?= htmlentities(stripslashes($sassignDate), ENT_NOQUOTES, 'UTF-8') ?>"
+                            <input type="date" name="assign_date" id="assign_date"
+                                value="<?= htmlentities(stripslashes($sassign_date), ENT_NOQUOTES, 'UTF-8') ?>"
                                 class="form-control">
                         </div>
                     </div>
@@ -158,8 +176,8 @@ if (isset($_POST['Assign'])) {
                     <div class="row pb-3">
                         <div class="col-md-6">
                             <label for="Return Date"><?= gettext('Return Date') ?>:</label>
-                            <input type="date" name="returnDate" id="returnDate"
-                                value="<?= htmlentities(stripslashes($sreturnDate), ENT_NOQUOTES, 'UTF-8') ?>"
+                            <input type="date" name="return_date" id="return_date"
+                                value="<?= htmlentities(stripslashes($sreturn_date), ENT_NOQUOTES, 'UTF-8') ?>"
                                 class="form-control">
                         </div>
                     </div>
@@ -167,12 +185,12 @@ if (isset($_POST['Assign'])) {
 
                 </div>
                 <input type="submit" class="btn btn-primary" id="AssignSaveButton" value="<?= gettext('Assign') ?>"
-                    name="IssueAsset">
+                    name="Assign">
                 <?php if (AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
             echo '<input type="submit" class="btn btn-primary" value="' . gettext('Reassign') . '" name="SaveReassign">';
         } ?>
-                <a href="AssetIssuanceList.php" class="btn btn-primary"
-                    value="<?= gettext('Go to Assignment List') ?>">Go to Assignment List</a>
+                <a href="AssetAssignList.php" class="btn btn-primary" value="<?= gettext('Go to Assignment List') ?>">Go
+                    to Assignment List</a>
 
             </div>
     </form>
