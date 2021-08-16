@@ -71,7 +71,7 @@ if (isset($_GET['view'])) {
     </div>
     <div>
         <a href="AssetsEditor.php?edit=<?php echo $row['asset_id']; ?>" class="btn btn-primary" name="edit">Edit</a>
-        <a href="AssignAssets.php?assign=<?php echo $row['asset_id']; ?>" class="btn btn-primary"
+        <a href="AssetsAssign.php?assign=<?php echo $row['asset_id']; ?>" class="btn btn-primary"
             name="assign">Assign</a>
         <a href="AssetHistory.php?history=<?php echo $row['asset_id']; ?>" class="btn btn-primary"
             name="history">History</a>

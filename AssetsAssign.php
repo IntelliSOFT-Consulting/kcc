@@ -25,13 +25,20 @@ if (array_key_exists('asset_id', $_GET)) {
     $asset_id = 0;
 }
 
+//Get asset ID from the query string
+if (array_key_exists('assignment_id', $_GET)) {
+    $assignment_id  = InputUtils::LegacyFilterInput($_GET['assignment_id'], 'int');
+} else {
+    $assignment_id = 0;
+}
+
 
 //Add fields
 if (isset($_POST['Assign'])) {
     $sasset_name = InputUtils::LegacyFilterInput($_POST['asset_name']);
     $sassigned_to = InputUtils::LegacyFilterInput($_POST['assigned_to']);
     $sassigned_by = InputUtils::LegacyFilterInput($_POST['assigned_by']);
-    $sasset_description = InputUtils::LegacyFilterInput($_POST['sasset_description']);
+    $sasset_description = InputUtils::LegacyFilterInput($_POST['asset_description']);
     $sassign_date = InputUtils::LegacyFilterInput($_POST['assign_date']);
     $sassign_date = str_replace('/', '-', $sassign_date);
     $sassign_date = date('Y-m-d', strtotime($sassign_date));
@@ -42,53 +49,23 @@ if (isset($_POST['Assign'])) {
 
 
     //New asset assign
-    if ($assignment_id  == 0) {
-        $sSQL = "INSERT INTO asset_assignment(asset_name, assigned_to, assigned_by, sasset_description, assign_date, return_date)
+    if ($assignment_id == 0) {
+        $sSQL = "INSERT INTO asset_assignment(asset_name, assigned_to, assigned_by, asset_description, assign_date, return_date)
                 VALUES('" . $sasset_name . "', '" . $sassigned_to . "', '" . $sassigned_by . "', '" . $sasset_description . "', '" . $sassign_date . "', '" . $sreturn_date . "')";
     }
 
     //Execute the SQL
     RunQuery($sSQL);
 
-
-} elseif (isset($_GET['reassign'])) {  // Reasign an asset
-    $assignment_id  = $_GET['reassign'];
-
-    $sSQL = "SELECT * FROM asset_assignment where assignment_id ='$assignment_id '";
-    $result = RunQuery($sSQL);
-    // $resultCheck = mysqli_num_rows($result);
-
-    $row = mysqli_fetch_array($result);
-    extract($row);
-
-    $sasset_name = $asset_name;
-    $sassigned_to = $assigned_to;
-    $sassigned_by = $assigned_by;
-    $sasset_description = $sasset_description;
-    $sassign_date = $assign_date;
-    $sreturn_date = $return_date;
-
-} elseif (isset($_POST['SaveReassign'])) {
-    $assignment_id  = InputUtils::LegacyFilterInput($_POST['assignment_id '], 'int');
-    $sasset_name = $_POST['asset_name'];
-    $sassigned_to = $_POST['assigned_to'];
-    $sassigned_by = $_POST['assigned_by'];
-    $sasset_description = $_POST['sasset_description'];
-    $sassign_date = $_POST['assign_date'];
-    $sreturn_date = $_POST['return_date'];
-
-    $sSQL = "UPDATE asset_assignment SET asset_name = '" . $sasset_name . "', assigned_to = '" . $sassigned_to . "',  assigned_by = '" . $sassigned_by . "',  asset_description = '" . $sasset_description . "',  assign_date = '" . $sassign_date . "', return_date = '" . $sreturn_date . "', reassign = 'TRUE'
-    WHERE assignment_id  = '$assignment_id ' LIMIT 1
-    ";
-
-    RunQuery($sSQL);
-}
-
+} 
 ?>
+
+
+
 <div id="assignasset">
 
     <form method="post" action="AssetsAssign.php">
-        <input type="hidden" name="assignment_id " value="<?= ($assignment_id ) ?>">
+        <input type="hidden" name="assignment_id" value="<?= ($assignment_id) ?>">
         <div class="box box-info clearfix">
 
             <div class="box-body">
@@ -96,18 +73,23 @@ if (isset($_POST['Assign'])) {
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="Asset_name"><?= gettext('Asset Name') ?>:</label>
+                            <label for="Asset Name"><?= gettext('Asset Name') ?>:</label>
                             <select name='asset_name' id="asset_name" value="<?php echo $row['asset_name'] ?>"
                                 class='form-control'>
-                                <option><?= gettext('Select asset'); ?></option>
+                                <option><?= gettext('Select Asset Name'); ?></option>
 
                                 <?php
-                        $sSQL = 'SELECT asset_name FROM assets WHERE asset_id = "$asset_id"';
-                        $rsasset = RunQuery($sSQL);
-                        while ($aRow = mysqli_fetch_array($rsasset)) {
-                            extract($aRow);
-                            echo "<option value='" . $asset_id . "' >" . $asset_name . '</option>';
-                        } ?>
+                                    if (isset($_GET['assign'])) {
+                                        $asset_id = $_GET['assign'];
+
+                                        $sSQL = "SELECT * FROM assets WHERE asset_id='$asset_id'";
+                                        $rsasset_name = RunQuery($sSQL);
+                                        while ($aRow = mysqli_fetch_array($rsasset_name)) {
+                                        extract($aRow);
+                                        echo "<option value='" . $asset_name . "' >" . $asset_name . '</option>';
+                                        }                             
+                                    }
+                                ?>
 
                             </select>
                         </div>
@@ -116,18 +98,20 @@ if (isset($_POST['Assign'])) {
                     <div class="row pt-3 pb-3 ">
                         <div class="col-md-6">
                             <label for="Assigned To"><?= gettext('Assigned To') ?>:</label>
-                            <select name='' id="assigned_to" value="<?php echo $row['assigned_to'] ?>"
+                            <select name='assigned_to' id="assigned_to" value="<?php echo $row['assigned_to'] ?>"
                                 class='form-control'>
                                 <option><?= gettext('Select staff member'); ?></option>
-                                <?php
-                        $sSQL = 'SELECT Concat (per_FirstName, " ", per_LastName,  " ", per_MiddleName) AS per_fullName FROM person_per ';
-                        $rsstaffmember = RunQuery($sSQL);
-                        while ($aRow = mysqli_fetch_array($rsstaffmember)) {
-                            extract($aRow);
-                            echo "<option value='" . $per_fullName . "' >" . $per_fullName .  '</option>';
-                        } ?>
-                            </select>
 
+                                <?php
+                                    $sSQL = 'SELECT Concat (per_FirstName, " ", per_LastName,  " ", per_MiddleName) AS per_fullName FROM person_per ';
+                                    $rsstaffmember = RunQuery($sSQL);
+                                    while ($aRow = mysqli_fetch_array($rsstaffmember)) {
+                                        extract($aRow);
+                                        echo "<option value='" . $per_fullName . "' >" . $per_fullName .  '</option>';
+                                    } 
+                                ?>
+
+                            </select>
                         </div>
                     </div>
                     <p />
@@ -140,15 +124,15 @@ if (isset($_POST['Assign'])) {
                                 <option><?= gettext('Select admin'); ?></option>
 
                                 <?php
-                        $sSQL = 'SELECT * FROM person_per WHERE per_LastName = "Admin"';
-                        $rsadmin = RunQuery($sSQL);
-                        while ($aRow = mysqli_fetch_array($rsadmin)) {
-                            extract($aRow);
-                            echo "<option value='" . $per_LastName . "' >" . $per_LastName . '</option>';
-                        } ?>
+                                    $sSQL = 'SELECT * FROM person_per WHERE per_LastName = "Admin"';
+                                    $rsadmin = RunQuery($sSQL);
+                                    while ($aRow = mysqli_fetch_array($rsadmin)) {
+                                        extract($aRow);
+                                        echo "<option value='" . $per_LastName . "' >" . $per_LastName . '</option>';
+                                    } 
+                                ?>
 
                             </select>
-
                         </div>
                     </div>
                     <p />
@@ -186,10 +170,9 @@ if (isset($_POST['Assign'])) {
                 </div>
                 <input type="submit" class="btn btn-primary" id="AssignSaveButton" value="<?= gettext('Assign') ?>"
                     name="Assign">
-                <?php if (AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
-            echo '<input type="submit" class="btn btn-primary" value="' . gettext('Reassign') . '" name="SaveReassign">';
-        } ?>
-                <a href="AssetsAssignList.php" class="btn btn-primary" value="<?= gettext('Go to Assignment List') ?>">Go
+
+                <a href="AssetsAssignList.php" class="btn btn-primary"
+                    value="<?= gettext('Go to Assignment List') ?>">Go
                     to Assignment List</a>
 
             </div>

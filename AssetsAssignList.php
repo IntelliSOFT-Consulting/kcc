@@ -21,7 +21,7 @@ $resultCheck = mysqli_num_rows($result);
 
 //Delete assets
 if(isset($_GET['delete'])){
-  $assignment_id  = $_GET['delete'];
+  $assignment_id = $_GET['delete'];
   $sSQL = "UPDATE asset_assignment SET assign_deleted = 'TRUE' WHERE assignment_id='$assignment_id'";
 }
 
@@ -56,10 +56,8 @@ RunQuery($sSQL);
                     <td><?php echo $row['assign_date'] ?></td>
                     <td><?php echo $row['assign_date'] ?></td>
                     <td>
-                        <a href="AssetsAssign.php?reassign=<?php echo $row['assignment_id ']; ?>" class="btn btn-info"
-                            name="reasign">Reassign</a>
-                        <a href="AssetsAssignList.php?delete=<?php echo $row['assignment_id ']; ?>" class="btn btn-danger"
-                            name="delete">Delete</a>
+                        <a href="AssetsAssignList.php?delete=<?php echo $row['assignment_id']; ?>"
+                            class="btn btn-danger" name="delete">Delete</a>
                     </td>
                 </tr>
                 <?php } ?>
