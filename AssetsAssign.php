@@ -189,7 +189,7 @@ if (isset($_POST['Assign'])) {
                 <?php if (AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
             echo '<input type="submit" class="btn btn-primary" value="' . gettext('Reassign') . '" name="SaveReassign">';
         } ?>
-                <a href="AssetAssignList.php" class="btn btn-primary" value="<?= gettext('Go to Assignment List') ?>">Go
+                <a href="AssetsAssignList.php" class="btn btn-primary" value="<?= gettext('Go to Assignment List') ?>">Go
                     to Assignment List</a>
 
             </div>

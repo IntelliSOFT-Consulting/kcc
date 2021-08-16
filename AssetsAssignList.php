@@ -58,7 +58,7 @@ RunQuery($sSQL);
                     <td>
                         <a href="AssetsAssign.php?reassign=<?php echo $row['assignment_id ']; ?>" class="btn btn-info"
                             name="reasign">Reassign</a>
-                        <a href="AssetAssignList.php?delete=<?php echo $row['assignment_id ']; ?>" class="btn btn-danger"
+                        <a href="AssetsAssignList.php?delete=<?php echo $row['assignment_id ']; ?>" class="btn btn-danger"
                             name="delete">Delete</a>
                     </td>
                 </tr>
