@@ -2,11 +2,11 @@
 use ChurchCRM\dto\SystemURLs;
 
 ?>
-<title>KCC: <?= $sPageTitle ?></title>
+<title>KCC <?= $sPageTitle ?></title>
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css"
-      href="<?= SystemURLs::getRootPath() ?>/skin/external/bootstrap/bootstrap.min.css">
+    href="<?= SystemURLs::getRootPath() ?>/skin/external/bootstrap/bootstrap.min.css">
 
 <!-- Custom ChurchCRM styles -->
 <link rel="stylesheet" href="<?= SystemURLs::getRootPath() ?>/skin/churchcrm.min.css">
