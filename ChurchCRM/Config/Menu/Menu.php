@@ -51,7 +51,7 @@ class Menu
     private static function getAssetsManagamentMenu(){
 
         $assetsManagementMenu = new MenuItem(gettext("Assets Management"), "", true, "fa-bank");
-        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Category"), "asset_category.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Category"), "AssetCategory.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Location"), "AssetLocation.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Add new assets"), "AssetsEditor.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset List"), "AssetList.php"));
