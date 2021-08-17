@@ -54,8 +54,8 @@ class Menu
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Category"), "asset_category.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Location"), "AssetLocation.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Add new assets"), "AssetsEditor.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
-        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Inventory"), "AssetInventoryEditor.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset List"), "AssetList.php"));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Inventory List"), "AssetInventoryList.php"));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Issuance List"), "AssetsAssignList.php"));
 
 
