@@ -24,10 +24,13 @@ if (array_key_exists('assetID', $_GET)) {
     $assetID = 0;
 }
 
+if(isset($_GET['inventory'])) {
+    $asset_id = $_GET['inventory'];
+}
 
 //DB fields
 if (isset($_POST['SaveInventory'])) {
-    $sasset_name = InputUtils::LegacyFilterInput($_POST['asset_name']);
+    $asset_id  = InputUtils::LegacyFilterInput($_POST['asset_id']);
     $sserial_number = InputUtils::LegacyFilterInput($_POST['serial_number']);
     $iasset_quantity = InputUtils::LegacyFilterInput($_POST['asset_quantity']);
     $iunit_cost = InputUtils::LegacyFilterInput($_POST['unit_cost']);
@@ -39,8 +42,8 @@ if (isset($_POST['SaveInventory'])) {
 
     //New asset add
     if ($inventory_id == 0) {
-        $sSQL = "INSERT INTO asset_inventory(asset_name, serial_number, asset_quantity, unit_cost, total_cost, location_code, movement_type, movement_comment)
-            VALUES('" . $sasset_name . "', '" . $sserial_number  . "', '".$iasset_quantity."', '" . $iunit_cost . "', '" . $calculated_cost . "', '" . $slocation_code . "', '" . $smovement_type . "', '".$movement_comment."')";
+        $sSQL = "INSERT INTO asset_inventory(asset_id, serial_number, asset_quantity, unit_cost, total_cost, location_code, movement_type, movement_comment)
+            VALUES('" . $asset_id . "', '" . $sserial_number  . "', '".$iasset_quantity."', '" . $iunit_cost . "', '" . $calculated_cost . "', '" . $slocation_code . "', '" . $smovement_type . "', '".$movement_comment."')";
     }
 
     //Execute the SQL
@@ -99,21 +102,18 @@ if (isset($_POST['SaveInventory'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Name"><?= gettext('Asset Name') ?>:</label>
-                        <select name='asset_name' id="asset_name" value="<?php echo $row['asset_name'] ?>"
+                        <select name='asset_id' id="asset_id" value="<?php echo $row['asset_id'] ?>"
                             class='form-control'>
                             <option><?= gettext('Select Asset Name'); ?></option>
 
                             <?php
-                                    if (isset($_GET['inventory'])) {
-                                        $asset_id = $_GET['inventory'];
-
                                         $sSQL = "SELECT * FROM assets WHERE asset_id='$asset_id'";
                                         $rsasset_name = RunQuery($sSQL);
                                         while ($aRow = mysqli_fetch_array($rsasset_name)) {
                                         extract($aRow);
-                                        echo "<option value='" . $asset_name . "' >" . $asset_name . '</option>';
-                                        }                             
-                                    }
+                                        echo "<option value='" . $asset_id . "' >" . $asset_name . '</option>';
+                                        }                         
+                                    
                                 ?>
 
                         </select>

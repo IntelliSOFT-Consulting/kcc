@@ -11,6 +11,8 @@ use ChurchCRM\dto\SystemURLs;
 <!-- Custom ChurchCRM styles -->
 <link rel="stylesheet" href="<?= SystemURLs::getRootPath() ?>/skin/churchcrm.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="<?= SystemURLs::getRootPath() ?>/staticFiles/css/assetStyle.css">
+
 
 <!-- Custom JS files -->
 <script src="<?= SystemURLs::getRootPath() ?>/staticFiles/js/main.js"></script>

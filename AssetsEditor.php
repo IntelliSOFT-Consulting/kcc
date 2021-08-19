@@ -76,6 +76,9 @@ if (isset($_POST['SaveAsset'])) {
     $spurchase_date = $_POST['purchase_date'];
     $sreassigned = $_POST['reassigned'];
 
+    // Calculate asset quantity
+
+
     $sSQL = "UPDATE assets SET asset_name = '" . $sasset_name . "', asset_make  = '" . $sasset_make . "' , asset_quantity = '".$sasset_quantity."',   asset_condition = '" . $sasset_condition . "', asset_category = '" . $sasset_category . "' , asset_description = '" . $sasset_description . "', asset_file = '" . $basset_file . "', purchase_date = '" . $spurchase_date . "'
         WHERE asset_id = '$asset_id' LIMIT 1 ";
 

@@ -74,7 +74,7 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
     <div class="box-header">
         <h3 class="box-title"><?= gettext('Add New Category') ?></h3>
     </div>
-    <div class="container mt-3 mb-3">
+    <!-- <div class="container mt-3 mb-3">
         <div class="row">
             <div class="col-md-4">
                 <div class="card mx-auto" style="width: 100%; height: 100%;">
@@ -85,11 +85,11 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
             </div>
 
         </div>
-    </div>
+    </div> -->
 
     <!-- Add Asset category modal -->
 
-    <!-- Modal -->
+    <!-- Modal
     <div class="modal fade" id="form_categories" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -123,7 +123,7 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- end of add asset category modal -->
 
@@ -171,10 +171,12 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
                     <td><?php echo $row['categoryID'] ?></td>
                     <td><?php echo $row['categoryName'] ?></td>
                     <td>
-                        <a href="asset_category.php?edit=<?php echo $row['categoryID']; ?>" class="btn btn-primary"
-                            name="edit">Edit</a>
+                        <a href="AssetCategory.php?edit=<?php echo $row['categoryID']; ?>" class="btn btn-primary"
+                            name="edit">
+                            <span class="fa fa-edit"></span>
+                        </a>
 
-                        <form style="display:inline-block" name="DeleteCategory" action="asset_category.php"
+                        <form style="display:inline-block" name="DeleteCategory" action="AssetCategory.php"
                             method="POST">
                             <input type="hidden" name="categoryID" value="<?= $row['categoryID']; ?>">
                             <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip

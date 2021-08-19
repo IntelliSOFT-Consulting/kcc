@@ -14,10 +14,9 @@ $sPageTitle = gettext('Asset Assignment list');
 require 'Include/Header.php';
 
 // Display List
-$sSQL = "SELECT * from asset_assignment WHERE assign_deleted= 'False'";
+$sSQL = "SELECT asset_assignment.assignment_id, asset_assignment.asset_id, asset_assignment.assigned_to, asset_assignment.assigned_by, asset_assignment.assign_date, asset_assignment.return_date, assets.asset_id, assets.asset_name FROM assets, asset_assignment WHERE asset_assignment.asset_id=assets.asset_id AND assign_deleted= 'FALSE' ";
 $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
-
 
 //Delete assets
 if(isset($_GET['delete'])){
@@ -27,6 +26,13 @@ if(isset($_GET['delete'])){
 
 //Execute the SQL
 RunQuery($sSQL);
+
+// Capture asset return
+// if (isset($_GET[""])) {
+//     $sSQL = "UPDATE asset_assignment SET returned = 'TRUE' WHERE assignment_id='$assignment_id'";
+//     $result = RunQuery($sSQL);
+
+// }
 
 ?>
 
@@ -61,7 +67,8 @@ RunQuery($sSQL);
                         <a href="AssetsAssignList.php?delete=<?php echo $row['assignment_id']; ?>"
                             class="btn btn-danger" name="delete">Delete</a>
                         <a href="#" data-toggle="modal" data-target="#return_assets" class="btn btn-primary">Return </a>
-
+                        <a href="AssetHistory.php?history=<?php echo $row['asset_id']; ?>" class="btn btn-success"
+                            name="history">History</a>
                     </td>
                 </tr>
                 <?php } ?>

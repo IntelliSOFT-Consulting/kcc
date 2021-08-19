@@ -19,26 +19,22 @@ if (!AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
 require 'Include/Header.php';
 
 //Get asset ID from the query string
-if (array_key_exists('asset_id', $_GET)) {
-    $asset_id = InputUtils::LegacyFilterInput($_GET['asset_id'], 'int');
-} else {
-    $asset_id = 0;
-}
-
-//Get asset ID from the query string
 if (array_key_exists('assignment_id', $_GET)) {
     $assignment_id  = InputUtils::LegacyFilterInput($_GET['assignment_id'], 'int');
 } else {
     $assignment_id = 0;
 }
 
+if(isset($_GET['assign'])) {
+    $asset_id = $_GET['assign'];
+}
 
 //Add fields
 if (isset($_POST['Assign'])) {
-    $sasset_name = InputUtils::LegacyFilterInput($_POST['asset_name']);
+    $asset_id = InputUtils::LegacyFilterInput($_POST['asset_id']);
     $sassigned_to = InputUtils::LegacyFilterInput($_POST['assigned_to']);
     $sassigned_by = InputUtils::LegacyFilterInput($_POST['assigned_by']);
-    $sasset_description = InputUtils::LegacyFilterInput($_POST['asset_description']);
+    $sasset_condition = InputUtils::LegacyFilterInput($_POST['asset_condition']);
     $sassign_date = InputUtils::LegacyFilterInput($_POST['assign_date']);
     $sassign_date = str_replace('/', '-', $sassign_date);
     $sassign_date = date('Y-m-d', strtotime($sassign_date));
@@ -50,16 +46,15 @@ if (isset($_POST['Assign'])) {
 
     //New asset assign
     if ($assignment_id == 0) {
-        $sSQL = "INSERT INTO asset_assignment(asset_name, assigned_to, assigned_by, asset_description, assign_date, return_date)
-                VALUES('" . $sasset_name . "', '" . $sassigned_to . "', '" . $sassigned_by . "', '" . $sasset_description . "', '" . $sassign_date . "', '" . $sreturn_date . "')";
+        $sSQL = "INSERT INTO asset_assignment(asset_id, assigned_to, assigned_by, asset_condition, assign_date, return_date)
+                VALUES('". $asset_id ."', '" . $sassigned_to . "', '" . $sassigned_by . "', '" . $sasset_condition . "', '" . $sassign_date . "', '" . $sreturn_date . "')";
     }
 
     //Execute the SQL
-    RunQuery($sSQL);
-
+    $result = RunQuery($sSQL);
+    
 } 
 ?>
-
 
 
 <div id="assignasset">
@@ -74,21 +69,17 @@ if (isset($_POST['Assign'])) {
                     <div class="row">
                         <div class="col-md-6">
                             <label for="Asset Name"><?= gettext('Asset Name') ?>:</label>
-                            <select name='asset_name' id="asset_name" value="<?php echo $row['asset_name'] ?>"
+                            <select name='asset_id' id="asset_id" value="<?php echo $row['asset_id'] ?>"
                                 class='form-control'>
                                 <option><?= gettext('Select Asset Name'); ?></option>
 
                                 <?php
-                                    if (isset($_GET['assign'])) {
-                                        $asset_id = $_GET['assign'];
-
-                                        $sSQL = "SELECT * FROM assets WHERE asset_id='$asset_id'";
+                                        $sSQL = "SELECT asset_name FROM assets WHERE asset_id='$asset_id'";
                                         $rsasset_name = RunQuery($sSQL);
                                         while ($aRow = mysqli_fetch_array($rsasset_name)) {
                                         extract($aRow);
-                                        echo "<option value='" . $asset_name . "' >" . $asset_name . '</option>';
+                                        echo "<option value='" . $asset_id . "' >" . $asset_name . '</option>';
                                         }                             
-                                    }
                                 ?>
 
                             </select>
@@ -139,9 +130,9 @@ if (isset($_POST['Assign'])) {
 
                     <div class="row pb-3">
                         <div class="col-md-6">
-                            <label for="Asset Description"><?= gettext('Asset Description') ?>:</label>
-                            <textarea name="asset_description" id="asset_description" placeholder="Asset Description"
-                                value="<?= htmlentities(stripslashes($sasset_description), ENT_NOQUOTES, 'UTF-8') ?>"
+                            <label for="Asset condition"><?= gettext('Asset condition') ?>:</label>
+                            <textarea name="asset_condition" id="asset_condition" placeholder="Asset condition"
+                                value="<?= htmlentities(stripslashes($sasset_condition), ENT_NOQUOTES, 'UTF-8') ?>"
                                 class="form-control"></textarea>
                         </div>
                     </div>
