@@ -8,147 +8,165 @@ use ChurchCRM\Authentication\AuthenticationManager;
 ///////////////////////
 require 'Include/Header.php';
 
-// Get the categoryID out of the querystring
-if (array_key_exists('categoryID', $_GET)) {
-    $categoryID = InputUtils::LegacyFilterInput($_GET['categoryID'], 'int');
+// Get the category_id out of the querystring
+if (array_key_exists('category_id', $_GET)) {
+    $category_id = InputUtils::LegacyFilterInput($_GET['category_id'], 'int');
 } else {
-    $categoryID = 0;
+    $category_id = 0;
 }
 
 
 //Add a category
 if (isset($_POST['AddCategory'])) {
-    $scategoryName = InputUtils::LegacyFilterInput($_POST['categoryName']);
+    $scategory_name = InputUtils::LegacyFilterInput($_POST['category_name']);
 
-    if ($categoryID == 0) {
-        $sSQL = "INSERT INTO asset_category (categoryName)
-                VALUES('" . $scategoryName . "')";
+    if ($category_id == 0) {
+        $sSQL = "INSERT INTO asset_category (category_name)
+                VALUES('" . $scategory_name . "')";
     }
 
     //Execute the SQL
     RunQuery($sSQL);
 
 } elseif (isset($_GET['edit'])) {
-    $categoryID = $_GET['edit'];
+    $category_id = $_GET['edit'];
 
-    $sSQL = "SELECT * FROM asset_category where categoryID='$categoryID'";
+    $sSQL = "SELECT * FROM asset_category where category_id='$category_id'";
     $result = RunQuery($sSQL);
 
     $row = mysqli_fetch_array($result);
     extract($row);
 
-    $scategoryName = $categoryName;
+    $scategory_name = $category_name;
     
 } elseif (isset($_POST['Update'])) {
-    $categoryID = InputUtils::LegacyFilterInput($_POST['categoryID'], 'int');
+    $category_id = InputUtils::LegacyFilterInput($_POST['category_id'], 'int');
 
-    $scategoryName = $_POST['categoryName'];
+    $scategory_name = $_POST['category_name'];
 
-    $sSQL = "UPDATE asset_category SET categoryName = '" . $scategoryName . "'
-            WHERE categoryID = '$categoryID' LIMIT 1 ";
+    $sSQL = "UPDATE asset_category SET category_name = '" . $scategory_name . "'
+            WHERE category_id = '$category_id' LIMIT 1 ";
 
     RunQuery($sSQL);
 }
 
 
 // display a list of all categories
-$sSQL = "SELECT * from asset_category WHERE categoryDeleted='False'";
+$sSQL = "SELECT * from asset_category WHERE category_deleted='False'";
 $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
 //Delete one category 
 
-if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
-    $categoryID = InputUtils::LegacyFilterInput($_POST['categoryID'], 'int');
+if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
+    $category_id = InputUtils::LegacyFilterInput($_POST['category_id'], 'int');
     $action = InputUtils::LegacyFilterInput($_POST['Action']);
 
-    if ($action == 'Delete' && $categoryID) {
-        $sSQL = "UPDATE asset_category SET categoryDeleted = 'True' WHERE categoryID='$categoryID'  LIMIT 1";
+    if ($action == 'Delete' && $category_id) {
+        $sSQL = "UPDATE asset_category SET category_deleted = 'True' WHERE category_id='$category_id'  LIMIT 1";
         RunQuery($sSQL);
     }
 }
 ?>
 
-<!-- form for adding categories -->
+
+<!-- Add button modal -->
 <div class="box box-warning clearfix">
     <div class="box-header">
         <h3 class="box-title"><?= gettext('Add New Category') ?></h3>
     </div>
-    <!-- <div class="container mt-3 mb-3">
+
+    <div class="container mt-3 mb-3">
         <div class="row">
             <div class="col-md-4">
                 <div class="card mx-auto" style="width: 100%; height: 100%;">
                     <div class=" card-body">
-                        <a href="#" data-toggle="modal" data-target="#form_categories" class="btn btn-primary">Add </a>
+                        <a href="#" data-toggle="modal" data-target="#form_categories" class="btn btn-primary"><span
+                                class="glyphicon glyphicon-plus pr-2"></span>Add </a>
                     </div>
                 </div>
             </div>
 
         </div>
-    </div> -->
-
-    <!-- Add Asset category modal -->
-
-    <!-- Modal
-    <div class="modal fade" id="form_categories" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post" action="asset_category.php" id="form_category" onsubmit="return false">
-                        <input type="hidden" name="categoryID" value="<?= ($categoryID) ?>">
-                        <div class="form-group">
-                            <label>Category Name</label>
-                            <input type="text" name="categoryName" id="categoryName"
-                                value="<?= htmlentities(stripslashes($scategoryName), ENT_NOQUOTES, 'UTF-8') ?>"
-                                class="form-control" placeholder="Category Name">
-                            <small id="cat_error" class="form-text text-muted"></small>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" id="addCategory" value="<?= gettext('Save') ?>"
-                            name="AddCategory">Add</button>
-                        <button type="submit" class="btn btn-primary" value=<?= gettext("Update") ?>
-                            name="Update">Update</button>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    <!-- end of add asset category modal -->
-
-    <form method="post" action="asset_category.php">
-        <input type="hidden" name="categoryID" value="<?= ($categoryID) ?>">
-
-        <div class="row">
-            <div class="col-md-4 ml-3">
-                <label><?= gettext('Add a Category') ?>:</label>
-                <input type="text" name="categoryName" id="categoryName"
-                    value="<?= htmlentities(stripslashes($scategoryName), ENT_NOQUOTES, 'UTF-8') ?>"
-                    class="form-control">
-                <input type="submit" class="btn btn-primary mt-3" id="addCategory" value="<?= gettext('Save') ?>"
-                    name="AddCategory">
-                <input type="submit" class="btn btn-primary mt-3" value=<?= gettext("Update") ?> name="Update">
-            </div>
-        </div>
-
-        <p />
-
-    </form>
+    </div>
 
 </div>
 
 
+<!-- Add Asset category modal -->
+
+<div class="modal fade" id="form_categories" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="AssetCategory.php" id="Modal_form_category">
+                    <!-- <input type="hidden" name="category_id" value="<?= ($category_id) ?>"> -->
+                    <div class="form-group">
+                        <label>Category Name</label>
+                        <input type="text" name="category_name" id="category_name"
+                            value="<?= htmlentities(stripslashes($scategory_name), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control" placeholder="Category Name">
+                        <small id="cat_error" class="form-text text-muted"></small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="addCategory" value="<?= gettext('Save') ?>"
+                        name="AddCategory">Add</button>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end of add asset category modal -->
+
+
+<!-- edit Asset category modal -->
+
+<div class="modal fade" id="editCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="AssetCategory.php" id="Modal_form_category">
+                    <input type="hidden" name="category_id" id="category_id" value="<?= ($category_id) ?>">
+                    <div class="form-group">
+                        <label>Category Name</label>
+                        <input type="text" name="category_name" id="category_name"
+                            value="<?= htmlentities(stripslashes($scategory_name), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control" placeholder="Category Name">
+                        <small id="cat_error" class="form-text text-muted"></small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" value=<?= gettext("Update") ?>
+                        name="Update">Update</button>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end of edit asset category modal -->
 
 <!-- HTML TABLE -->
 <div class="box box-warning">
@@ -168,20 +186,19 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
                 while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                 <tr>
-                    <td><?php echo $row['categoryID'] ?></td>
-                    <td><?php echo $row['categoryName'] ?></td>
+                    <td><?php echo $row['category_id'] ?></td>
+                    <td><?php echo $row['category_name'] ?></td>
                     <td>
-                        <a href="AssetCategory.php?edit=<?php echo $row['categoryID']; ?>" class="btn btn-primary"
-                            name="edit">
-                            <span class="fa fa-edit"></span>
-                        </a>
+
+                        <a href="#" data-toggle="modal" data-target="#editCategory" class="btn btn-primary"
+                            id="editbtn"><i class="fa fa-pencil"></i> </a>
 
                         <form style="display:inline-block" name="DeleteCategory" action="AssetCategory.php"
                             method="POST">
-                            <input type="hidden" name="categoryID" value="<?= $row['categoryID']; ?>">
+                            <input type="hidden" name="category_id" value="<?= $row['category_id']; ?>">
                             <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip
                                 value="Delete" class="btn btn-danger"
-                                onClick="return confirm('Are you sure you want to DELETE Category ID: <?= $row['categoryID']; ?>')">
+                                onClick="return confirm('Are you sure you want to DELETE Category ID: <?= $row['category_id']; ?>')">
                                 <i class='fa fa-trash'></i>
                             </button>
                         </form>
@@ -198,3 +215,25 @@ if (isset($_POST['Action']) && isset($_POST['categoryID']) && AuthenticationMana
 <?php
 require 'Include/Footer.php'
 ?>
+
+<!-- edit code in jquery -->
+<script>
+$(document).ready(function() {
+    $('#editbtn').on('click', function() {
+
+        $('#editmodal').modal('show');
+
+        $tr = $(this).closest('tr');
+
+        var data = $tr.children('td').map(function() {
+            return $(this).text();
+        }).get();
+
+        console.log(data);
+
+        $('#category_id').val(data[0]);
+        $('#categoty_name').val(data[1]);
+
+    })
+})
+</script>

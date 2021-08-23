@@ -11,48 +11,48 @@ $sPageTitle = gettext('Asset Location');
 
 require 'Include/Header.php';
 
-// Get the locationID out of the querystring
-if (array_key_exists('locationID', $_GET)) {
-    $locationID = InputUtils::LegacyFilterInput($_GET['locationID'], 'int');
+// Get the location_id out of the querystring
+if (array_key_exists('location_id', $_GET)) {
+    $location_id = InputUtils::LegacyFilterInput($_GET['location_id'], 'int');
 } else {
-    $locationID = 0;
+    $location_id = 0;
 }
 
 
 //Add a location
 if (isset($_POST['AddLocation'])) {
-    $slocation = InputUtils::LegacyFilterInput($_POST['location']);
-    $slocationCode = InputUtils::LegacyFilterInput($_POST['locationCode']);
+    $slocation_name = InputUtils::LegacyFilterInput($_POST['location_name']);
+    $slocation_code = InputUtils::LegacyFilterInput($_POST['location_code']);
 
 
-    if ($locationID == 0) {
-        $sSQL = "INSERT INTO asset_location (location, locationCode)
-                VALUES('" . $slocation . "', '" . $slocationCode . "')";
+    if ($location_id == 0) {
+        $sSQL = "INSERT INTO asset_location (location_name, location_code)
+                VALUES('" . $slocation_name . "', '" . $slocation_code . "')";
     }
     
     //Execute the SQL
     RunQuery($sSQL);
 
 } elseif (isset($_GET['edit'])) {
-    $locationID = $_GET['edit'];
+    $location_id = $_GET['edit'];
 
-    $sSQL = "SELECT * FROM asset_location where locationID='$locationID'";
+    $sSQL = "SELECT * FROM asset_location where location_id='$location_id'";
     $result = RunQuery($sSQL);
 
     $row = mysqli_fetch_array($result);
     extract($row);
 
-    $slocation = $location;
-    $slocationCode = $locationCode;
+    $slocation_name = $location_name;
+    $slocation_code = $location_code;
 
 } elseif (isset($_POST['Update'])) {
-    $locationID = InputUtils::LegacyFilterInput($_POST['locationID'], 'int');
+    $location_id = InputUtils::LegacyFilterInput($_POST['location_id'], 'int');
 
-    $slocation = $_POST['location'];
-    $slocationCode = $_POST['locationCode'];
+    $slocation_name = $_POST['location_name'];
+    $slocation_code = $_POST['location_code'];
 
-    $sSQL = "UPDATE asset_location SET location = '" . $slocation . "', locationCode = '" . $slocationCode . "'
-    WHERE locationID = '$locationID' LIMIT 1 ";
+    $sSQL = "UPDATE asset_location SET location_name = '" . $slocation_name . "', location_code = '" . $slocation_code . "'
+    WHERE location_id = '$location_id' LIMIT 1 ";
 
     RunQuery($sSQL);
     
@@ -60,18 +60,18 @@ if (isset($_POST['AddLocation'])) {
 
 
 // display a list of all categories
-$sSQL = "SELECT * from asset_location WHERE locationDeleted='False'";
+$sSQL = "SELECT * from asset_location WHERE location_deleted='False'";
 $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
 //Delete one location 
 
-if (isset($_POST['Action']) && isset($_POST['locationID']) && AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
-    $locationID = InputUtils::LegacyFilterInput($_POST['locationID'], 'int');
+if (isset($_POST['Action']) && isset($_POST['location_id']) && AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
+    $location_id = InputUtils::LegacyFilterInput($_POST['location_id'], 'int');
     $action = InputUtils::LegacyFilterInput($_POST['Action']);
 
-    if ($action == 'Delete' && $locationID) {
-        $sSQL = "UPDATE asset_location SET locationDeleted = 'True' WHERE locationID='$locationID'  LIMIT 1";
+    if ($action == 'Delete' && $location_id) {
+        $sSQL = "UPDATE asset_location SET location_deleted = 'True' WHERE location_id='$location_id'  LIMIT 1";
 
         RunQuery($sSQL);
     }
@@ -86,24 +86,29 @@ if (isset($_POST['Action']) && isset($_POST['locationID']) && AuthenticationMana
     </div>
 
     <form method="post" action="Assetlocation.php">
-        <input type="hidden" name="locationID" value="<?= ($locationID) ?>">
+        <input type="hidden" name="location_id" value="<?= ($location_id) ?>">
 
         <div class="row">
             <div class="col-md-4 ml-3">
                 <label><?= gettext('Location') ?>:</label>
-                <input type="text" name="location" id="location" value="<?= htmlentities(stripslashes($slocation), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                <input type="text" name="location_name" id="location_name"
+                    value="<?= htmlentities(stripslashes($slocation_name), ENT_NOQUOTES, 'UTF-8') ?>"
+                    class="form-control">
             </div>
 
             <div class="col-md-4 ml-3">
                 <label><?= gettext('Location Code') ?>:</label>
-                <input type="text" name="locationCode" id="locationCode" value="<?= htmlentities(stripslashes($slocationCode), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                <input type="text" name="location_code" id="location_code"
+                    value="<?= htmlentities(stripslashes($slocation_code), ENT_NOQUOTES, 'UTF-8') ?>"
+                    class="form-control">
             </div>
 
         </div>
 
         <div class="ml-5">
-            <input type="submit" class="btn btn-primary mt-3" id="AddLocation" value="<?= gettext('Save') ?>" name="AddLocation">
-            <input type="submit" class="btn btn-primary mt-3" value=<?= gettext("Update") ?> name="Update">
+            <input type="submit" class="btn btn-primary mt-3" id="AddLocation" value="<?= gettext('Save') ?>"
+                name="AddLocation">
+            <input type="submit" class="btn btn-primary mt-3" value="<?= gettext('Update') ?>" name="Update">
         </div>
 
 
@@ -133,22 +138,26 @@ if (isset($_POST['Action']) && isset($_POST['locationID']) && AuthenticationMana
                 <?php
                 while ($row = mysqli_fetch_assoc($result)) {
                 ?>
-                    <tr>
-                        <td><?php echo $row['locationID'] ?></td>
-                        <td><?php echo $row['location'] ?></td>
-                        <td><?php echo $row['locationCode'] ?></td>
+                <tr>
+                    <td><?php echo $row['location_id'] ?></td>
+                    <td><?php echo $row['location_name'] ?></td>
+                    <td><?php echo $row['location_code'] ?></td>
 
-                        <td>
-                            <a href="Assetlocation.php?edit=<?php echo $row['locationID']; ?>" class="btn btn-primary" name="edit">Edit</a>
+                    <td>
+                        <a href="AssetLocation.php?edit=<?php echo $row['location_id']; ?>" class="btn btn-primary"
+                            name="edit"><i class='fa fa-pencil'></i></a>
 
-                            <form style="display:inline-block" name="Deletelocation" action="Assetlocation.php" method="POST">
-                                <input type="hidden" name="locationID" value="<?= $row['locationID']; ?>">
-                                <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip value="Delete" class="btn btn-danger" onClick="return confirm('Are you sure you want to DELETE location ID: <?= $row['locationID']; ?>')">
-                                    <i class='fa fa-trash'></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
+                        <form style="display:inline-block" name="Deletelocation" action="AssetLocation.php"
+                            method="POST">
+                            <input type="hidden" name="location_id" value="<?= $row['location_id']; ?>">
+                            <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip
+                                value="Delete" class="btn btn-danger"
+                                onClick="return confirm('Are you sure you want to DELETE location ID: <?= $row['location_id']; ?>')">
+                                <i class='fa fa-trash'></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
                 <?php } ?>
 
             </tbody>
@@ -159,4 +168,4 @@ if (isset($_POST['Action']) && isset($_POST['locationID']) && AuthenticationMana
 
 <?php
 require 'Include/Footer.php'
-?>
+?>x

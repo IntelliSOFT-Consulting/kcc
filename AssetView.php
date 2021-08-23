@@ -29,7 +29,7 @@ if (isset($_GET['view'])) {
     extract($row);
 
     $sasset_name = $asset_name;
-    $smake = $make;
+    $sasset_make = $asset_make;
     $squantity = $quantity;
     $sasset_condition = $asset_condition;
     $sasset_category =  $asset_category;
@@ -49,11 +49,11 @@ if (isset($_GET['view'])) {
         <!-- <img src="uploads/<?= ($bassetImage) ?>" style="width:200px; height:200px;" class="img-fluid img-thumbnail" /> -->
 
         <p class=" text-left p-2">
-            Asset Make: <?= ($smake) ?>
+            Asset Make: <?= ($sasset_make) ?>
         </p>
 
         <p class=" text-left p-2">
-            Asset Quantity: <?= ($squantity) ?>
+            Asset Quantity: <?= ($sasset_quantity) ?>
         </p>
 
         <p class=" text-left p-2">

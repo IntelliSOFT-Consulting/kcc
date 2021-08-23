@@ -18,12 +18,6 @@ if (!AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
 require 'Include/Header.php';
 
 // Get the assetID out of the querystring
-if (array_key_exists('assetID', $_GET)) {
-    $assetID = InputUtils::LegacyFilterInput($_GET['assetID'], 'int');
-} else {
-    $assetID = 0;
-}
-
 if(isset($_GET['inventory'])) {
     $asset_id = $_GET['inventory'];
 }
@@ -114,7 +108,7 @@ if (isset($_POST['SaveInventory'])) {
                                         echo "<option value='" . $asset_id . "' >" . $asset_name . '</option>';
                                         }                         
                                     
-                                ?>
+                            ?>
 
                         </select>
                     </div>
@@ -210,7 +204,8 @@ if (isset($_POST['SaveInventory'])) {
             <?php if (AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
                 echo '<input type="submit" class="btn btn-primary" value="' . gettext('Update') . '" name="Update">';
             } ?>
-            <a href="InventoryList.php" class="btn btn-primary" value="<?= gettext('Go to Inventory List') ?>">Go to
+            <a href="AssetInventoryList.php" class="btn btn-primary" value="<?= gettext('Go to Inventory List') ?>">Go
+                to
                 Inventory
                 List</a>
         </div>

@@ -28,11 +28,13 @@ if(isset($_GET['delete'])){
 RunQuery($sSQL);
 
 // Capture asset return
-// if (isset($_GET[""])) {
-//     $sSQL = "UPDATE asset_assignment SET returned = 'TRUE' WHERE assignment_id='$assignment_id'";
-//     $result = RunQuery($sSQL);
+if (isset($_POST["returnAsset"])) {
+    $sreturn_date = $_POST['return_date'];
 
-// }
+    $sSQL = "UPDATE asset_assignment SET returned = 'TRUE' WHERE assignment_id='$assignment_id'";
+    $result = RunQuery($sSQL);
+
+}
 
 ?>
 
@@ -52,12 +54,11 @@ RunQuery($sSQL);
 
                 </tr>
             </thead>
-            <tbody>
-                <!--Populate the table with asset details -->
+            <tbody id="return-asset">
                 <?php       
-        while($row = mysqli_fetch_assoc($result)){
-       ?>
-                <tr>
+                    while($row = mysqli_fetch_assoc($result)){
+                ?>
+                <tr data-item="<?php echo $row['asset_id']?>">
                     <td><?php echo $row['asset_name'] ?></td>
                     <td><?php echo $row['assigned_to'] ?></td>
                     <td><?php echo $row['assigned_by'] ?></td>
@@ -77,6 +78,7 @@ RunQuery($sSQL);
     </div>
 </div>
 
+
 <!-- Modal -->
 <div class="modal" tabindex="-1" role="dialog" id="return_assets">
     <div class="modal-dialog" role="document">
@@ -88,13 +90,15 @@ RunQuery($sSQL);
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="modal_form" method="POST" action="AssetsAssignList.php">
                     <div class="form-group">
                         <label>Return Date</label>
                         <input type="date" class="form-control" id="return_date" required>
                         <small id="date_error" class="form-text text-muted"></small>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <!--Give  modal value of asset_id-->
+                    <!-- <input type="hidden" name="asset_id" id="modal_assetID"> -->
+                    <button type="submit" class="btn btn-primary" name="returnAsset">Submit</button>
                 </form>
             </div>
             <div class="modal-footer">

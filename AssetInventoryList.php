@@ -9,11 +9,16 @@ use ChurchCRM\Authentication\AuthenticationManager;
 require 'Include/Header.php';
 
 // display all assets
-$sSQL = "SELECT * from asset_inventory WHERE inventory_deleted='False'";
+$sSQL = "SELECT asset_inventory.*, assets.asset_name 
+        FROM asset_inventory 
+        JOIN assets 
+        WHERE asset_inventory.asset_id = assets.asset_id
+        AND inventory_deleted='False'";
+        
 $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
-
+// Delete an asset
 if (isset($_POST['Action']) && isset($_POST['inventory_id']) && AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
   $inventory_id = InputUtils::LegacyFilterInput($_POST['inventory_id'], 'int');
   $action = InputUtils::LegacyFilterInput($_POST['Action']);
@@ -32,7 +37,7 @@ if (isset($_POST['Action']) && isset($_POST['inventory_id']) && AuthenticationMa
         <table id="inventoryList" class='table data-table table-striped table-bordered table-responsive'>
             <thead>
                 <tr>
-                    <th><?= gettext('Name') ?></th>
+                    <th><?= gettext('Asset Name') ?></th>
                     <th><?= gettext('Serial Number') ?></th>
                     <th><?= gettext('Quantity') ?></th>
                     <th><?= gettext('Unit Cost') ?></th>
@@ -60,7 +65,7 @@ if (isset($_POST['Action']) && isset($_POST['inventory_id']) && AuthenticationMa
                     <td>
 
                         <a href="AssetInventoryEditor.php?edit=<?php echo $row['inventory_id']; ?>" class="btn btn-info"
-                            name="edit"><span class="fa fa-edit"></span></a>
+                            name="edit"><span class="fa fa-pencil"></span></a>
 
                         <form style="display:inline-block" name="DeleteInventory" action="AssetInventoryList.php"
                             method="POST">

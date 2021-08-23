@@ -21,7 +21,6 @@ if(isset($_GET['history'])){
     FROM assets, asset_assignment 
     WHERE assets.asset_id='$asset_id'
     AND assign_deleted= 'FALSE' 
-    -- AND returned = 'TRUE'
     ";
 
     $result = RunQuery($sSQL);

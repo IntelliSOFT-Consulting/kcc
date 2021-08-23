@@ -85,7 +85,6 @@ if (isset($_POST['SaveAsset'])) {
     RunQuery($sSQL);
 }
 
-
 ?>
 
 <form method="post" action="AssetsEditor.php" name="AssetEditor" enctype="multipart/form-data">
@@ -102,7 +101,7 @@ if (isset($_POST['SaveAsset'])) {
                         <label for="Asset Name"><?= gettext('Asset Name') ?>:</label>
                         <input type="text" name="asset_name" id="asset_name" value="<?= ($sasset_name) ?>"
                             placeholder="<?= htmlentities(stripslashes($sasset_name), ENT_NOQUOTES, 'UTF-8') ?>"
-                            class="form-control">
+                            class="form-control" required>
                     </div>
                 </div>
                 <p />
@@ -112,7 +111,7 @@ if (isset($_POST['SaveAsset'])) {
                         <label for="Asset Make"><?= gettext('Asset Make') ?>:</label>
                         <input type="text" name="asset_make" id="asset_make" value="<?= ($sasset_make) ?>"
                             placeholder="<?= htmlentities(stripslashes($sasset_make), ENT_NOQUOTES, 'UTF-8') ?>"
-                            class="form-control">
+                            class="form-control" required>
                     </div>
                 </div>
                 <p />
@@ -123,7 +122,7 @@ if (isset($_POST['SaveAsset'])) {
                         <input type="text" name="asset_condition" id="asset_condition"
                             value="<?= ($sasset_condition) ?>"
                             placeholder="<?= htmlentities(stripslashes($sasset_condition), ENT_NOQUOTES, 'UTF-8') ?>"
-                            class="form-control">
+                            class="form-control" required>
                     </div>
                 </div>
                 <p />
@@ -147,11 +146,11 @@ if (isset($_POST['SaveAsset'])) {
                             <option><?= gettext('Select Category'); ?></option>
                             <?php
 
-                            $sSQL = "SELECT * FROM asset_category WHERE categoryDeleted='False'";
+                            $sSQL = "SELECT * FROM asset_category WHERE category_deleted='False'";
                             $rsasset_category = RunQuery($sSQL);
                             while ($aRow = mysqli_fetch_array($rsasset_category)) {
                                 extract($aRow);
-                                echo "<option value='" . $categoryName . "' >" . $categoryName . '</option>';
+                                echo "<option value='" . $category_name . "' >" . $category_name . '</option>';
                             } ?>
                         </select>
 
@@ -174,7 +173,7 @@ if (isset($_POST['SaveAsset'])) {
                         <label for="Purchase Date"><?= gettext('Purchase Date') ?>:</label>
                         <input type="date" name="purchase_date" id="purchase_date" value="<?= ($spurchase_date) ?>"
                             placeholder="<?= htmlentities(stripslashes($spurchase_date), ENT_NOQUOTES, 'UTF-8') ?>"
-                            class="form-control">
+                            class="form-control" required>
                     </div>
                 </div>
                 <p />

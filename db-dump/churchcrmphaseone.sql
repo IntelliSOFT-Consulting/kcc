@@ -56,17 +56,17 @@ INSERT INTO `assets` (`asset_id`, `asset_name`, `make`, `asset_condition`, `asse
 
 DROP TABLE IF EXISTS `asset_category`;
 CREATE TABLE IF NOT EXISTS `asset_category` (
-  `categoryID` int(50) NOT NULL AUTO_INCREMENT,
-  `categoryName` varchar(50) NOT NULL,
-  `categoryDeleted` enum('False','True') NOT NULL,
-  PRIMARY KEY (`categoryID`)
+  `category_id` int(50) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(50) NOT NULL,
+  `category_deleted` enum('False','True') NOT NULL,
+  PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `asset_category`
 --
 
-INSERT INTO `asset_category` (`categoryID`, `categoryName`, `categoryDeleted`) VALUES
+INSERT INTO `asset_category` (`category_id`, `category_name`, `category_deleted`) VALUES
 (1, 'Powerful guitar', 'False'),
 (2, 'Bass guitar', 'False'),
 (5, 'Bass Amplifier', 'False');
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `asset_inventory` (
   `quantity` int(50) NOT NULL,
   `unitCost` varchar(50) NOT NULL,
   `totalCost` varchar(50) NOT NULL,
-  `locationCode` varchar(70) NOT NULL,
+  `location_code` varchar(70) NOT NULL,
   `movementType` enum('Incoming','Outgoing') NOT NULL,
   `movementComment` mediumtext NOT NULL,
   `inventoryDeleted` enum('False','True') NOT NULL,
@@ -99,18 +99,18 @@ CREATE TABLE IF NOT EXISTS `asset_inventory` (
 
 DROP TABLE IF EXISTS `asset_location`;
 CREATE TABLE IF NOT EXISTS `asset_location` (
-  `locationID` int(50) NOT NULL AUTO_INCREMENT,
+  `location_id` int(50) NOT NULL AUTO_INCREMENT,
   `location` varchar(70) NOT NULL,
-  `locationCode` varchar(50) NOT NULL,
+  `location_code` varchar(50) NOT NULL,
   `locationDeleted` enum('False','True') NOT NULL,
-  PRIMARY KEY (`locationID`)
+  PRIMARY KEY (`location_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `asset_location`
 --
 
-INSERT INTO `asset_location` (`locationID`, `location`, `locationCode`, `locationDeleted`) VALUES
+INSERT INTO `asset_location` (`location_id`, `location`, `location_code`, `locationDeleted`) VALUES
 (5, 'Senior Pastor Office', 'KCC/SNP', 'False'),
 (7, 'Youth Office', 'KCC/YTH', 'False');
 
@@ -1878,7 +1878,7 @@ INSERT INTO `sermon` (`serviceTypes`) VALUES
 
 DROP TABLE IF EXISTS `sermoncategory`;
 CREATE TABLE IF NOT EXISTS `sermoncategory` (
-  `categoryID` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `categoryType` varchar(50) NOT NULL,
   PRIMARY KEY (`categoryID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
