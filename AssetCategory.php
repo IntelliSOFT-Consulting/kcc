@@ -133,7 +133,7 @@ if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationMan
 
 <!-- edit Asset category modal -->
 
-<div class="modal fade" id="editCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -144,7 +144,7 @@ if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationMan
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="AssetCategory.php" id="Modal_form_category">
+                <form method="POST" action="AssetCategory.php">
                     <input type="hidden" name="category_id" id="category_id" value="<?= ($category_id) ?>">
                     <div class="form-group">
                         <label>Category Name</label>
@@ -190,8 +190,9 @@ if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationMan
                     <td><?php echo $row['category_name'] ?></td>
                     <td>
 
-                        <a href="#" data-toggle="modal" data-target="#editCategory" class="btn btn-primary"
-                            id="editbtn"><i class="fa fa-pencil"></i> </a>
+                        <a href="AssetCategory.php?edit=<?php echo $row['category_id_id']; ?>" data-toggle="modal"
+                            data-target="#editCategory" class="btn btn-primary" name="edit" id="editbtn"><i
+                                class="fa fa-pencil"></i> </a>
 
                         <form style="display:inline-block" name="DeleteCategory" action="AssetCategory.php"
                             method="POST">
@@ -234,6 +235,6 @@ $(document).ready(function() {
         $('#category_id').val(data[0]);
         $('#categoty_name').val(data[1]);
 
-    })
-})
+    });
+});
 </script>
