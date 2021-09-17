@@ -29,23 +29,23 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `assets`;
 CREATE TABLE IF NOT EXISTS `assets` (
-  `assetID` int(11) NOT NULL AUTO_INCREMENT,
-  `assetName` varchar(50) NOT NULL,
+  `asset_id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_name` varchar(50) NOT NULL,
   `make` varchar(50) NOT NULL,
-  `assetCondition` varchar(20) NOT NULL,
-  `assetDescription` longtext NOT NULL,
-  `assetCategory` varchar(20) NOT NULL,
-  `assetFile` blob NOT NULL,
-  `purchaseDate` varchar(30) NOT NULL,
-  `assetDeleted` enum('False','True') NOT NULL,
-  PRIMARY KEY (`assetID`)
+  `asset_condition` varchar(20) NOT NULL,
+  `asset_description` longtext NOT NULL,
+  `asset_category` varchar(20) NOT NULL,
+  `asset_file` blob NOT NULL,
+  `purchase_date` varchar(30) NOT NULL,
+  `asset_deleted` enum('False','True') NOT NULL,
+  PRIMARY KEY (`asset_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `assets`
 --
 
-INSERT INTO `assets` (`assetID`, `assetName`, `make`, `assetCondition`, `assetDescription`, `assetCategory`, `assetFile`, `purchaseDate`, `assetDeleted`) VALUES
+INSERT INTO `assets` (`asset_id`, `asset_name`, `make`, `asset_condition`, `asset_description`, `asset_category`, `asset_file`, `purchase_date`, `asset_deleted`) VALUES
 (174, 'Bass Amplifier', 'CRATE BX160', 'New', 'New Amplifier', 'Bass Amplifier', '', '2021-05-09', 'False');
 
 -- --------------------------------------------------------
@@ -56,17 +56,17 @@ INSERT INTO `assets` (`assetID`, `assetName`, `make`, `assetCondition`, `assetDe
 
 DROP TABLE IF EXISTS `asset_category`;
 CREATE TABLE IF NOT EXISTS `asset_category` (
-  `categoryID` int(50) NOT NULL AUTO_INCREMENT,
-  `categoryName` varchar(50) NOT NULL,
-  `categoryDeleted` enum('False','True') NOT NULL,
-  PRIMARY KEY (`categoryID`)
+  `category_id` int(50) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(50) NOT NULL,
+  `category_deleted` enum('False','True') NOT NULL,
+  PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `asset_category`
 --
 
-INSERT INTO `asset_category` (`categoryID`, `categoryName`, `categoryDeleted`) VALUES
+INSERT INTO `asset_category` (`category_id`, `category_name`, `category_deleted`) VALUES
 (1, 'Powerful guitar', 'False'),
 (2, 'Bass guitar', 'False'),
 (5, 'Bass Amplifier', 'False');
@@ -79,16 +79,16 @@ INSERT INTO `asset_category` (`categoryID`, `categoryName`, `categoryDeleted`) V
 
 DROP TABLE IF EXISTS `asset_inventory`;
 CREATE TABLE IF NOT EXISTS `asset_inventory` (
-  `assetID` int(50) NOT NULL,
+  `asset_id` int(50) NOT NULL,
   `serialNumber` varchar(50) NOT NULL,
   `quantity` int(50) NOT NULL,
   `unitCost` varchar(50) NOT NULL,
   `totalCost` varchar(50) NOT NULL,
-  `locationCode` varchar(70) NOT NULL,
+  `location_code` varchar(70) NOT NULL,
   `movementType` enum('Incoming','Outgoing') NOT NULL,
   `movementComment` mediumtext NOT NULL,
   `inventoryDeleted` enum('False','True') NOT NULL,
-  KEY `assetID` (`assetID`)
+  KEY `asset_id` (`asset_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -99,18 +99,18 @@ CREATE TABLE IF NOT EXISTS `asset_inventory` (
 
 DROP TABLE IF EXISTS `asset_location`;
 CREATE TABLE IF NOT EXISTS `asset_location` (
-  `locationID` int(50) NOT NULL AUTO_INCREMENT,
+  `location_id` int(50) NOT NULL AUTO_INCREMENT,
   `location` varchar(70) NOT NULL,
-  `locationCode` varchar(50) NOT NULL,
+  `location_code` varchar(50) NOT NULL,
   `locationDeleted` enum('False','True') NOT NULL,
-  PRIMARY KEY (`locationID`)
+  PRIMARY KEY (`location_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `asset_location`
 --
 
-INSERT INTO `asset_location` (`locationID`, `location`, `locationCode`, `locationDeleted`) VALUES
+INSERT INTO `asset_location` (`location_id`, `location`, `location_code`, `locationDeleted`) VALUES
 (5, 'Senior Pastor Office', 'KCC/SNP', 'False'),
 (7, 'Youth Office', 'KCC/YTH', 'False');
 
@@ -1878,7 +1878,7 @@ INSERT INTO `sermon` (`serviceTypes`) VALUES
 
 DROP TABLE IF EXISTS `sermoncategory`;
 CREATE TABLE IF NOT EXISTS `sermoncategory` (
-  `categoryID` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `categoryType` varchar(50) NOT NULL,
   PRIMARY KEY (`categoryID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
@@ -2125,7 +2125,7 @@ CREATE TABLE IF NOT EXISTS `whycame_why` (
 -- Constraints for table `asset_inventory`
 --
 ALTER TABLE `asset_inventory`
-  ADD CONSTRAINT `assetID` FOREIGN KEY (`assetID`) REFERENCES `assets` (`assetID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `asset_id` FOREIGN KEY (`asset_id`) REFERENCES `assets` (`asset_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

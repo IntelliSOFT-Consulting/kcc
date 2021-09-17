@@ -23,7 +23,7 @@ require_once 'Header-Security.php';
     <!-- jQuery JS -->
     <script src="<?= SystemURLs::getRootPath() ?>/skin/external/jquery/jquery.min.js"></script>
 
-    <title>ChurchCRM: <?= $sPageTitle ?></title>
+    <title>KCC: <?= $sPageTitle ?></title>
 
 </head>
 <body class="hold-transition login-page">
