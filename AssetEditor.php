@@ -35,7 +35,6 @@ if (isset($_POST['AssetSubmit']) || isset($_POST['AssetSubmitAndAdd'])) {
     $sassetDescription = InputUtils::LegacyFilterInput($_POST['assetDescription']);
     $sassetCategory= InputUtils::LegacyFilterInput($_POST['assetCategory']);
     $bassetImage = InputUtils::LegacyFilterInput($_POST['assetImage']);
-    // $dpurchaseDate = InputUtils::LegacyFilterInput($_POST['purchaseDate']);
    $dpurchaseDate2 = date('Y-m-d h:i:s', strtotime($dpurchaseDate));
 }
 
@@ -52,7 +51,9 @@ if (isset($_POST['AssetSubmit']) || isset($_POST['AssetSubmitAndAdd'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Name"><?= gettext('Asset Name') ?>:</label>
-                        <input type="text" name="assetName" id="assetName" value="<?= htmlentities(stripslashes($sassetName), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="assetName" id="assetName"
+                            value="<?= htmlentities(stripslashes($sassetName), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -60,7 +61,9 @@ if (isset($_POST['AssetSubmit']) || isset($_POST['AssetSubmitAndAdd'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Serial Number"><?= gettext('Serial Number') ?>:</label>
-                        <input type="text" name="serialNumber" id="serialNumber" value="<?= htmlentities(stripslashes($sserialNumber), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="serialNumber" id="serialNumber"
+                            value="<?= htmlentities(stripslashes($sserialNumber), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -68,7 +71,9 @@ if (isset($_POST['AssetSubmit']) || isset($_POST['AssetSubmitAndAdd'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Condition"><?= gettext('Asset Condition') ?>:</label>
-                        <input type="text" name="assetCondition" id="assetCondition" value="<?= htmlentities(stripslashes($iassetCondition), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="assetCondition" id="assetCondition"
+                            value="<?= htmlentities(stripslashes($iassetCondition), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -76,7 +81,9 @@ if (isset($_POST['AssetSubmit']) || isset($_POST['AssetSubmitAndAdd'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Description"><?= gettext('Asset Description') ?>:</label>
-                        <input type="text" name="assetDescription" id="assetDescription" value="<?= htmlentities(stripslashes($sassetDescription), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="assetDescription" id="assetDescription"
+                            value="<?= htmlentities(stripslashes($sassetDescription), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -84,7 +91,9 @@ if (isset($_POST['AssetSubmit']) || isset($_POST['AssetSubmitAndAdd'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Category"><?= gettext('Asset Category') ?>:</label>
-                        <input type="text" name="assetCategory" id="assetCategory" value="<?= htmlentities(stripslashes($sassetCategory), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="text" name="assetCategory" id="assetCategory"
+                            value="<?= htmlentities(stripslashes($sassetCategory), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -92,7 +101,9 @@ if (isset($_POST['AssetSubmit']) || isset($_POST['AssetSubmitAndAdd'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Image"><?= gettext('Asset Image') ?>:</label>
-                        <input type="file" name="assetImage" id="assetImage" value="<?= htmlentities(stripslashes($bassetImage), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="file" name="assetImage" id="assetImage"
+                            value="<?= htmlentities(stripslashes($bassetImage), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
@@ -100,13 +111,16 @@ if (isset($_POST['AssetSubmit']) || isset($_POST['AssetSubmitAndAdd'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Purchase Date"><?= gettext('Purchase Date') ?>:</label>
-                        <input type="date" name="purchaseDate" id="purchaseDate" value="<?= htmlentities(stripslashes($dpurchaseDate), ENT_NOQUOTES, 'UTF-8') ?>" class="form-control">
+                        <input type="date" name="purchaseDate" id="purchaseDate"
+                            value="<?= htmlentities(stripslashes($dpurchaseDate), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
                     </div>
                 </div>
                 <p />
 
             </div>
-            <input type="submit" class="btn btn-primary" id="AssetSaveButton" value="<?= gettext('Save') ?>" name="AssetSubmit">
+            <input type="submit" class="btn btn-primary" id="AssetSaveButton" value="<?= gettext('Save') ?>"
+                name="AssetSubmit">
             <?php if (AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
                     echo '<input type="submit" class="btn btn-primary" value="' . gettext('Save and Add') . '" name="AssetSubmitAndAdd">';
                 } ?>
