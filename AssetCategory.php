@@ -107,7 +107,6 @@ if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationMan
             </div>
             <div class="modal-body">
                 <form method="POST" action="AssetCategory.php" id="Modal_form_category">
-                    <!-- <input type="hidden" name="category_id" value="<?= ($category_id) ?>"> -->
                     <div class="form-group">
                         <label>Category Name</label>
                         <input type="text" name="category_name" id="category_name"
@@ -129,7 +128,6 @@ if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationMan
 </div>
 
 <!-- end of add asset category modal -->
-
 
 <!-- edit Asset category modal -->
 

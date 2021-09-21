@@ -28,7 +28,6 @@ if (array_key_exists('asset_id', $_GET)) {
 if (isset($_POST['SaveAsset'])) {
     $sasset_name = InputUtils::LegacyFilterInput($_POST['asset_name']);
     $sasset_make  = InputUtils::LegacyFilterInput($_POST['asset_make']);
-    $sasset_quantity  = InputUtils::LegacyFilterInput($_POST['asset_quantity']);
     $sasset_condition = InputUtils::LegacyFilterInput($_POST['asset_condition']);
     $sasset_description = InputUtils::LegacyFilterInput($_POST['asset_description']);
     $sasset_category = InputUtils::LegacyFilterInput($_POST['asset_category']);
@@ -39,8 +38,8 @@ if (isset($_POST['SaveAsset'])) {
 
     //New asset add
     if ($asset_id == 0) {
-        $sSQL = "INSERT INTO assets(asset_name, asset_make, asset_quantity, asset_condition, asset_description, asset_category, asset_file, purchase_date)
-            VALUES('" . $sasset_name . "', '" . $sasset_make  . "', '".$sasset_quantity."', '" . $sasset_condition . "', '" . $sasset_description . "', '" . $sasset_category . "', '" . $basset_file . "', '" . $spurchase_date . "')";
+        $sSQL = "INSERT INTO assets(asset_name, asset_make, asset_condition, asset_description, asset_category, asset_file, purchase_date)
+            VALUES('" . $sasset_name . "', '" . $sasset_make  . "', '" . $sasset_condition . "', '" . $sasset_description . "', '" . $sasset_category . "', '" . $basset_file . "', '" . $spurchase_date . "')";
     }
 
     //Execute the SQL
@@ -57,7 +56,6 @@ if (isset($_POST['SaveAsset'])) {
 
     $sasset_name = $asset_name;
     $sasset_make  = $asset_make;
-    $sasset_quantity  = $asset_quantity ;
     $sasset_condition = $asset_condition;
     $sasset_category =  $asset_category;
     $sasset_description = $asset_description;
@@ -68,7 +66,6 @@ if (isset($_POST['SaveAsset'])) {
     $asset_id = InputUtils::LegacyFilterInput($_POST['asset_id'], 'int');
     $sasset_name = $_POST['asset_name'];
     $sasset_make  = $_POST['asset_make'];
-    $sasset_quantity  = $_POST['asset_quantity'];
     $sasset_condition = $_POST['asset_condition'];
     $sasset_description = $_POST['asset_description'];
     $sasset_category =  $_POST['asset_category'];
@@ -79,7 +76,7 @@ if (isset($_POST['SaveAsset'])) {
     // Calculate asset quantity
 
 
-    $sSQL = "UPDATE assets SET asset_name = '" . $sasset_name . "', asset_make  = '" . $sasset_make . "' , asset_quantity = '".$sasset_quantity."',   asset_condition = '" . $sasset_condition . "', asset_category = '" . $sasset_category . "' , asset_description = '" . $sasset_description . "', asset_file = '" . $basset_file . "', purchase_date = '" . $spurchase_date . "'
+    $sSQL = "UPDATE assets SET asset_name = '" . $sasset_name . "', asset_make  = '" . $sasset_make . "' , asset_condition = '" . $sasset_condition . "', asset_category = '" . $sasset_category . "' , asset_description = '" . $sasset_description . "', asset_file = '" . $basset_file . "', purchase_date = '" . $spurchase_date . "'
         WHERE asset_id = '$asset_id' LIMIT 1 ";
 
     RunQuery($sSQL);
