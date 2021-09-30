@@ -62,7 +62,7 @@ if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationMan
     $category_id = InputUtils::LegacyFilterInput($_POST['category_id'], 'int');
     $action = InputUtils::LegacyFilterInput($_POST['Action']);
 
-    if ($action == 'Delete' && $category_id) {
+    if ($action == 'Delete') {
         $sSQL = "UPDATE asset_category SET category_deleted = 'True' WHERE category_id='$category_id'  LIMIT 1";
         RunQuery($sSQL);
     }
