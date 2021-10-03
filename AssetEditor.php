@@ -84,67 +84,64 @@ if (isset($_POST['SaveAsset'])) {
 
 ?>
 
-<<<<<<< HEAD <form method="post" action="AssetsEditor.php" name="AssetEditor" enctype="multipart/form-data">
-    =======
-    <form method="post" action="AssetEditor.php" name="AssetEditor" enctype="multipart/form-data">
-        >>>>>>> LilianMathu-addAssets
-        <input type="hidden" name="asset_id" value="<?= ($asset_id) ?>">
-        <div class="box box-info clearfix">
-            <div class="box-header">
-                <h3 class="box-title"><?= gettext('Add Assets') ?></h3>
-            </div>
+<form method="post" action="AssetEditor.php" name="AssetEditor" enctype="multipart/form-data">
+    <input type="hidden" name="asset_id" value="<?= ($asset_id) ?>">
+    <div class="box box-info clearfix">
+        <div class="box-header">
+            <h3 class="box-title"><?= gettext('Add Assets') ?></h3>
+        </div>
 
-            <div class="box-body">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="Asset Name"><?= gettext('Asset Name') ?>:</label>
-                            <input type="text" name="asset_name" id="asset_name" value="<?= ($sasset_name) ?>"
-                                placeholder="<?= htmlentities(stripslashes($sasset_name), ENT_NOQUOTES, 'UTF-8') ?>"
-                                class="form-control" required>
-                        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="Asset Name"><?= gettext('Asset Name') ?>:</label>
+                        <input type="text" name="asset_name" id="asset_name" value="<?= ($sasset_name) ?>"
+                            placeholder="<?= htmlentities(stripslashes($sasset_name), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control" required>
                     </div>
-                    <p />
+                </div>
+                <p />
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="Asset Make"><?= gettext('Asset Make') ?>:</label>
-                            <input type="text" name="asset_make" id="asset_make" value="<?= ($sasset_make) ?>"
-                                placeholder="<?= htmlentities(stripslashes($sasset_make), ENT_NOQUOTES, 'UTF-8') ?>"
-                                class="form-control" required>
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="Asset Make"><?= gettext('Asset Make') ?>:</label>
+                        <input type="text" name="asset_make" id="asset_make" value="<?= ($sasset_make) ?>"
+                            placeholder="<?= htmlentities(stripslashes($sasset_make), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control" required>
                     </div>
-                    <p />
+                </div>
+                <p />
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="Asset Condition"><?= gettext('Asset Condition') ?>:</label>
-                            <input type="text" name="asset_condition" id="asset_condition"
-                                value="<?= ($sasset_condition) ?>"
-                                placeholder="<?= htmlentities(stripslashes($sasset_condition), ENT_NOQUOTES, 'UTF-8') ?>"
-                                class="form-control" required>
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="Asset Condition"><?= gettext('Asset Condition') ?>:</label>
+                        <input type="text" name="asset_condition" id="asset_condition"
+                            value="<?= ($sasset_condition) ?>"
+                            placeholder="<?= htmlentities(stripslashes($sasset_condition), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control" required>
                     </div>
-                    <p />
+                </div>
+                <p />
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="Asset Description"><?= gettext('Asset Description') ?>:</label>
-                            <textarea type="text" name="asset_description" id="asset_description"
-                                value="<?= ($sasset_description) ?>"
-                                placeholder="<?= htmlentities(stripslashes($sasset_description), ENT_NOQUOTES, 'UTF-8') ?>"
-                                class="form-control"></textarea>
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="Asset Description"><?= gettext('Asset Description') ?>:</label>
+                        <textarea type="text" name="asset_description" id="asset_description"
+                            value="<?= ($sasset_description) ?>"
+                            placeholder="<?= htmlentities(stripslashes($sasset_description), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control"></textarea>
                     </div>
-                    <p />
+                </div>
+                <p />
 
-                    <div class="row pb-3 ">
-                        <div class="col-md-6">
-                            <label for="Asset Category"><?= gettext('Asset Category') ?>:</label>
-                            <select name='asset_category' id="asset_category"
-                                value="<?php echo $row['asset_category'] ?>" class='form-control'>
-                                <option><?= gettext('Select Category'); ?></option>
-                                <?php
+                <div class="row pb-3 ">
+                    <div class="col-md-6">
+                        <label for="Asset Category"><?= gettext('Asset Category') ?>:</label>
+                        <select name='asset_category' id="asset_category" value="<?php echo $row['asset_category'] ?>"
+                            class='form-control'>
+                            <option><?= gettext('Select Category'); ?></option>
+                            <?php
 
                             $sSQL = "SELECT * FROM asset_category WHERE category_deleted='False'";
                             $rsasset_category = RunQuery($sSQL);
@@ -152,42 +149,42 @@ if (isset($_POST['SaveAsset'])) {
                                 extract($aRow);
                                 echo "<option value='" . $category_name . "' >" . $category_name . '</option>';
                             } ?>
-                            </select>
+                        </select>
 
-                        </div>
                     </div>
-                    <p />
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="Asset Files"><?= gettext('Asset Files') ?>:</label>
-                            <input type="file" name="asset_file" id="asset_files" value="<?= ($basset_file) ?>"
-                                placeholder="<?= htmlentities(stripslashes($basset_file), ENT_NOQUOTES, 'UTF-8') ?>"
-                                class="form-control">
-                        </div>
-                    </div>
-                    <p />
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="Purchase Date"><?= gettext('Purchase Date') ?>:</label>
-                            <input type="date" name="purchase_date" id="purchase_date" value="<?= ($spurchase_date) ?>"
-                                placeholder="<?= htmlentities(stripslashes($spurchase_date), ENT_NOQUOTES, 'UTF-8') ?>"
-                                class="form-control" required>
-                        </div>
-                    </div>
-                    <p />
-
                 </div>
+                <p />
 
-                <input type="submit" class="btn btn-primary" id="save" value="Save" name="SaveAsset">
-                <?php if (AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
-                echo '<input type="submit" class="btn btn-primary" value="' . gettext('Update') . '" name="Update">';
-            } ?>
-                <a href="AssetList.php" class="btn btn-primary" value="<?= gettext('Go to Asset List') ?>">Go to Asset
-                    List</a>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="Asset Files"><?= gettext('Asset Files') ?>:</label>
+                        <input type="file" name="asset_file" id="asset_files" value="<?= ($basset_file) ?>"
+                            placeholder="<?= htmlentities(stripslashes($basset_file), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control">
+                    </div>
+                </div>
+                <p />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="Purchase Date"><?= gettext('Purchase Date') ?>:</label>
+                        <input type="date" name="purchase_date" id="purchase_date" value="<?= ($spurchase_date) ?>"
+                            placeholder="<?= htmlentities(stripslashes($spurchase_date), ENT_NOQUOTES, 'UTF-8') ?>"
+                            class="form-control" required>
+                    </div>
+                </div>
+                <p />
+
             </div>
 
-    </form>
+            <input type="submit" class="btn btn-primary" id="save" value="Save" name="SaveAsset">
+            <?php if (AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
+                echo '<input type="submit" class="btn btn-primary" value="' . gettext('Update') . '" name="Update">';
+            } ?>
+            <a href="AssetList.php" class="btn btn-primary" value="<?= gettext('Go to Asset List') ?>">Go to Asset
+                List</a>
+        </div>
 
-    <?php require 'Include/Footer.php' ?>
+</form>
+
+<?php require 'Include/Footer.php' ?>
