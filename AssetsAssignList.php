@@ -29,7 +29,6 @@ RunQuery($sSQL);
 
 // Capture asset return
 if (isset($_POST["returnAsset"])) {
-    
     $sreturn_date = $_POST['return_date'];
 
     $sSQL = "UPDATE asset_assignment SET returned = 'TRUE' WHERE assignment_id='$assignment_id'";
@@ -94,9 +93,11 @@ if (isset($_POST["returnAsset"])) {
                 <form id="modal_form" method="POST" action="AssetsAssignList.php">
                     <div class="form-group">
                         <label>Return Date</label>
-                        <input type="date" class="form-control" name="return_date" id="return_date" required>
+                        <input type="date" class="form-control" id="return_date" required>
                         <small id="date_error" class="form-text text-muted"></small>
                     </div>
+                    <!--Give  modal value of asset_id-->
+                    <!-- <input type="hidden" name="asset_id" id="modal_assetID"> -->
                     <button type="submit" class="btn btn-primary" name="returnAsset">Submit</button>
                 </form>
             </div>

@@ -37,7 +37,7 @@ if (isset($_POST['SaveInventory'])) {
     //New asset add
     if ($inventory_id == 0) {
         $sSQL = "INSERT INTO asset_inventory(asset_id, serial_number, asset_quantity, unit_cost, total_cost, location_code, movement_type, movement_comment)
-            VALUES('" . $asset_id . "', '" . $sserial_number  . "', '".$iasset_quantity."', '" . $iunit_cost . "', '" . $calculated_cost . "', '" . $slocation_code . "', '" . $smovement_type . "', '".$smovement_comment."')";
+            VALUES('" . $asset_id . "', '" . $sserial_number  . "', '".$iasset_quantity."', '" . $iunit_cost . "', '" . $calculated_cost . "', '" . $slocation_code . "', '" . $smovement_type . "', '".$movement_comment."')";
     }
 
     //Execute the SQL
