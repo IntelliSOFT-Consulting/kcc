@@ -54,7 +54,7 @@ class Menu
         $assetsManagementMenu = new MenuItem(gettext("Assets Management"), "", true, "fa-bank");
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Category"), "AssetCategory.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset Location"), "AssetLocation.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
-        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Add new assets"), "AssetsEditor.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
+        $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Add new assets"), "AssetEditor.php", AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Asset List"), "AssetList.php"));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Inventory List"), "AssetInventoryList.php"));
         $assetsManagementMenu->addSubMenu(new MenuItem(gettext("Issuance List"), "AssetsAssignList.php"));

@@ -58,6 +58,9 @@ if (isset($_POST['Action']) && isset($_POST['asset_id']) && AuthenticationManage
 
                         <form style="display:inline-block" name="DeleteAsset" action="AssetList.php" method="POST">
                             <input type="hidden" name="asset_id" value="<?= $row['asset_id']; ?>">
+                            <a href="AssetEditor.php?edit=<?php echo $row['asset_id']; ?>" class="btn btn-primary"
+                                name="edit"><span class="fa fa-pencil"></span></a>
+
                             <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip
                                 value="Delete" class="btn btn-danger"
                                 onClick="return confirm('Deleting an asset will also delete all assignments for that asset.  Are you sure you want to DELETE asset ID: <?= $row['asset_id']; ?>')">
