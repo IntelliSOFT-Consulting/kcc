@@ -57,15 +57,11 @@ $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
 //Delete one category 
-
-if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
-    $category_id = InputUtils::LegacyFilterInput($_POST['category_id'], 'int');
-    $action = InputUtils::LegacyFilterInput($_POST['Action']);
-
-    if ($action == 'Delete') {
-        $sSQL = "UPDATE asset_category SET category_deleted = 'True' WHERE category_id='$category_id'  LIMIT 1";
-        RunQuery($sSQL);
-    }
+if (isset($_GET['delete'])) {
+    $category_id = $_GET['delete'];
+    $sSQL = "UPDATE asset_category SET category_deleted = 'True' WHERE category_id='$category_id'  LIMIT 1";
+    RunQuery($sSQL);
+    header("Location: AssetCategory.php");
 }
 ?>
 
@@ -190,19 +186,13 @@ if (isset($_POST['Action']) && isset($_POST['category_id']) && AuthenticationMan
                     <td><?php echo $row['category_name'] ?></td>
                     <td>
 
-                        <a href="AssetCategory.php?edit=<?php echo $row['category_id_id']; ?>" data-toggle="modal"
+                        <a href="AssetCategory.php?edit=<?php echo $row['category_id']; ?>" data-toggle="modal"
                             data-target="#editCategory" class="btn btn-primary" name="edit" id="editbtn"><i
                                 class="fa fa-pencil"></i> </a>
-
-                        <form style="display:inline-block" name="DeleteCategory" action="AssetCategory.php"
-                            method="POST">
-                            <input type="hidden" name="category_id" value="<?= $row['category_id']; ?>">
-                            <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip
-                                value="Delete" class="btn btn-danger"
-                                onClick="return confirm('Are you sure you want to DELETE Category ID: <?= $row['category_id']; ?>')">
-                                <i class='fa fa-trash'></i>
-                            </button>
-                        </form>
+                        <a href="AssetCategory.php?delete=<?php echo $row['category_id']; ?>" class="btn btn-danger"
+                            name="DeleteCategory" id="delete"
+                            onClick="return confirm('Sure you want to delete this category? This cannot be undone later.')">
+                            <i class="fa fa-trash"></i> </a>
                     </td>
                 </tr>
                 <?php } ?>

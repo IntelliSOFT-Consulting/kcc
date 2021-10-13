@@ -65,16 +65,12 @@ $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
 //Delete one location 
+if (isset($_GET['delete'])) {
+    $location_id = $_GET['delete'];
 
-if (isset($_POST['Action']) && isset($_POST['location_id']) && AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
-    $location_id = InputUtils::LegacyFilterInput($_POST['location_id'], 'int');
-    $action = InputUtils::LegacyFilterInput($_POST['Action']);
-
-    if ($action == 'Delete' && $location_id) {
-        $sSQL = "UPDATE asset_location SET location_deleted = 'True' WHERE location_id='$location_id'  LIMIT 1";
-
-        RunQuery($sSQL);
-    }
+    $sSQL = "UPDATE asset_location SET location_deleted = 'True' WHERE location_id='$location_id'  LIMIT 1";
+    RunQuery($sSQL);
+    header("Location: AssetLocation.php");
 }
 ?>
 
@@ -147,15 +143,10 @@ if (isset($_POST['Action']) && isset($_POST['location_id']) && AuthenticationMan
                         <a href="AssetLocation.php?edit=<?php echo $row['location_id']; ?>" class="btn btn-primary"
                             name="edit"><i class='fa fa-pencil'></i></a>
 
-                        <form style="display:inline-block" name="Deletelocation" action="AssetLocation.php"
-                            method="POST">
-                            <input type="hidden" name="location_id" value="<?= $row['location_id']; ?>">
-                            <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip
-                                value="Delete" class="btn btn-danger"
-                                onClick="return confirm('Are you sure you want to DELETE location ID: <?= $row['location_id']; ?>')">
-                                <i class='fa fa-trash'></i>
-                            </button>
-                        </form>
+                        <a href="AssetLocation.php?delete=<?php echo $row['location_id']; ?>" class="btn btn-danger"
+                            name="delete" id="delete"
+                            onClick="return confirm('Sure you want to delete this location? This cannot be undone later.')">
+                            <i class="fa fa-trash"></i> </a>
                     </td>
                 </tr>
                 <?php } ?>
@@ -168,4 +159,4 @@ if (isset($_POST['Action']) && isset($_POST['location_id']) && AuthenticationMan
 
 <?php
 require 'Include/Footer.php'
-?>x
+?>

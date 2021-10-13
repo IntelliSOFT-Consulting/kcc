@@ -2,13 +2,10 @@
 require 'Include/Config.php';
 require 'Include/Functions.php';
 
-use ChurchCRM\Utils\InputUtils;
-use ChurchCRM\Authentication\AuthenticationManager;
-
 ///////////////////////
 require 'Include/Header.php';
 
-// display all assets
+// display all assets in inventory
 $sSQL = "SELECT asset_inventory.*, assets.asset_name 
         FROM asset_inventory 
         JOIN assets 
@@ -18,17 +15,14 @@ $sSQL = "SELECT asset_inventory.*, assets.asset_name
 $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
-// Delete an asset
-if (isset($_POST['Action']) && isset($_POST['inventory_id']) && AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
-  $inventory_id = InputUtils::LegacyFilterInput($_POST['inventory_id'], 'int');
-  $action = InputUtils::LegacyFilterInput($_POST['Action']);
-
-  if ($action == 'Delete' && $inventory_id) {
-    $sSQL = "UPDATE asset_inventory SET inventory_deleted = 'True' WHERE inventory_id='$inventory_id'  LIMIT 1";
-    RunQuery($sSQL);    
-  } 
- 
+// Delete an asset in inventory
+if(isset($_GET['delete'])){
+  $inventory_id = $_GET['delete'];
+  $sSQL = "UPDATE asset_inventory SET inventory_deleted = 'True' WHERE inventory_id='$inventory_id'  LIMIT 1";
+    RunQuery($sSQL);
+    header("Location: AssetInventoryList.php");
 }
+
 ?>
 
 <!-- HTML TABLE -->
@@ -66,16 +60,11 @@ if (isset($_POST['Action']) && isset($_POST['inventory_id']) && AuthenticationMa
 
                         <a href="AssetInventoryEditor.php?edit=<?php echo $row['inventory_id']; ?>" class="btn btn-info"
                             name="edit"><span class="fa fa-pencil"></span></a>
-
-                        <form style="display:inline-block" name="DeleteInventory" action="AssetInventoryList.php"
-                            method="POST">
-                            <input type="hidden" name="inventory_id" value="<?= $row['inventory_id']; ?>">
-                            <button type="submit" name="Action" title="<?= gettext('Delete') ?>" data-tooltip
-                                value="Delete" class="btn btn-danger"
-                                onClick="return confirm('Deleting an asset in inventory will also delete all assignments for that asset.  Are you sure you want to DELETE asset ID: <?= $row['inventory_id']; ?>')">
-                                <i class='fa fa-trash'></i>
-                            </button>
-                        </form>
+                        <a href="AssetInventoryList.php?delete=<?php echo $row['inventory_id']; ?>"
+                            class="btn btn-danger" name="delete"
+                            onClick="return confirm('Sure you want to delete this inventory? This cannot be undone later.')">
+                            <span class="fa fa-trash"></span>
+                        </a>
 
                     </td>
                 </tr>

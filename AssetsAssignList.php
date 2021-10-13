@@ -20,12 +20,11 @@ $resultCheck = mysqli_num_rows($result);
 
 //Delete assets
 if(isset($_GET['delete'])){
-  $assignment_id = $_GET['delete'];
-  $sSQL = "UPDATE asset_assignment SET assign_deleted = 'TRUE' WHERE assignment_id='$assignment_id'";
+    $assignment_id = $_GET['delete'];
+    $sSQL = "UPDATE asset_assignment SET assign_deleted = 'TRUE' WHERE assignment_id='$assignment_id'";
+    RunQuery($sSQL);
+    header("Location: AssetsAssignList.php");
 }
-
-//Execute the SQL
-RunQuery($sSQL);
 
 // Capture asset return
 if (isset($_POST["returnAsset"])) {
@@ -66,7 +65,9 @@ if (isset($_POST["returnAsset"])) {
                     <td><?php echo $row['return_date'] ?></td>
                     <td>
                         <a href="AssetsAssignList.php?delete=<?php echo $row['assignment_id']; ?>"
-                            class="btn btn-danger" name="delete">Delete</a>
+                            class="btn btn-danger" name="delete"
+                            onClick="return confirm('Sure you want to delete this assignment? This cannot be undone later.')">
+                            Delete</a>
                         <a href="#" data-toggle="modal" data-target="#return_assets" class="btn btn-primary">Return </a>
                         <a href="AssetHistory.php?history=<?php echo $row['asset_id']; ?>" class="btn btn-success"
                             name="history">History</a>
