@@ -401,180 +401,186 @@ if ($sAction == 'Create Event' && !empty($tyid)) {
 ?>
 
 <div class='box'>
-  <div class='box-header'>
-    <h3 class='box-title'>
-      <?= ($EventExists == 0) ? gettext('Create a new Event') : gettext('Editing Event ID: ').$iEventID ?>
-    </h3>
-  </div>
-  <div class='box-header'>
-    <?php
+    <div class='box-header'>
+        <h3 class='box-title'>
+            <?= ($EventExists == 0) ? gettext('Create a new Event') : gettext('Editing Event ID: ').$iEventID ?>
+        </h3>
+    </div>
+    <div class='box-header'>
+        <?php
         if ($iErrors != 0) {
             echo "<div class='alert alert-danger'>".gettext('There were ').$iErrors.gettext(' errors. Please see below').'</div>';
         } else {
             echo '<div>'.gettext('Items with a ').'<span style="color: red">*</span>'.gettext(' are required').'</div>';
         }
         ?>
-  </div>
+    </div>
 
-<form method="post" action="EventEditor.php" name="EventsEditor">
-<input type="hidden" name="EventID" value="<?= ($iEventID) ?>">
-<input type="hidden" name="EventExists" value="<?= $EventExists ?>">
+    <form method="post" action="EventEditor.php" name="EventsEditor">
+        <input type="hidden" name="EventID" value="<?= ($iEventID) ?>">
+        <input type="hidden" name="EventExists" value="<?= $EventExists ?>">
 
-<table class='table'>
-<?php if (empty($iTypeID)) {
+        <table class='table'>
+            <?php if (empty($iTypeID)) {
             ?>
 
-  <tr>
-    <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Type') ?>:</td>
-    <td colspan="3" class="TextColumn">
-      <select name='EN_tyid' class='form-control' id='event_type_id' width='100%' style='width: 100%'>
-        <option><?= gettext('Select your event type'); ?></option>
-        <?php
+            <tr>
+                <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Type') ?>:</td>
+                <td colspan="3" class="TextColumn">
+                    <select name='EN_tyid' class='form-control' id='event_type_id' width='100%' style='width: 100%'>
+                        <option><?= gettext('Select your event type'); ?></option>
+                        <?php
                     $sSQL = 'SELECT * FROM event_types';
             $rsEventTypes = RunQuery($sSQL);
             while ($aRow = mysqli_fetch_array($rsEventTypes)) {
                 extract($aRow);
                 echo "<option value='".$type_id."' >".$type_name.'</option>';
             } ?>
-      </select>
-      <?php if ($bEventTypeError) {
+                    </select>
+                    <?php if ($bEventTypeError) {
                 echo '<div><span style="color: red;">'.gettext('You must pick an event type.').'</span></div>';
             } ?>
-      <script nonce="<?= SystemURLs::getCSPNonce() ?>" >
-        $('#event_type_id').on('change', function(e) {
-          e.preventDefault();
-          document.forms.EventsEditor.submit();
-        });
-      </script>
-    </td>
-  </tr>
+                    <script nonce="<?= SystemURLs::getCSPNonce() ?>">
+                    $('#event_type_id').on('change', function(e) {
+                        e.preventDefault();
+                        document.forms.EventsEditor.submit();
+                    });
+                    </script>
+                </td>
+            </tr>
 
-<?php
+            <?php
         } else { // if (empty($iTypeID))?>
 
-  <tr>
-    <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Type') ?>:</td>
-    <td colspan="3" class="TextColumn">
-    <input type="hidden" name="EventTypeName" value="<?= ($sTypeName) ?>">
-    <input type="hidden" name="EventTypeID" value="<?= ($iTypeID) ?>">
-    <?= ($iTypeID.'-'.$sTypeName) ?>
-    </td>
-  </tr>
+            <tr>
+                <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Type') ?>:</td>
+                <td colspan="3" class="TextColumn">
+                    <input type="hidden" name="EventTypeName" value="<?= ($sTypeName) ?>">
+                    <input type="hidden" name="EventTypeID" value="<?= ($iTypeID) ?>">
+                    <?= ($iTypeID.'-'.$sTypeName) ?>
+                </td>
+            </tr>
 
-  <tr>
-    <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Title') ?>:</td>
-    <td colspan="1" class="TextColumn">
-      <input type="text" name="EventTitle" value="<?= ($sEventTitle) ?>" size="30" maxlength="100" class='form-control' width="100%" style="width: 100%" required>
-    </td>
-  </tr>
-  <tr>
-    <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Desc') ?>:</td>
-    <td colspan="3" class="TextColumn">
-      <textarea name="EventDesc" rows="4" maxlength="100" class='form-control' required width="100%" style="width: 100%"><?= ($sEventDesc) ?></textarea>
-    </td>
-  </tr>
-  <tr>
-    <td class="LabelColumn"><span style="color: red">*</span>
-      <?= gettext('Date Range') ?>:
-    </td>
-    <td class="TextColumn">
-      <input type="text" name="EventDateRange" value=""
-             maxlength="10" id="EventDateRange" size="50" class='form-control' width="100%" style="width: 100%" required>
-    </td>
+            <tr>
+                <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Title') ?>:</td>
+                <td colspan="1" class="TextColumn">
+                    <input type="text" name="EventTitle" value="<?= ($sEventTitle) ?>" size="30" maxlength="100"
+                        class='form-control' width="100%" style="width: 100%" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Desc') ?>:</td>
+                <td colspan="3" class="TextColumn">
+                    <textarea name="EventDesc" rows="4" maxlength="100" class='form-control' required width="100%"
+                        style="width: 100%"><?= ($sEventDesc) ?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="LabelColumn"><span style="color: red">*</span>
+                    <?= gettext('Date Range') ?>:
+                </td>
+                <td class="TextColumn">
+                    <input type="text" name="EventDateRange" value="" maxlength="10" id="EventDateRange" size="50"
+                        class='form-control' width="100%" style="width: 100%" required>
+                </td>
 
-  </tr>
+            </tr>
 
-  <tr>
-    <td class="LabelColumn"><?= gettext('Attendance Counts') ?></td>
-    <td class="TextColumn" colspan="3">
-      <input type="hidden" name="NumAttendCounts" value="<?= $nCnts ?>">
-      <?php
+            <tr>
+                <td class="LabelColumn"><?= gettext('Attendance Counts') ?></td>
+                <td class="TextColumn" colspan="3">
+                    <input type="hidden" name="NumAttendCounts" value="<?= $nCnts ?>">
+                    <?php
       if ($nCnts == 0) {
           echo gettext('No Attendance counts recorded');
       } else {
           ?>
-    <table>
-      <?php
+                    <table>
+                        <?php
       for ($c = 0; $c < $nCnts; $c++) {
           ?><tr>
-          <td><strong><?= (gettext($aCountName[$c]).':') ?>&nbsp;</strong></td>
-        <td>
-        <input type="text" name="EventCount[]" value="<?= ($aCount[$c]) ?>" size="8" class='form-control'>
-        <input type="hidden" name="EventCountID[]" value="<?= ($aCountID[$c]) ?>">
-        <input type="hidden" name="EventCountName[]" value="<?= ($aCountName[$c]) ?>">
-        </td>
-        </tr>
-      <?php
+                            <td><strong><?= (gettext($aCountName[$c]).':') ?>&nbsp;</strong></td>
+                            <td>
+                                <input type="text" name="EventCount[]" value="<?= ($aCount[$c]) ?>" size="8"
+                                    class='form-control'>
+                                <input type="hidden" name="EventCountID[]" value="<?= ($aCountID[$c]) ?>">
+                                <input type="hidden" name="EventCountName[]" value="<?= ($aCountName[$c]) ?>">
+                            </td>
+                        </tr>
+                        <?php
       } //end for loop
       ?>
-      <tr>
-      <td><strong><?= gettext('Attendance Notes: ') ?>&nbsp;</strong></td>
-        <td><input type="text" name="EventCountNotes" value="<?= $sCountNotes ?>" class='form-control'>
-        </td>
-        </tr>
-        </table>
-        <?php
+                        <tr>
+                            <td><strong><?= gettext('Attendance Notes: ') ?>&nbsp;</strong></td>
+                            <td><input type="text" name="EventCountNotes" value="<?= $sCountNotes ?>"
+                                    class='form-control'>
+                            </td>
+                        </tr>
+                    </table>
+                    <?php
       } //endif
         ?>
-    </td>
-  </tr>
+                </td>
+            </tr>
 
-  <tr>
-    <td colspan="4" class="TextColumn"><?= gettext('Event Sermon') ?>:<br>
-    	<textarea id="#EventText" name="EventText" rows="5" cols="70" class='form-control'><?= ($sEventText) ?></textarea>
-    </td>
-  </tr>
+            <tr>
+                <td colspan="4" class="TextColumn"><?= gettext('Event Sermon') ?>:<br>
+                    <textarea id="#EventText" name="EventText" rows="5" cols="70"
+                        class='form-control'><?= ($sEventText) ?></textarea>
+                </td>
+            </tr>
 
-  <tr>
-    <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Status') ?>:</td>
-    <td colspan="3" class="TextColumn">
-      <input type="radio" name="EventStatus" value="0" <?php if ($iEventStatus == 0) {
+            <tr>
+                <td class="LabelColumn"><span style="color: red">*</span><?= gettext('Event Status') ?>:</td>
+                <td colspan="3" class="TextColumn">
+                    <input type="radio" name="EventStatus" value="0" <?php if ($iEventStatus == 0) {
             echo 'checked';
-        } ?>/> <?= _('Active')?>
-      <input type="radio" name="EventStatus" value="1" <?php if ($iEventStatus == 1) {
+        } ?> /> <?= _('Active')?>
+                    <input type="radio" name="EventStatus" value="1" <?php if ($iEventStatus == 1) {
             echo 'checked';
-        } ?>/> <?= _('Inactive')?>
-    </td>
-  </tr>
+        } ?> /> <?= _('Inactive')?>
+                </td>
+            </tr>
 
-  <tr>
-    <td></td>
-    <td><input type="submit" name="SaveChanges" value="<?= gettext('Save Changes') ?>" class="btn btn-primary"></td>
-  </tr>
-<?php
+            <tr>
+                <td></td>
+                <td><input type="submit" name="SaveChanges" value="<?= gettext('Save Changes') ?>"
+                        class="btn btn-primary"></td>
+            </tr>
+            <?php
         } // if (empty($iTypeID))?>
-</table>
-</form>
+        </table>
+    </form>
 </div>
 
 <div>
-  <a href="ListEvents.php" class='btn btn-default'>
-    <i class='fa fa-chevron-left'></i>
-    <?= gettext('Return to Events') ?>
-  </a>
+    <a href="ListEvents.php" class='btn btn-default'>
+        <i class='fa fa-chevron-left'></i>
+        <?= gettext('Return to Events') ?>
+    </a>
 </div>
 <?php
 $eventStart = $sEventStartDate.' '.$iEventStartHour.':'.$iEventStartMins;
 $eventEnd = $sEventEndDate.' '.$iEventEndHour.':'.$iEventEndMins;
 ?>
 <script nonce="<?= SystemURLs::getCSPNonce() ?>">
-    $( document ).ready(function() {
-        var startDate = moment("<?= $eventStart?>", "YYYY-MM-DD h:mm").format("YYYY-MM-DD h:mm A");
-        var endDate = moment("<?= $eventEnd?>", "YYYY-MM-DD h:mm").format("YYYY-MM-DD h:mm A");
-        $('#EventDateRange').val(startDate + " - " + endDate);
-        $('#EventDateRange').daterangepicker({
-            timePicker: true,
-            timePickerIncrement: 30,
-            linkedCalendars: true,
-            showDropdowns: true,
-            locale: {
-                format: 'YYYY-MM-DD h:mm A'
-            },
-            minDate: 1 / 1 / 1900,
-            startDate: startDate,
-            endDate: endDate
-        });
+$(document).ready(function() {
+    var startDate = moment("<?= $eventStart?>", "YYYY-MM-DD h:mm").format("YYYY-MM-DD h:mm A");
+    var endDate = moment("<?= $eventEnd?>", "YYYY-MM-DD h:mm").format("YYYY-MM-DD h:mm A");
+    $('#EventDateRange').val(startDate + " - " + endDate);
+    $('#EventDateRange').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        linkedCalendars: true,
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD h:mm A'
+        },
+        minDate: 1 / 1 / 1900,
+        startDate: startDate,
+        endDate: endDate
     });
+});
 </script>
 
 <?php require 'Include/Footer.php' ?>
@@ -582,9 +588,9 @@ $eventEnd = $sEventEndDate.' '.$iEventEndHour.':'.$iEventEndMins;
 <script src="<?= SystemURLs::getRootPath() ?>/skin/external/ckeditor/ckeditor.js"></script>
 
 <script nonce="<?= SystemURLs::getCSPNonce() ?>">
-  CKEDITOR.replace('EventText',{
+CKEDITOR.replace('EventText', {
     customConfig: '<?= SystemURLs::getRootPath() ?>/skin/js/ckeditor/event_editor_config.js',
-    language : window.CRM.lang,
-    width : '100%'
-  });
+    language: window.CRM.lang,
+    width: '100%'
+});
 </script>
