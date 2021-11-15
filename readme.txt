@@ -1,1 +1,1 @@
-first launch - root/include/config.php - modify these to match your db settings
+first launch - include/config.php - modify these to match your db settings
