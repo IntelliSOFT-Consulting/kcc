@@ -1,0 +1,45 @@
+# This is the developer docker-compose.yml file. You can build and Run ChurchCRM
+# from this file by first filling in your password and db info in the .env
+# file and then running "docker-compose -f docker-compose.develop.yaml build", and
+# "docker-compose -f docker-compose.develop.yaml up" in your terminal.
+version: "3.6"
+services:
+  database:
+    image: mariadb
+    ports:
+      - "3309:3306"
+    env_file:
+      - .env
+    networks:
+      - default
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql 
+      - ~/kcc-mysql-data:/var/lib/mysql
+    restart: always
+
+  webserver:
+    ## Look into: https://hub.docker.com/r/nimmis/apache-php7
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #image: churchcrm/crm:php7.3-debian
+    ports:
+      - "8585:80"
+    volumes:
+      - ./:/var/www/html
+    links:
+      - database
+    env_file:
+      - .env
+    restart: always
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: kcc_admin
+    ports:
+      - 8185:80
+    env_file:
+      - .env
+    environment:
+      UPLOAD_LIMIT: 10000000000
+    networks:
+      - default
