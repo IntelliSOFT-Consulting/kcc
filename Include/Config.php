@@ -8,10 +8,10 @@
  ******************************************************************************/
 
 // Database connection constants
-$sSERVERNAME = 'localhost';
+$sSERVERNAME = 'kcc_database_1';
 $dbPort = '3306';
 $sUSER = 'root';
-$sPASSWORD = '';
+$sPASSWORD = 'changeme';
 $sDATABASE = 'churchcrm';
 #$TwoFASecretKey = 'ChangeThisToASecureRandomStringBeforeUse';
 
@@ -25,7 +25,7 @@ $sDATABASE = 'churchcrm';
 // - the path SHOULD Start with slash, if not ''.
 // - the path SHOULD NOT end with slash.
 // - the is case sensitive.
-$sRootPath = '/kcc';
+$sRootPath = '/';
 
 // Set $bLockURL=TRUE to enforce https access by specifying exactly
 // which URL's your users may use to log into ChurchCRM.
