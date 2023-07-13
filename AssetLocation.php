@@ -60,7 +60,7 @@ if (isset($_POST['AddLocation'])) {
 
 
 // display a list of all categories
-$sSQL = "SELECT * from asset_location WHERE location_deleted='False'";
+$sSQL = "SELECT * from asset_location WHERE locationDeleted='False'";
 $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
@@ -81,7 +81,7 @@ if (isset($_GET['delete'])) {
         <h3 class="box-title"><?= gettext('Add New Location') ?></h3>
     </div>
 
-    <form method="post" action="Assetlocation.php">
+    <form method="post" action="AssetLocation.php">
         <input type="hidden" name="location_id" value="<?= ($location_id) ?>">
 
         <div class="row">
