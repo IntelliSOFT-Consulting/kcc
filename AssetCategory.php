@@ -94,7 +94,7 @@ if (isset($_GET['delete'])) {
 
 <!-- Add Asset category modal -->
 
-<div class="modal fade" id="form_categories" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editCategoryLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -178,31 +178,31 @@ if (isset($_GET['delete'])) {
                     <th><?= gettext('Action ') ?></th>
                 </tr>
             </thead>
-
             <tbody>
-
                 <?php
                 while ($row = mysqli_fetch_assoc($result)) {
                 ?>
-                <tr>
-                    <td><?php echo $row['category_id'] ?></td>
-                    <td><?php echo $row['category_name'] ?></td>
-                    <td>
-
-                        <a href="AssetCategory.php?edit=<?php echo $row['category_id']; ?>" data-toggle="modal"
-                            data-target="#editCategory" class="btn btn-primary" name="edit" id="editbtn"><i
-                                class="fa fa-pencil"></i> </a>
-                        <a href="AssetCategory.php?delete=<?php echo $row['category_id']; ?>" class="btn btn-danger"
-                            name="DeleteCategory" id="delete"
-                            onClick="return confirm('Sure you want to delete this category? This cannot be undone later.')">
-                            <i class="fa fa-trash"></i> </a>
-                    </td>
-                </tr>
-                <?php } ?>
-
+                    <tr>
+                        <td><?php echo $row['category_id'] ?></td>
+                        <td><?php echo $row['category_name'] ?></td>
+                        <td>
+                            <a href="#" data-toggle="modal" data-target="#editCategory"
+                                class="btn btn-primary edit-btn" data-category-id="<?php echo $row['category_id']; ?>"
+                                data-category-name="<?php echo $row['category_name']; ?>">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="AssetCategory.php?delete=<?php echo $row['category_id']; ?>"
+                                class="btn btn-danger" name="DeleteCategory" id="delete"
+                                onClick="return confirm('Sure you want to delete this category? This cannot be undone later.')">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <?php
+                }
+                ?>
             </tbody>
         </table>
-
     </div>
 </div>
 
@@ -213,21 +213,17 @@ require 'Include/Footer.php'
 <!-- edit code in jquery -->
 <script>
 $(document).ready(function() {
-    $('#editbtn').on('click', function() {
+    $('.edit-btn').on('click', function() {
 
         $('#editmodal').modal('show');
 
-        $tr = $(this).closest('tr');
+        var categoryId = $(this).data('category-id');
+        var categoryName = $(this).data('category-name');
 
-        var data = $tr.children('td').map(function() {
-            return $(this).text();
-        }).get();
-
-        console.log(data);
-
-        $('#category_id').val(data[0]);
-        $('#categoty_name').val(data[1]);
+        $('#category_id').val(categoryId);
+        $('#category_name').val(categoryName);
 
     });
 });
+
 </script>
