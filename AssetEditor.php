@@ -27,7 +27,7 @@ if (array_key_exists('asset_id', $_GET)) {
 //DB fields
 if (isset($_POST['SaveAsset'])) {
     $sasset_name = InputUtils::LegacyFilterInput($_POST['asset_name']);
-    $sasset_make  = InputUtils::LegacyFilterInput($_POST['asset_make']);
+    $sasset_make  = InputUtils::LegacyFilterInput($_POST['make']);
     $sasset_condition = InputUtils::LegacyFilterInput($_POST['asset_condition']);
     $sasset_description = InputUtils::LegacyFilterInput($_POST['asset_description']);
     $sasset_category = InputUtils::LegacyFilterInput($_POST['asset_category']);

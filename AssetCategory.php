@@ -8,6 +8,9 @@ use ChurchCRM\Authentication\AuthenticationManager;
 ///////////////////////
 require 'Include/Header.php';
 
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
 // Get the category_id out of the querystring
 if (array_key_exists('category_id', $_GET)) {
     $category_id = InputUtils::LegacyFilterInput($_GET['category_id'], 'int');
