@@ -33,7 +33,7 @@ require(SystemURLs::getDocumentRoot() . "/Include/HeaderNotLoggedIn.php");
             </div>
             <div class="row">
                 <div class="col-xs-12 text-center">
-                    <button type="submit" id="resetPassword" class="btn bg-olive"><?= gettext('Go'); ?></button>
+                    <button type="submit" id="resetPassword" class="btn bg-olive"><?= gettext('Reset'); ?></button>
                 </div>
                 <!-- /.col -->
             </div>
