@@ -15,8 +15,8 @@ require 'Include/Header.php';
 
 // Display List
 $sSQL = "SELECT asset_assignment.assignment_id, asset_assignment.asset_id, asset_assignment.assigned_to, asset_assignment.assigned_by, asset_assignment.assign_date, asset_assignment.return_date, assets.asset_id, assets.asset_name FROM assets, asset_assignment WHERE asset_assignment.asset_id=assets.asset_id AND assign_deleted= 'FALSE' ";
-$result = RunQuery($sSQL);
-$resultCheck = mysqli_num_rows($result);
+// $result = RunQuery($sSQL);
+// $resultCheck = mysqli_num_rows($result);
 
 //Delete assets
 if(isset($_GET['delete'])){

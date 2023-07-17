@@ -68,7 +68,7 @@ $resultCheck = mysqli_num_rows($result);
 if (isset($_GET['delete'])) {
     $location_id = $_GET['delete'];
 
-    $sSQL = "UPDATE asset_location SET location_deleted = 'True' WHERE location_id='$location_id'  LIMIT 1";
+    $sSQL = "UPDATE asset_location SET locationDeleted = 'True' WHERE location_id='$location_id'  LIMIT 1";
     RunQuery($sSQL);
     header("Location: AssetLocation.php");
 }

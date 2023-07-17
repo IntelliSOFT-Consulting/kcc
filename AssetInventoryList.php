@@ -12,8 +12,8 @@ $sSQL = "SELECT asset_inventory.*, assets.asset_name
         WHERE asset_inventory.asset_id = assets.asset_id
         AND inventory_deleted='False'";
         
-$result = RunQuery($sSQL);
-$resultCheck = mysqli_num_rows($result);
+// $result = RunQuery($sSQL);
+// $resultCheck = mysqli_num_rows($result);
 
 // Delete an asset in inventory
 if(isset($_GET['delete'])){
