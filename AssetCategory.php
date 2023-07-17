@@ -94,7 +94,7 @@ if (isset($_GET['delete'])) {
 
 <!-- Add Asset category modal -->
 
-<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editCategoryLabel"
+<div class="modal fade" id="form_categories" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -213,6 +213,7 @@ require 'Include/Footer.php'
 <!-- edit code in jquery -->
 <script>
 $(document).ready(function() {
+
     $('.edit-btn').on('click', function() {
 
         $('#editmodal').modal('show');
