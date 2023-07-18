@@ -63,7 +63,7 @@ elseif (isset($_POST['Update'])) {
 }
 
 // display a list of all categories
-$sSQL = "SELECT * from asset_location WHERE locationDeleted='False'";
+$sSQL = "SELECT * from asset_location WHERE location_deleted='False'";
 $result = RunQuery($sSQL);
 $resultCheck = mysqli_num_rows($result);
 
@@ -71,7 +71,7 @@ $resultCheck = mysqli_num_rows($result);
 if (isset($_GET['delete'])) {
     $location_id = $_GET['delete'];
 
-    $sSQL = "UPDATE asset_location SET locationDeleted = 'True' WHERE location_id='$location_id'  LIMIT 1";
+    $sSQL = "UPDATE asset_location SET location_deleted = 'True' WHERE location_id='$location_id'  LIMIT 1";
     RunQuery($sSQL);
     header("Location: AssetLocation.php");
 }

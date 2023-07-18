@@ -22,7 +22,7 @@ RUN    docker-php-ext-install -j$(nproc) gd
 
 COPY ./apache/default.conf /etc/apache2/apache2.conf
 COPY . /var/www/html/  
-COPY ../logs/* /var/www/html/kcc/
+# COPY ../logs/* /var/www/html/kcc/
 WORKDIR /var/www/html 
 
 RUN a2enmod  rewrite
