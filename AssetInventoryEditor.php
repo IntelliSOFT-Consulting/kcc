@@ -11,8 +11,9 @@ use ChurchCRM\Authentication\AuthenticationManager;
 //Set page title
 $sPageTitle = gettext('Asset Inventory');
 
+
 if (!AuthenticationManager::GetCurrentUser()->isAddRecordsEnabled()) {
-    header('Location: AssetInventory.php');
+    header('Location: AssetInventoryEditor.php');
 }
 
 require 'Include/Header.php';
@@ -37,7 +38,7 @@ if (isset($_POST['SaveInventory'])) {
     //New asset add
     if ($inventory_id == 0) {
         $sSQL = "INSERT INTO asset_inventory(asset_id, serial_number, asset_quantity, unit_cost, total_cost, location_code, movement_type, movement_comment)
-            VALUES('" . $asset_id . "', '" . $sserial_number  . "', '".$iasset_quantity."', '" . $iunit_cost . "', '" . $calculated_cost . "', '" . $slocation_code . "', '" . $smovement_type . "', '".$movement_comment."')";
+            VALUES('" . $asset_id . "', '" . $sserial_number  . "', '".$iasset_quantity."', '" . $iunit_cost . "', '" . $calculated_cost . "', '" . $slocation_code . "', '" . $smovement_type . "', '".$smovement_comment."')";
     }
 
     //Execute the SQL
@@ -83,7 +84,7 @@ if (isset($_POST['SaveInventory'])) {
 ?>
 
 <form method="post" action="AssetInventoryEditor.php" name="AssetInventoryEditor" enctype="multipart/form-data">
-    <input type="hidden" name="assetID" value="<?= ($assetID) ?>">
+    <input type="hidden" name="asset_id" value="<?= ($asset_id) ?>">
     <input type="hidden" name="inventory_id" value="<?= ($inventory_id) ?>">
 
     <div class="box box-info clearfix">
@@ -147,9 +148,9 @@ if (isset($_POST['SaveInventory'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Total Cost"><?= gettext('Total Cost') ?>:</label>
-                        <input type="text" name="total_cost" id="total_cost" value="<?= ($calculated_cost) ?>"
+                        <input type="text" name="total_cost" id="total_cost" value="<?= ($itotal_cost) ?>"
                             readonly="true"
-                            placeholder="<?= htmlentities(stripslashes($itotal_cost), ENT_NOQUOTES, 'UTF-8') ?>"
+                            placeholder="<?= htmlentities(stripslashes($calculated_cost), ENT_NOQUOTES, 'UTF-8') ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -163,7 +164,7 @@ if (isset($_POST['SaveInventory'])) {
                             <option><?= gettext('Select Location'); ?></option>
                             <?php
 
-                            $sSQL = "SELECT * FROM asset_location WHERE location_deleted='False'";
+                            $sSQL = "SELECT * FROM asset_location WHERE locationDeleted='False'";
                             $rsasset_location = RunQuery($sSQL);
                             while ($aRow = mysqli_fetch_array($rsasset_location)) {
                                 extract($aRow);

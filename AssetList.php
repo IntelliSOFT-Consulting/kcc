@@ -17,7 +17,6 @@ if(isset($_GET['delete'])){
     RunQuery($sSQL);
     header("Location: AssetList.php");
 }
-
 ?>
 
 <div class="box box-warning">
@@ -41,7 +40,7 @@ if(isset($_GET['delete'])){
         ?>
                 <tr>
                     <td><?php echo $row['asset_name'] ?></td>
-                    <td><?php echo $row['asset_make'] ?></td>
+                    <td><?php echo $row['make'] ?></td>
                     <td><?php echo $row['asset_quantity'] ?></td>
                     <td><?php echo $row['asset_category'] ?></td>
                     <td>
