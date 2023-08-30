@@ -83,9 +83,9 @@ foreach ($ListItem as $element) {
 
             <div class= "col-lg-6">
                 <a class="btn btn-success" role="button" href="<?= SystemURLs::getRootPath()?>/PersonEditor.php"><span class="fa fa-plus" aria-hidden="true"></span><?= gettext('Add Person') ?></a>
-                <a id="AddAllToCart" class="btn btn-primary" ><?= gettext('Add All to Cart') ?></a>
+                <a id="AddAllToCart" class="btn btn-primary" ><?= gettext('Add All to Group') ?></a>
                 <!-- <input name="IntersectCart" type="submit" class="btn btn-warning" value="< ?= gettext('Intersect with Cart') ?>">&nbsp; -->
-                <a id="RemoveAllFromCart" class="btn btn-danger" ><?= gettext('Remove All from Cart') ?></a>
+                <a id="RemoveAllFromCart" class="btn btn-danger" ><?= gettext('Remove All from Group') ?></a>
             </div>
         </div>
     </div>

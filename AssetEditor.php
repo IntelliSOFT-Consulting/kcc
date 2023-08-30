@@ -108,7 +108,7 @@ if (isset($_POST['SaveAsset'])) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="Asset Make"><?= gettext('Asset Make') ?>:</label>
-                        <input type="text" name="asset_make" id="asset_make" value="<?= ($sasset_make) ?>"
+                        <input type="text" name="make" id="asset_make" value="<?= ($sasset_make) ?>"
                             placeholder="<?= htmlentities(stripslashes($sasset_make), ENT_NOQUOTES, 'UTF-8') ?>"
                             class="form-control" required>
                     </div>
