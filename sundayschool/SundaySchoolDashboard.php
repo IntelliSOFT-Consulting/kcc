@@ -21,6 +21,8 @@ $kids = 0;
 $families = 0;
 $maleKids = 0;
 $femaleKids = 0;
+$teens = 0;
+$youth = 0;
 $familyIds = [];
 foreach ($classStats as $class) {
   $kids = $kids + $class['kids'];
@@ -37,7 +39,7 @@ foreach ($classStats as $class) {
 }
 
 // Set the page title and include HTML header
-$sPageTitle = gettext('Sunday School Dashboard');
+$sPageTitle = gettext('Sunday School and Youth Dashboard');
 require '../Include/Header.php';
 
 ?>
@@ -123,6 +125,30 @@ require '../Include/Header.php';
       <div class="info-box-content">
         <span class="info-box-text"><?= gettext('Girls') ?></span>
         <span class="info-box-number"> <?= $femaleKids ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <div class="col-md-3 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-Aero"><i class="fa fa-group"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text"><?= gettext('Teens') ?></span>
+        <span class="info-box-number"> <?= $teens ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <div class="col-md-3 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-purple"><i class="fa fa-group"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text"><?= gettext('Youth') ?></span>
+        <span class="info-box-number"> <?= $youth ?></span>
       </div>
       <!-- /.info-box-content -->
     </div>
