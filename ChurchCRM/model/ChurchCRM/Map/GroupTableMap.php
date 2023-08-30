@@ -96,6 +96,16 @@ class GroupTableMap extends TableMap
     const COL_GRP_NAME = 'group_grp.grp_Name';
 
     /**
+     * the column name for the grp_Name field
+     */
+    const COL_GRP_AGELIMITSTART = 'group_grp.grp_AgeLimitStart';
+
+    /**
+     * the column name for the grp_Name field
+     */
+    const COL_GRP_AGELIMITEND = 'group_grp.grp_AgeLimitEnd';
+
+    /**
      * the column name for the grp_Description field
      */
     const COL_GRP_DESCRIPTION = 'group_grp.grp_Description';
@@ -130,7 +140,7 @@ class GroupTableMap extends TableMap
         self::TYPE_PHPNAME       => array('Id', 'Type', 'RoleListId', 'DefaultRole', 'Name', 'Description', 'HasSpecialProps', 'Active', 'IncludeInEmailExport', ),
         self::TYPE_CAMELNAME     => array('id', 'type', 'roleListId', 'defaultRole', 'name', 'description', 'hasSpecialProps', 'active', 'includeInEmailExport', ),
         self::TYPE_COLNAME       => array(GroupTableMap::COL_GRP_ID, GroupTableMap::COL_GRP_TYPE, GroupTableMap::COL_GRP_ROLELISTID, GroupTableMap::COL_GRP_DEFAULTROLE, GroupTableMap::COL_GRP_NAME, GroupTableMap::COL_GRP_DESCRIPTION, GroupTableMap::COL_GRP_HASSPECIALPROPS, GroupTableMap::COL_GRP_ACTIVE, GroupTableMap::COL_GRP_INCLUDE_EMAIL_EXPORT, ),
-        self::TYPE_FIELDNAME     => array('grp_ID', 'grp_Type', 'grp_RoleListID', 'grp_DefaultRole', 'grp_Name', 'grp_Description', 'grp_hasSpecialProps', 'grp_active', 'grp_include_email_export', ),
+        self::TYPE_FIELDNAME     => array('grp_ID', 'grp_Type', 'grp_RoleListID', 'grp_DefaultRole', 'grp_Name', 'grp_AgeLimitStart','grp_AgeLimitEnd','grp_Description', 'grp_hasSpecialProps', 'grp_active', 'grp_include_email_export', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 

@@ -147,49 +147,6 @@ require '../Include/Header.php';
   </div>
 </div>
 
-<div class="box box-info">
-  <div class="box-header">
-    <h3 class="box-title"><?= gettext('Quick Status') ?></h3>
-
-    <div class="box-tools pull-right">
-      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-    </div>
-  </div>
-  <!-- /.box-header -->
-  <div class="box-body row">
-    <div class="col-lg-8">
-      <!-- Bar chart -->
-      <div class="box box-primary">
-        <div class="box-header">
-          <i class="fa fa-bar-chart-o"></i>
-
-          <h3 class="box-title"><?= gettext('Birthdays by Month') ?></h3>
-        </div>
-        <div class="box-body">child
-          <div class="disableSelection" id="bar-chart" style="width: 100%; height: 300px;"></div>
-        </div>
-        <!-- /.box-body-->
-      </div>
-      <!-- /.box -->
-    </div>
-    <div class="col-lg-4">
-      <!-- Donut chart -->
-      <div class="box box-primary">
-        <div class="box-header">
-          <i class="fa fa-bar-chart-o"></i>
-
-          <h3 class="box-title"><?= gettext('Gender') ?></h3>
-        </div>
-        <div class="box-body">
-          <div id="donut-chart" style="width: 100%; height: 300px;"></div>
-        </div>
-        <!-- /.box-body-->
-      </div>
-      <!-- /.box -->
-    </div>
-  </div>
-</div>
-
 <div class="box box-primary">
   <div class="box-header">
     <h3 class="box-title"><?= gettext('Students') ?></h3>
@@ -248,6 +205,49 @@ require '../Include/Header.php';
       ?>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div class="box box-info">
+  <div class="box-header">
+    <h3 class="box-title"><?= gettext('Quick Status') ?></h3>
+
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body row">
+    <div class="col-lg-8">
+      <!-- Bar chart -->
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="fa fa-bar-chart-o"></i>
+
+          <h3 class="box-title"><?= gettext('Birthdays by Month') ?></h3>
+        </div>
+        <div class="box-body">child
+          <div class="disableSelection" id="bar-chart" style="width: 100%; height: 300px;"></div>
+        </div>
+        <!-- /.box-body-->
+      </div>
+      <!-- /.box -->
+    </div>
+    <div class="col-lg-4">
+      <!-- Donut chart -->
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="fa fa-bar-chart-o"></i>
+
+          <h3 class="box-title"><?= gettext('Gender') ?></h3>
+        </div>
+        <div class="box-body">
+          <div id="donut-chart" style="width: 100%; height: 300px;"></div>
+        </div>
+        <!-- /.box-body-->
+      </div>
+      <!-- /.box -->
+    </div>
   </div>
 </div>
 

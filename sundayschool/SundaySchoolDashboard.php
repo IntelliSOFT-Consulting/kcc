@@ -271,6 +271,28 @@ require '../Include/Header.php';
     </table>
   </div>
 </div>
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $groupAgeLimitStart = $_POST['groupAgeLimitStart'];
+  $groupAgeLimitEnd = $_POST['groupAgeLimitEnd'];
+  
+  // You should perform proper validation and sanitation of the input values here
+
+  // Assuming you have a database connection established
+  $sSQL = "INSERT INTO group_grp (grp_AgeLimitStart, grp_AgeLimitEnd) VALUES (?, ?, ?)";
+  $sSQL= RunQuery($sSQL);
+  $stmt->bindParam(2, $groupAgeLimitStart);
+  $stmt->bindParam(3, $groupAgeLimitEnd);
+  
+  if ($stmt->execute()) {
+    $response = array('grp_ID' => $pdo->lastInsertId());
+    echo json_encode($response);
+  } else {
+    http_response_code(500); // Internal Server Error
+  }
+  exit; // Prevent any further output
+}
+?>
 <?php if (AuthenticationManager::GetCurrentUser()->isManageGroupsEnabled()) {
 ?>
   <div class="modal fade" id="add-class" tabindex="-1" role="dialog" aria-labelledby="add-class-label" aria-hidden="true">
@@ -279,12 +301,26 @@ require '../Include/Header.php';
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="delete-Image-label"><?= gettext('Add') ?> <?= gettext('Sunday School') ?> <?= gettext('Class') ?> </h4>
+          <p class="modal-title" id="delete-Image-label" style="color: #737373;"> <?= gettext('all fields marked with') ?><span style="color: red">*</span> <?= gettext('are required') ?></p>
         </div>
 
         <div class="modal-body">
           <div class="form-group">
+            <h5 class="modal-title" id="delete-Image-label"><?= gettext('Class name') ?><span style="color: red">*</span></h5>
             <input type="text" id="new-class-name" class="form-control" placeholder="<?= gettext('Enter Name') ?>" maxlength="20" required>
           </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <h5 class="modal-title" id="delete-Image-label"><?= gettext('Age start') ?><span style="color: red">*</span></h5>
+                    <input type="text" id="new-class-age-limit-start" class="form-control" placeholder="<?= gettext('Age limit') ?>" maxlength="5" required>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="modal-title" id="delete-Image-label"><?= gettext('Age End') ?><span style="color: red">*</span></h5>
+                    <input type="text" id="new-class-age-limit-end" class="form-control" placeholder="<?= gettext('Age limit') ?>" maxlength="5" required>
+                </div>
+            </div>
         </div>
 
         <div class="modal-footer">
@@ -295,31 +331,36 @@ require '../Include/Header.php';
     </div>
   </div>
   <script nonce="<?= SystemURLs::getCSPNonce() ?>">
-    $(document).ready(function() {
-      $('.data-table').DataTable(window.CRM.plugin.dataTable);
+    $("#addNewClassBtn").click(function(e) {
+    var groupName = $("#new-class-name").val();
+    var groupAgeLimitStart = $("#new-class-age-limit-start").val();
+    var groupAgeLimitEnd = $("#new-class-age-limit-end").val();
+    
+    if (groupName && groupAgeLimitStart && groupAgeLimitEnd) {
+      var formData = {
+        groupName: groupName,
+        groupAgeLimitStart: groupAgeLimitStart,
+        groupAgeLimitEnd: groupAgeLimitEnd,
+        isSundaySchool: true
+      };
 
-      $("#addNewClassBtn").click(function(e) {
-        var groupName = $("#new-class-name").val(); // get the name of the from the textbox
-        if (groupName) // ensure that the user entered a name
-        {
-          $.ajax({
-            method: "POST",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            url: window.CRM.root + "/api/groups/",
-            data: JSON.stringify({
-              'groupName': groupName,
-              'isSundaySchool': true
-            })
-          }).done(function(data) { //yippie, we got something good back from the server
-            window.location.href = window.CRM.root + "/sundayschool/SundaySchoolClassView.php?groupId=" + data.Id;
-          });
-        } else {
-
+      $.ajax({
+        method: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        url: window.CRM.root + "/api/groups/",
+        data: JSON.stringify(formData),
+        success: function(data) {
+          window.location.href = window.CRM.root + "/sundayschool/SundaySchoolClassView.php?groupId=" + data.grp_ID;
+        },
+        error: function() {
+          alert("An error occurred while processing your request.");
         }
       });
-
-    });
+    } else {
+      alert("Please fill in all required fields.");
+    }
+  });
   </script>
 
 <?php

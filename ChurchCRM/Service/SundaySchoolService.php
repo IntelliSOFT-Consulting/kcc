@@ -224,7 +224,7 @@ class SundaySchoolService
 public function getTeensAndYouthTotals($groupId)
 {
 
-    $sSQL = 'SELECT per_ID, per_FirstName, per_LastName, per_BirthYear, year(CURRENT_DATE()) - (per_BirthYear) as age        FROM person_per
+    $sSQL = 'SELECT per_ID, per_BirthYear, year(CURRENT_DATE()) - (per_BirthYear) as age        FROM person_per
     where year(CURRENT_DATE()) - (person_per.per_BirthYear) <= 24
     AND per_ID not in
     (select per_ID from person_per,

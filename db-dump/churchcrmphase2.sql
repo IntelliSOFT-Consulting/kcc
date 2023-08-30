@@ -727,6 +727,8 @@ CREATE TABLE IF NOT EXISTS `group_grp` (
   `grp_RoleListID` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
   `grp_DefaultRole` mediumint(9) NOT NULL DEFAULT '0',
   `grp_Name` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `grp_AgeLimitStart` tinyint(1) NOT NULL DEFAULT '0',
+  `grp_AgeLimitEnd` tinyint(1) NOT NULL DEFAULT '0',
   `grp_Description` text COLLATE utf8_unicode_ci,
   `grp_hasSpecialProps` tinyint(1) NOT NULL DEFAULT '0',
   `grp_active` tinyint(1) NOT NULL DEFAULT '1',
@@ -738,7 +740,7 @@ CREATE TABLE IF NOT EXISTS `group_grp` (
 -- Dumping data for table `group_grp`
 --
 
-INSERT INTO `group_grp` (`grp_ID`, `grp_Type`, `grp_RoleListID`, `grp_DefaultRole`, `grp_Name`, `grp_Description`, `grp_hasSpecialProps`, `grp_active`, `grp_include_email_export`) VALUES
+INSERT INTO `group_grp` (`grp_ID`, `grp_Type`, `grp_RoleListID`, `grp_DefaultRole`, `grp_Name`,`grp_AgeLimitStart`, `grp_AgeLimitEnd`,  `grp_Description`, `grp_hasSpecialProps`, `grp_active`, `grp_include_email_export`) VALUES
 (1, 1, 13, 1, 'Test', 'test group', 0, 1, 1),
 (2, 4, 14, 3, 'Pillars of Christ', '', 0, 1, 1);
 
