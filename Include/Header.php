@@ -59,7 +59,7 @@ $MenuFirst = 1;
       <span class="logo-mini"><img src = "../Images/kcc-image.png"></span>
       <!-- logo for regular state and mobile devices -->
       <?php
-      $headerHTML = '<b>Church</b>CRM';
+      $headerHTML = '<b>KCC</b>';
       $sHeader = SystemConfig::getValue("sHeader");
       if (!empty($sHeader)) {
           $headerHTML = html_entity_decode($sHeader, ENT_QUOTES);

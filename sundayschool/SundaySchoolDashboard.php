@@ -35,6 +35,13 @@ foreach ($classStats as $class) {
     } elseif ($kid['kidGender'] == '2') {
       $femaleKids++;
     }
+
+    $age = calculateAge($kid['birthYear'], $kid['birthMonth'], $kid['birthDay']);
+    if ($age >= 13 && $age <= 17) {
+        $teens++;
+    } elseif ($age >= 18 && $age <= 24) {
+        $youth++;
+    }
   }
 }
 
@@ -64,7 +71,7 @@ require '../Include/Header.php';
       <span class="info-box-icon bg-aqua"><i class="fa fa-gg"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text"><?= gettext('Classes') ?></span>
+        <span class="info-box-text"><?= gettext(' Sunday School Classes') ?></span>
         <span class="info-box-number"> <?= $classes ?> <br /></span>
       </div>
       <!-- /.info-box-content -->
@@ -132,28 +139,43 @@ require '../Include/Header.php';
   </div>
   <div class="col-md-3 col-sm-6 col-xs-12">
     <div class="info-box">
-      <span class="info-box-icon bg-Aero"><i class="fa fa-group"></i></span>
+        <span class="info-box-icon bg-Aero"><i class="fa fa-group"></i></span>
 
-      <div class="info-box-content">
-        <span class="info-box-text"><?= gettext('Teens') ?></span>
-        <span class="info-box-number"> <?= $teens ?></span>
-      </div>
-      <!-- /.info-box-content -->
+        <div class="info-box-content">
+            <span class="info-box-text"><?= gettext('Teens (13 - 17)') ?></span>
+            <span class="info-box-number"> <?= $teens ?></span>
+        </div>
+        <!-- /.info-box-content -->
     </div>
     <!-- /.info-box -->
-  </div>
-  <div class="col-md-3 col-sm-6 col-xs-12">
+</div>
+<div class="col-md-3 col-sm-6 col-xs-12">
     <div class="info-box">
-      <span class="info-box-icon bg-purple"><i class="fa fa-group"></i></span>
+        <span class="info-box-icon bg-purple"><i class="fa fa-group"></i></span>
 
-      <div class="info-box-content">
-        <span class="info-box-text"><?= gettext('Youth') ?></span>
-        <span class="info-box-number"> <?= $youth ?></span>
-      </div>
-      <!-- /.info-box-content -->
+        <div class="info-box-content">
+            <span class="info-box-text"><?= gettext('Youth (18 - 24)') ?></span>
+            <span class="info-box-number"> <?= $youth ?></span>
+        </div>
+        <!-- /.info-box-content -->
     </div>
     <!-- /.info-box -->
-  </div>
+</div>
+  <!-- // Add this function to calculate ages -->
+<?php 
+  function calculateAge($birthYear, $birthMonth, $birthDay) {
+    $today = new DateTime();
+    $birthDate = new DateTime();
+    $birthDate->setDate($birthYear, $birthMonth, $birthDay);
+    $age = date('Y') - $birthDate->format('Y');   
+
+    if ($birthDate->format('md') > $today->format('md')) {
+        $age--;
+    }
+
+    return $age;
+}
+?>
 </div><!-- /.row -->
 <!-- on continue -->
 <div class="box box-info">

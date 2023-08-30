@@ -72,22 +72,26 @@ class SundaySchoolService
         $boys = 0;
         $girls = 0;
         $unknown = 0;
-
+    
         foreach ($kids as $kid) {
             switch ($kid['per_Gender']) {
-        case 1:
-          $boys++;
-          break;
-        case 2:
-          $girls++;
-          break;
-        default:
-          $unknown++;
-      }
+                case 1:
+                    $boys++;
+                    break;
+                case 2:
+                    $girls++;
+                    break;
+                default:
+                    $unknown++;
+            }
         }
-
-        return ['Boys' => $boys, 'Girls' => $girls, 'Unknown' => $unknown];
-    }
+    
+        return [
+            'Boys' => $boys,
+            'Girls' => $girls,
+            'Unknown' => $unknown,
+        ];
+}
 
     public function getKidsBirthdayMonth($groupId)
     {
@@ -199,7 +203,7 @@ class SundaySchoolService
     public function getKidsWithoutClasses()
     {
         $sSQL = 'SELECT per_ID, per_FirstName, per_LastName, per_BirthYear, year(CURRENT_DATE()) - (per_BirthYear) as age        FROM person_per
-        where year(CURRENT_DATE()) - (person_per.per_BirthYear) < 18
+        where year(CURRENT_DATE()) - (person_per.per_BirthYear) <= 24
         AND per_ID not in
         (select per_ID from person_per,
         group_grp grp, person2group2role_p2g2r person_grp
@@ -216,4 +220,46 @@ class SundaySchoolService
 
         return $kidsclass;
     }
+
+public function getTeensAndYouthTotals($groupId)
+{
+
+    $sSQL = 'SELECT per_ID, per_FirstName, per_LastName, per_BirthYear, year(CURRENT_DATE()) - (per_BirthYear) as age        FROM person_per
+    where year(CURRENT_DATE()) - (person_per.per_BirthYear) <= 24
+    AND per_ID not in
+    (select per_ID from person_per,
+    group_grp grp, person2group2role_p2g2r person_grp
+    where person_grp.p2g2r_rle_ID = 2 
+    and grp_Type = 4 
+    and grp.grp_ID = person_grp.p2g2r_grp_ID 
+    and person_grp.p2g2r_per_ID = per_ID)';
+
+    $rsKidsAge= RunQuery($sSQL);
+    $kidsage = [];
+    while ($row = mysqli_fetch_array($rsKidsAge)) {
+        array_push($kidsage, $row);
+    }
+
+    $today = new DateTime();
+    $teens = 0;
+    $youth = 0;
+
+    foreach ($rsKidsAge as $kid) {
+        $birthDate = new DateTime();
+        $birthDate->setDate($kid['birthYear'], $kid['birthMonth'], $kid['birthDay']);
+        $age = $today->diff($birthDate)->y;
+
+        if ($birthDate->format('md') > $today->format('md')) {
+            $age--;
+        }
+
+        if ($age >= 13 && $age <= 17) {
+            $teens++;
+        } elseif ($age >= 18 && $age <= 24) {
+            $youth++;
+        }
+    }
+
+    return ['Teens' => $teens, 'Youth' => $youth];
+}
 }
