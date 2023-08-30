@@ -165,7 +165,7 @@ require '../Include/Header.php';
 
           <h3 class="box-title"><?= gettext('Birthdays by Month') ?></h3>
         </div>
-        <div class="box-body">
+        <div class="box-body">child
           <div class="disableSelection" id="bar-chart" style="width: 100%; height: 300px;"></div>
         </div>
         <!-- /.box-body-->
