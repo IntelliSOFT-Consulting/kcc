@@ -39,6 +39,7 @@ $MenuFirst = 1;
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <?php require 'Header-HTML-Scripts.php'; ?>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="hold-transition <?= AuthenticationManager::GetCurrentUser()->getStyle() ?> sidebar-mini">

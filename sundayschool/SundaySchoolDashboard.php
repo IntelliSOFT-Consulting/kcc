@@ -6,6 +6,7 @@ use ChurchCRM\Service\DashboardService;
 use ChurchCRM\Service\SundaySchoolService;
 use ChurchCRM\dto\SystemURLs;
 use ChurchCRM\Utils\MiscUtils;
+use ChurchCRM\Utils\InputUtils;
 use ChurchCRM\Authentication\AuthenticationManager;
 
 $dashboardService = new DashboardService();
@@ -57,7 +58,7 @@ require '../Include/Header.php';
   <div class="box-body">
     <?php if (AuthenticationManager::GetCurrentUser()->isManageGroupsEnabled()) {
     ?>
-      <button class="btn btn-app" data-toggle="modal" data-target="#add-class"><i class="fa fa-plus-square"></i><?= gettext('Add New Class') ?></button>
+      <!-- <button class="btn btn-app" data-toggle="modal" data-target="#add-class"><i class="fa fa-plus-square"></i><?= gettext('Add New Class') ?></button> -->
     <?php
     } ?>
     <a href="SundaySchoolReports.php" class="btn btn-app" title="<?= gettext('Generate class lists and attendance sheets'); ?>"><i class="fa fa-file-pdf-o"></i><?= gettext('Reports'); ?></a>
@@ -272,25 +273,21 @@ require '../Include/Header.php';
   </div>
 </div>
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $groupAgeLimitStart = $_POST['groupAgeLimitStart'];
-  $groupAgeLimitEnd = $_POST['groupAgeLimitEnd'];
-  
-  // You should perform proper validation and sanitation of the input values here
 
-  // Assuming you have a database connection established
-  $sSQL = "INSERT INTO group_grp (grp_AgeLimitStart, grp_AgeLimitEnd) VALUES (?, ?, ?)";
-  $sSQL= RunQuery($sSQL);
-  $stmt->bindParam(2, $groupAgeLimitStart);
-  $stmt->bindParam(3, $groupAgeLimitEnd);
-  
-  if ($stmt->execute()) {
-    $response = array('grp_ID' => $pdo->lastInsertId());
-    echo json_encode($response);
-  } else {
-    http_response_code(500); // Internal Server Error
+if (isset($_POST['saveClass'])) {
+  $groupName = InputUtils::LegacyFilterInput($_POST['grp_Name']);
+  $groupAgeLimitStart = InputUtils::LegacyFilterInput($_POST['grp_AgeLimitStart']);
+  $groupAgeLimitEnd  = InputUtils::LegacyFilterInput($_POST['grp_AgeLimitEnd']);
+
+  //New asset add
+  if ($grp_ID == 0) {
+      $sSQL = "INSERT INTO group_grp(grp_Name, grp_AgeLimitStart, grp_AgeLimitEnd)
+          VALUES('" . $groupName . "', '" . $groupAgeLimitStart . "', " . $groupAgeLimitEnd  . "')";
   }
-  exit; // Prevent any further output
+
+  //Execute the SQL
+  RunQuery($sSQL);
+  header("Location: /sundayschool/SundaySchoolClassView.php?groupId=" . $newGroupId);
 }
 ?>
 <?php if (AuthenticationManager::GetCurrentUser()->isManageGroupsEnabled()) {
@@ -303,44 +300,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <h4 class="modal-title" id="delete-Image-label"><?= gettext('Add') ?> <?= gettext('Sunday School') ?> <?= gettext('Class') ?> </h4>
           <p class="modal-title" id="delete-Image-label" style="color: #737373;"> <?= gettext('all fields marked with') ?><span style="color: red">*</span> <?= gettext('are required') ?></p>
         </div>
-
-        <div class="modal-body">
-          <div class="form-group">
-            <h5 class="modal-title" id="delete-Image-label"><?= gettext('Class name') ?><span style="color: red">*</span></h5>
-            <input type="text" id="new-class-name" class="form-control" placeholder="<?= gettext('Enter Name') ?>" maxlength="20" required>
-          </div>
-        </div>
-        <div class="modal-body">
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <h5 class="modal-title" id="delete-Image-label"><?= gettext('Age start') ?><span style="color: red">*</span></h5>
-                    <input type="text" id="new-class-age-limit-start" class="form-control" placeholder="<?= gettext('Age limit') ?>" maxlength="5" required>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="modal-title" id="delete-Image-label"><?= gettext('Age End') ?><span style="color: red">*</span></h5>
-                    <input type="text" id="new-class-age-limit-end" class="form-control" placeholder="<?= gettext('Age limit') ?>" maxlength="5" required>
-                </div>
+        <form method="post" action="SundaySchoolDashboard.php" name="AssetEditor">
+          <div class="modal-body">
+            <div class="form-group">
+              <h5 class="modal-title" id="delete-Image-label"><?= gettext('Class name') ?><span style="color: red">*</span></h5>
+              <input type="text" id="new-class-name" name="grp_Name" class="form-control"  placeholder="<?= gettext('Enter Name') ?>" maxlength="20" required>
             </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal"><?= gettext('Cancel') ?></button>
-          <button type="button" id="addNewClassBtn" class="btn btn-primary" data-dismiss="modal"><?= gettext('Add') ?></button>
-        </div>
+          </div>
+        
+          <div class="modal-body">
+              <div class="form-group row">
+                  <div class="col-md-6">
+                      <h5 class="modal-title" id="delete-Image-label"><?= gettext('Age start') ?><span style="color: red">*</span></h5>
+                      <input type="text" id="new-class-age-limit-start" name="grp_AgeLimitStart" class="form-control" placeholder="<?= gettext('Age limit') ?>" maxlength="5" required>
+                  </div>
+                  <div class="col-md-6">
+                      <h5 class="modal-title" id="delete-Image-label"><?= gettext('Age End') ?><span style="color: red">*</span></h5>
+                      <input type="text" id="new-class-age-limit-end" name="grp_AgeLimitEnd" class="form-control" placeholder="<?= gettext('Age limit') ?>" maxlength="5" required>
+                  </div>
+              </div>
+          </div>
+ 
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><?= gettext('Cancel') ?></button>
+            <button type="button" id="addNewClassBtn" class="btn btn-primary" data-dismiss="modal" name="saveClass"><?= gettext('Add') ?></button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <script nonce="<?= SystemURLs::getCSPNonce() ?>">
+  <!-- <script nonce="<?= SystemURLs::getCSPNonce() ?>">
     $("#addNewClassBtn").click(function(e) {
     var groupName = $("#new-class-name").val();
-    var groupAgeLimitStart = $("#new-class-age-limit-start").val();
-    var groupAgeLimitEnd = $("#new-class-age-limit-end").val();
+    var groupAgeStart = $("#new-class-age-limit-start").val();
+    var groupAgeEnd = $("#new-class-age-limit-end").val();
     
-    if (groupName && groupAgeLimitStart && groupAgeLimitEnd) {
+    if (groupName && groupAgeStart && groupAgeEnd) {
       var formData = {
         groupName: groupName,
-        groupAgeLimitStart: groupAgeLimitStart,
-        groupAgeLimitEnd: groupAgeLimitEnd,
         isSundaySchool: true
       };
 
@@ -361,7 +358,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       alert("Please fill in all required fields.");
     }
   });
-  </script>
+  </script> -->
 
 <?php
 }

@@ -110,6 +110,8 @@ $app->group('/groups', function () {
         $input = (object)$request->getParsedBody();
         $group = GroupQuery::create()->findOneById($groupID);
         $group->setName($input->groupName);
+        $group->setgroupAgeStart($input->groupAgeStart);
+        $group->setgroupAgeEnd($input->groupAgeEnd);
         $group->setType($input->groupType);
         $group->setDescription($input->description);
         $group->save();

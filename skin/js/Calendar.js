@@ -314,8 +314,19 @@ function initializeCalendar() {
           // but holidays don't currently have a URL from the backend #4962
           alert(i18next.t("Holiday") +": " + eventData.title);
         }
+
+        
         return false;
     }, 
+    eventRender: function (event, element) {
+      element.attr("data-toggle", "tooltip");
+      element.attr("title", "Event Title: " + event.title + "<br>Start Date: " + event.start.format("dddd, MMMM Do YYYY, h:mm:ss a") + "<br>End Date: " + event.end.format("dddd, MMMM Do YYYY, h:mm:ss a"));
+      element.tooltip({
+        container: "body",
+        html: true,
+        placement: "top", // Adjust placement as needed
+      });
+    },
     locale: window.CRM.lang,
     loading: function(isLoading, view){ 
       window.CRM.isCalendarLoading = isLoading;
